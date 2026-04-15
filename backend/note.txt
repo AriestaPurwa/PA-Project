@@ -1,0 +1,135 @@
+perbaiki category-node : - tombol delete sejajar dengan risk
+                         - perbaikan tambah risk
+route lama
+
+<?php
+
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RiskController;
+use App\Http\Controllers\RiskCategoryController;
+
+// Dashboard
+Route::get('/', function () {
+    return redirect('/projects');
+});
+
+// Project
+Route::resource('projects', ProjectController::class);
+
+// Nested Risk (RECOMMENDED)
+Route::resource('projects.risks', RiskController::class);
+
+Route::resource('risk-categories', RiskCategoryController::class);
+
+// RBS Tree
+Route::get('/projects/{id}/rbs', [ProjectController::class, 'rbs']);
+
+// Future Feature
+Route::get('/projects/{id}/matrix', [ProjectController::class, 'matrix']);
+Route::get(
+    '/projects/{project}/risks/{risk}/recommendation',
+    [RiskController::class, 'recommendation']
+);
+
+Route::get('/risks/{risk}', [RiskController::class, 'show'])
+    ->name('risks.show');
+
+Route::resource('risks', RiskController::class);
+
+// Route::get(
+//     '/categories/{category}/risks/create',
+//     [RiskController::class, 'createFromCategory']
+// )->name('risks.create.from.category');
+
+Route::get(
+    '/projects/{project}/categories/{category}/risks/create',
+    [RiskController::class, 'create']
+)->name('risks.create.from.category');
+
+Route::delete('/risks/{risk}', [RiskController::class, 'destroy'])
+    ->name('risks.destroy');
+
+Route::delete('/categories/{category}', [RiskCategoryController::class, 'destroy'])
+    ->name('categories.destroy');
+
+
+
+<!-- <li>
+
+    {{-- CATEGORY NODE --}}
+    <div class="rbs-node caret">
+        📁 {{ $category->nama_kategori }}
+    </div>
+
+    <form action="{{ route('projects.categories.destroy',
+            [$project->id, $category->id]) }}"
+        method="POST"
+        style="display:inline;">
+
+        @csrf
+        @method('DELETE')
+
+        <button type="submit"
+            onclick="return confirm('Hapus kategori ini?')">
+            🗑
+        </button>
+    </form>
+
+    <ul class="nested active">
+     <ul class="nested"> -->
+
+        {{-- SUB CATEGORY --}}
+        <!-- @foreach($category->children as $child)
+            @include('projects.partials.category-node', [
+                'category' => $child,
+                'project' => $project
+            ])
+        @endforeach
+
+
+        {{-- RISKS --}}
+        @foreach($category->risks as $risk)
+        <li>
+            <span class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
+                ⚠ {{ $risk->nama_risiko }}
+            </span>
+
+            <form action="{{ route('projects.risks.destroy', [$project->id, $risk->id]) }}"
+                method="POST"
+                style="display:inline;">
+
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                    onclick="return confirm('Yakin ingin menghapus risk ini?')"
+                    class="btn app-btn">
+                    🗑
+                </button>
+            </form>
+        </li>
+        @endforeach
+
+        {{-- ACTION NODE (TERPISAH) --}}
+        <li>
+            <a class="btn app-btn"
+               href="{{ route('projects.risks.create', [
+                    'project' => $project->id,
+                    'category_id' => $category->id
+                ]) }}">
+                + Tambah Risk
+            </a>
+        </li>
+
+        <li>
+            <a class="btn app-btn"
+            href="{{ route('projects.categories.create', [
+                'project' => $project->id,
+                'parent' => $category->id]) }}">
+                + Sub Category
+            </a>
+        </li>
+
+    </ul>
+
+</li> --> 

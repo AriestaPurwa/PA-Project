@@ -1,0 +1,265 @@
+views\layouts\app.blade.php----------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RBS System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: #34495e;
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .card {
+            background: #f4f4f4;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .risk {
+            padding: 3px 8px;
+            border-radius: 6px;
+            color: white;
+            font-size: 13px;
+        }
+
+        /* HIGH */
+        .risk.high {
+            background-color: #e74c3c;
+        }
+
+        /* MEDIUM */
+        .risk.medium {
+            background-color: #f39c12;
+        }
+
+        /* LOW */
+        .risk.low {
+            background-color: #27ae60;
+        }
+        .category-title {
+        cursor: pointer;
+        user-select: none;
+        padding: 6px 10px;
+        background: #f8fafc;
+        border-radius: 6px;
+        margin: 4px 0;
+        transition: 0.2s;
+        }
+
+        .category-title:hover {
+            background: #e2e8f0;
+        }
+
+        .arrow {
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .nested {
+        display: none;
+        margin-left: 20px;
+        }
+
+        .nested.active {
+            display: block;
+        }
+
+        .rbs-node {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 4px 0;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+        }
+
+        .rbs-node:hover {
+            background: #e0f2fe;
+            transform: translateX(3px);
+        }
+
+        .rbs-tree {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h3>Risk Breakdown Structure System</h3>
+    </div>
+
+    <div class="container">
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h4>Menu</h4>
+
+            <a href="/projects"> Projects</a>
+            <a href="/risks/create"> Add Risk</a>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            @yield('content')
+        </div>
+
+    </div>
+    
+    @stack('scripts')
+    
+</body>
+</html>
+
+views\projects\create.blade.php----------------------------------------------------------------------------------
+@extends('layouts.app')
+
+@section('content')
+
+<h2>Tambah Project</h2>
+
+<form action="{{ route('projects.store') }}" method="POST">
+    @csrf
+
+    <input type="text" name="nama_project" placeholder="Nama Project">
+    <br><br>
+
+    <textarea name="deskripsi" placeholder="Deskripsi"></textarea>
+    <br><br>
+
+    <button type="submit" class="btn">Simpan</button>
+</form>
+
+@endsection
+
+views\projects\index.blade.php----------------------------------------------------------------------------------
+@extends('layouts.app')
+
+@section('content')
+
+<h2>Daftar Project</h2>
+
+<a href="{{ route('projects.create') }}" class="btn">+ Tambah Project</a>
+
+<br><br>
+
+@foreach($projects as $project)
+    <div class="card">
+        <h4>{{ $project->nama_project }}</h4>
+
+        <a href="{{ route('projects.show', $project->id) }}" class="btn">
+            Lihat Detail
+        </a>
+    </div>
+@endforeach
+
+@endsection
+
+views\projects\rbs-tree.blade.php----------------------------------------------------------------------------------
+<ul class="rbs-tree">
+    @foreach($categories as $category)
+        @include('projects.partials.category-node',
+            ['category' => $category])
+    @endforeach
+</ul>
+
+@push('scripts')
+<script>
+document.addEventListener('click', function(e) {
+
+    const title = e.target.closest('.category-title');
+    if (!title) return;
+
+    const nested = title.parentElement.querySelector('.nested');
+    const arrow = title.querySelector('.arrow');
+
+    if (!nested) return;
+
+    nested.classList.toggle('active');
+
+    arrow.textContent =
+        nested.classList.contains('active')
+        ? '▼'
+        : '▶';
+});
+console.log("RBS SCRIPT LOADED");
+</script>
+@endpush
+
+views\projects\show.blade.php----------------------------------------------------------------------------------
+<h2>{{ $project->nama_project }}</h2>
+
+@include('projects.rbs-tree', ['categories'=>$categories])
+
+views\projects\partials\category-node.blade.php----------------------------------------------------------------------------------
+<li>
+
+    <div class="category-title">
+        <span class="arrow">▶</span>
+        📁 {{ $category->nama_kategori }}
+    </div>
+
+    <ul class="nested">
+
+        {{-- RISKS --}}
+        @foreach($category->risks as $risk)
+            <li>
+                <span class="risk {{ strtolower($risk->risk_level) }}">
+                    {{ $risk->nama_risiko }}
+                    ({{ $risk->risk_score }})
+                </span>
+            </li>
+        @endforeach
+
+        {{-- CHILDREN --}}
+        @foreach($category->children as $child)
+            @include('projects.partials.category-node', ['category'=>$child])
+        @endforeach
+
+    </ul>
+
+</li>
