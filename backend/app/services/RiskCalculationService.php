@@ -165,12 +165,9 @@ class RiskCalculationService
     {
         $score = $impact * $probability;
 
-        // if ($score >= 15) return 'extreme';
-        // if ($score >= 10) return 'high';
-        // if ($score >= 5) return 'medium';
-        if ($score >= 15) return 'High';
-        if ($score >= 8) return 'Medium';
-        if ($score > 0) return 'Low';
+        if ($score >= 15) return 'high';
+        if ($score >= 8) return 'medium';
+        if ($score > 0) return 'low';
 
         return 'none';
     }
