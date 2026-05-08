@@ -2,46 +2,59 @@
 
 @section('content')
 
-<h2>{{ $project->nama_project }}</h2>
+<div class="diagram-page">
 
-<div class="diagram-toolbar" data-export-ignore>
-    <a class="btn app-btn"
-       href="{{ route('projects.categories.create', $project->id) }}">
-        + Tambah Category
-    </a>
+    <div class="diagram-toolbar" data-export-ignore>
+        <button type="button" class="btn app-btn" id="export-png-btn">
+            Export PNG
+        </button>
 
-    <button type="button" class="btn app-btn" id="export-png-btn">
-        Export PNG
-    </button>
+        <button type="button" class="btn app-btn" id="export-jpg-btn">
+            Export JPG
+        </button>
 
-    <button type="button" class="btn app-btn" id="export-jpg-btn">
-        Export JPG
-    </button>
-
-    <button type="button" class="btn app-btn" id="export-pdf-btn">
-        Export PDF
-    </button>
-</div>
-
-<div class="rbs-scroll-wrap">
-    <div class="rbs-board" id="rbs-export-area">
-        <div class="export-title">
-            RBS Diagram - {{ $project->nama_project }}
-        </div>
-
-        <ul class="rbs-tree">
-            @foreach($categories as $category)
-                @include('projects.partials.category-node', [
-                    'category' => $category,
-                    'project' => $project
-                ])
-            @endforeach
-        </ul>
+        <button type="button" class="btn app-btn" id="export-pdf-btn">
+            Export PDF
+        </button>
     </div>
-</div>
 
-<div class="app-card mt-4">
-    @include('projects.partials.risk-matrix')
+    <div class="rbs-scroll-wrap">
+        <div class="rbs-board export-report-area" id="export-report-area">
+
+            <div class="diagram-header">
+                <div class="project-diagram-head">
+                    <div class="project-node-wrap">
+                        <div class="project-node-label">PROJECT</div>
+
+                        <div class="project-node">
+                            {{ $project->nama_project }}
+                        </div>
+                    </div>
+
+                    <a class="btn app-btn root-category-btn"
+                       href="{{ route('projects.categories.create', $project->id) }}"
+                       data-export-ignore>
+                        + Category
+                    </a>
+                </div>
+            </div>
+
+            <ul class="rbs-tree">
+                @foreach($categories as $category)
+                    @include('projects.partials.category-node', [
+                        'category' => $category,
+                        'project' => $project,
+                        'level' => 0
+                    ])
+                @endforeach
+            </ul>
+
+            <div class="export-matrix-section">
+                @include('projects.partials.risk-matrix')
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @endsection
@@ -72,23 +85,30 @@ document.addEventListener('click', function(e) {
 });
 
 function expandAllNodes() {
-    document.querySelectorAll('#rbs-export-area .nested').forEach(function(el) {
+    document.querySelectorAll('#export-report-area .nested').forEach(function(el) {
         el.classList.add('active');
     });
 
-    document.querySelectorAll('#rbs-export-area .arrow').forEach(function(el) {
+    document.querySelectorAll('#export-report-area .arrow').forEach(function(el) {
         el.textContent = '▼';
     });
 }
 
-async function renderRbsCanvas() {
-    const target = document.getElementById('rbs-export-area');
+function makeSafeFilename(name) {
+    return String(name || 'rbs-report')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+async function renderExportCanvas() {
+    const target = document.getElementById('export-report-area');
     if (!target) return null;
 
     expandAllNodes();
     document.body.classList.add('is-exporting');
 
-    await new Promise(resolve => setTimeout(resolve, 150));
+    await new Promise(resolve => setTimeout(resolve, 200));
 
     const canvas = await html2canvas(target, {
         backgroundColor: '#ffffff',
@@ -110,31 +130,24 @@ function downloadDataUrl(dataUrl, filename) {
     link.click();
 }
 
-function makeSafeFilename(name) {
-    return String(name || 'rbs-diagram')
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-
 document.getElementById('export-png-btn')?.addEventListener('click', async function() {
-    const canvas = await renderRbsCanvas();
+    const canvas = await renderExportCanvas();
     if (!canvas) return;
 
-    const filename = 'rbs-diagram-' + makeSafeFilename(@json($project->nama_project)) + '.png';
+    const filename = 'rbs-report-' + makeSafeFilename(@json($project->nama_project)) + '.png';
     downloadDataUrl(canvas.toDataURL('image/png'), filename);
 });
 
 document.getElementById('export-jpg-btn')?.addEventListener('click', async function() {
-    const canvas = await renderRbsCanvas();
+    const canvas = await renderExportCanvas();
     if (!canvas) return;
 
-    const filename = 'rbs-diagram-' + makeSafeFilename(@json($project->nama_project)) + '.jpg';
+    const filename = 'rbs-report-' + makeSafeFilename(@json($project->nama_project)) + '.jpg';
     downloadDataUrl(canvas.toDataURL('image/jpeg', 0.95), filename);
 });
 
 document.getElementById('export-pdf-btn')?.addEventListener('click', async function() {
-    const canvas = await renderRbsCanvas();
+    const canvas = await renderExportCanvas();
     if (!canvas) return;
 
     const { jsPDF } = window.jspdf;
@@ -148,8 +161,8 @@ document.getElementById('export-pdf-btn')?.addEventListener('click', async funct
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-
     const margin = 20;
+
     const availableWidth = pageWidth - (margin * 2);
     const availableHeight = pageHeight - (margin * 2);
 
@@ -162,10 +175,11 @@ document.getElementById('export-pdf-btn')?.addEventListener('click', async funct
     const imgHeight = canvas.height * ratio;
 
     const x = (pageWidth - imgWidth) / 2;
-    const y = margin;
+    const y = (pageHeight - imgHeight) / 2;
 
     pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
-    const filename = 'rbs-diagram-' + makeSafeFilename(@json($project->nama_project)) + '.pdf';
+
+    const filename = 'rbs-report-' + makeSafeFilename(@json($project->nama_project)) + '.pdf';
     pdf.save(filename);
 });
 </script>

@@ -15,6 +15,19 @@
         <a href="{{ route('projects.show', $project->id) }}" class="btn app-btn">
             Lihat Detail
         </a>
+
+        <form action="{{ route('projects.destroy', $project->id) }}"
+      method="POST"
+      style="display:inline-block;"
+      onsubmit="return confirm('Yakin ingin menghapus project ini?')">
+    @csrf
+    @method('DELETE')
+
+    <button type="submit" class="btn app-btn">
+        Hapus Project
+    </button>
+</form>
+
     </div>
 @endforeach
 

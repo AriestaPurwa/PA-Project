@@ -1,8 +1,19 @@
 <li class="category-item">
     <div class="category-header">
-        <div class="rbs-node caret">
-            <span class="arrow">▼</span>
-            📁 {{ $category->nama_kategori }}
+        <div class="category-header-left">
+            <div class="rbs-node caret">
+                <span class="arrow">{{ ($level ?? 0) === 0 ? '▼' : '▶' }}</span>
+                📁 {{ $category->nama_kategori }}
+            </div>
+
+            <a class="btn app-btn subcategory-inline-btn"
+               data-export-ignore
+               href="{{ route('projects.categories.create', [
+                    'project' => $project->id,
+                    'parent' => $category->id
+               ]) }}">
+                + Sub 
+            </a>
         </div>
 
         <form action="{{ route('projects.categories.destroy', [$project->id, $category->id]) }}"
@@ -20,13 +31,14 @@
         </form>
     </div>
 
-    <div class="nested active">
+    <div class="nested {{ ($level ?? 0) === 0 ? 'active' : '' }}">
         @if($category->children->count())
             <ul class="subcategory-row">
                 @foreach($category->children as $child)
                     @include('projects.partials.category-node', [
                         'category' => $child,
-                        'project' => $project
+                        'project' => $project,
+                        'level' => ($level ?? 0) + 1
                     ])
                 @endforeach
             </ul>
@@ -64,15 +76,7 @@
                     'project' => $project->id,
                     'category_id' => $category->id
                ]) }}">
-                + Tambah Risk
-            </a>
-
-            <a class="btn app-btn"
-               href="{{ route('projects.categories.create', [
-                    'project' => $project->id,
-                    'parent' => $category->id
-               ]) }}">
-                + Sub Category
+                + Risk
             </a>
         </div>
     </div>
