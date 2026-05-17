@@ -14,7 +14,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::where('user_id', auth()->id())
+            ->where('is_guest', false)
+            ->latest()
+            ->get();
         return view('projects.index', compact('projects'));
     }
 
@@ -31,9 +34,40 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        Project::create($request->all());
+        // Guest mode
+        if ($request->has('guest_mode')) {
 
-        return redirect()->route('projects.index')
+            $project = Project::create([
+                'user_id' => null,
+                'is_guest' => true,
+                'nama_project' => $request->nama_project,
+                'deskripsi' => $request->deskripsi,
+            ]);
+
+            return redirect("/projects/{$project->id}")
+                ->with('success',
+                'Guest project created temporarily.');
+        }
+
+         // Must login
+        if (!auth()->check()) {
+
+            return redirect('/login')
+                ->with('success',
+                'Login required to save project permanently.');
+        }
+
+        // Normal save
+        Project::create([
+            'user_id' => auth()->id(),
+            'is_guest' => false,
+            'project_type_id' => $request->project_type_id,
+            'nama_project' => $request->nama_project,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()
+            ->route('projects.index')
             ->with('success', 'Project berhasil dibuat');
     }
 
@@ -42,6 +76,18 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+
+        // Guest project boleh diakses publik
+        if (!$project->is_guest) {
+
+            // Jika project permanent
+            // harus milik user login
+
+            if (!auth()->check() || $project->user_id !== auth()->id()) {
+                abort(403);
+            }
+        }
+
         $calculator = new RiskCalculationService();
 
         $categories = RiskCategory::where('project_id', $project->id)
@@ -70,17 +116,49 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
-        //
+        // project permanent harus owner
+        if (!$project->is_guest) {
+
+            if (!auth()->check() ||
+                $project->user_id !== auth()->id()) {
+
+                abort(403);
+            }
+        }
+
+        return view('projects.edit', compact('project'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        // ownership check
+        if (!$project->is_guest) {
+
+            if (!auth()->check() ||
+                $project->user_id !== auth()->id()) {
+
+                abort(403);
+            }
+        }
+
+        $request->validate([
+            'nama_project' => 'required|max:255',
+            'deskripsi' => 'nullable',
+        ]);
+
+        $project->update([
+            'nama_project' => $request->nama_project,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()
+            ->route('projects.show', $project->id)
+            ->with('success', 'Project updated successfully');
     }
 
     /**
@@ -88,6 +166,14 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if (!$project->is_guest) {
+
+            if (!auth()->check() ||
+                $project->user_id !== auth()->id()) {
+
+                abort(403);
+            }
+        }
         $project->delete();
 
         return redirect()

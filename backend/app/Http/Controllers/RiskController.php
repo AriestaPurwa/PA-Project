@@ -14,6 +14,7 @@ class RiskController extends Controller
      */
     public function create(Project $project)
     {
+        $this->authorizeProject($project);
         $categories = RiskCategory::where('project_id', $project->id)->get();
 
         $selectedCategory = request('category_id');
@@ -30,6 +31,7 @@ class RiskController extends Controller
      */
     public function store(Request $request, Project $project)
     {
+        $this->authorizeProject($project);
         $validated = $request->validate([
             'nama_risiko' => 'required|string|max:255',
             'category_id' => 'required|exists:risk_categories,id',
@@ -76,15 +78,63 @@ class RiskController extends Controller
         return view('risks.show', compact('risk'));
     }
 
+    public function edit(Project $project, Risk $risk)
+    {
+        $this->authorizeProject($project);
+
+        return view('risks.edit', compact(
+            'project',
+            'risk'
+        ));
+    }
+
+    public function update(
+        Request $request,
+        Project $project,
+        Risk $risk
+    ) {
+        $this->authorizeProject($project);
+
+        $request->validate([
+            'nama_risk' => 'required|max:255',
+            'probability' => 'required|integer|min:1|max:5',
+            'impact' => 'required|integer|min:1|max:5',
+            'deskripsi' => 'nullable',
+        ]);
+
+        $risk->update([
+            'nama_risk' => $request->nama_risk,
+            'probability' => $request->probability,
+            'impact' => $request->impact,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()
+            ->route('projects.show', $project->id)
+            ->with('success', 'Risk updated successfully');
+    }
+
     /**
      * Hapus risk
      */
     public function destroy(Project $project, Risk $risk)
     {
+        $this->authorizeProject($project);
         $risk->delete();
 
         return redirect()
             ->route('projects.show', $project->id)
             ->with('success', 'Risk berhasil dihapus');
+    }
+
+    private function authorizeProject(Project $project)
+    {
+        if ($project->is_guest) {
+            return;
+        }
+
+        if (!auth()->check() || $project->user_id !== auth()->id()) {
+            abort(403);
+        }
     }
 }

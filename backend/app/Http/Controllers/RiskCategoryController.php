@@ -39,6 +39,8 @@ class RiskCategoryController extends Controller
      */
     public function create(Project $project, Request $request)
     {
+        $this->authorizeProject($project);
+
         $categories = $project->categories;
 
         $parentId = $request->parent;
@@ -48,9 +50,6 @@ class RiskCategoryController extends Controller
             'categories',
             'parentId'
         ));
-            // $parentId = request('parent'); // ambil parent dari URL
-
-            // return view('risk_categories.create', compact('project', 'parentId'));
     }
 
     /**
@@ -58,6 +57,7 @@ class RiskCategoryController extends Controller
      */
     public function store(Request $request, Project $project)
     {
+        $this->authorizeProject($project);
         $request->validate([
             'nama_kategori' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:risk_categories,id'
@@ -94,36 +94,62 @@ class RiskCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit($id)
-    // {
-    //     $category = RiskCategory::findOrFail($id);
 
-    //     return view('risk_categories.edit', compact('category'));
+    // public function edit(Project $project, RiskCategory $category)
+    // {
+    //     $this->authorizeProject($project);
+    //     return view('risk_categories.edit', compact('project','category'));
     // }
 
     public function edit(Project $project, RiskCategory $category)
     {
-        return view('risk_categories.edit', compact('project','category'));
+        $this->authorizeProject($project);
+
+        return view(
+            'risk_categories.edit',
+            compact('project', 'category')
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project, RiskCategory $category)
-    {
+    // public function update(Request $request, Project $project, RiskCategory $category)
+    // {
+    //     $this->authorizeProject($project);
+    //     $request->validate([
+    //         'nama_kategori' => 'required|string|max:255'
+    //     ]);
+
+    //     // $category = RiskCategory::findOrFail($id);
+
+    //     $category->update([
+    //         'nama_kategori' => $request->nama_kategori
+    //     ]);
+
+    //     return redirect()
+    //         ->back()
+    //         ->with('success', 'Kategori berhasil diperbarui');
+    // }
+
+    public function update(
+        Request $request,
+        Project $project,
+        RiskCategory $category
+    ) {
+        $this->authorizeProject($project);
+
         $request->validate([
-            'nama_kategori' => 'required|string|max:255'
+            'nama_kategori' => 'required|max:255',
         ]);
 
-        // $category = RiskCategory::findOrFail($id);
-
         $category->update([
-            'nama_kategori' => $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori,
         ]);
 
         return redirect()
-            ->back()
-            ->with('success', 'Kategori berhasil diperbarui');
+            ->route('projects.show', $project->id)
+            ->with('success', 'Category updated successfully');
     }
 
     /**
@@ -131,20 +157,41 @@ class RiskCategoryController extends Controller
      */
     public function destroy(Project $project, RiskCategory $category)
     {
-        // tidak boleh jika punya sub category
-        if ($category->children()->exists()) {
-            return back()->with('error',
-                'Kategori memiliki sub kategori.');
+        $this->authorizeProject($project);
+
+        $this->deleteCategoryRecursive($category);
+
+        return back()->with(
+            'success',
+            'Kategori dan seluruh isi berhasil dihapus'
+        );
+    }
+
+    private function deleteCategoryRecursive($category)
+    {
+        // Hapus semua child category
+        foreach ($category->children as $child) {
+
+            $this->deleteCategoryRecursive($child);
         }
 
-        // tidak boleh jika punya risk
-        if ($category->risks()->exists()) {
-            return back()->with('error',
-                'Kategori masih memiliki risk.');
-        }
+        // Hapus semua risk dalam category
+        $category->risks()->delete();
 
+        // Hapus category
         $category->delete();
+    }
 
-        return back()->with('success', 'Kategori berhasil dihapus');
+    private function authorizeProject(Project $project)
+    {
+        // Guest project boleh publik
+        if ($project->is_guest) {
+            return;
+        }
+
+        // Permanent project harus owner
+        if (!auth()->check() || $project->user_id !== auth()->id()) {
+            abort(403);
+        }
     }
 }
