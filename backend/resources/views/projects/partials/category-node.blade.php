@@ -16,17 +16,40 @@
             </a>
         </div>
 
-        <form action="{{ route('projects.categories.destroy', [$project->id, $category->id]) }}"
-              method="POST"
-              class="inline-form"
-              data-export-ignore>
-            @csrf
-            @method('DELETE')
+        <div class="manage-dropdown" data-export-ignore>
 
-            <button type="submit"
-                    class="icon-btn"
-                    onclick="return confirm('Hapus kategori ini?')"> 🗑 </button>
-        </form>
+            <button type="button" class="icon-btn manage-toggle">
+                ⋮
+            </button>
+
+            <div class="manage-menu">
+
+                <a href="{{ route('projects.categories.edit',
+                    [$project->id, $category->id]) }}"
+                    class="manage-item">
+                    ✏ Edit
+                </a>
+
+                <form action="{{ route('projects.categories.destroy',
+                    [$project->id, $category->id]) }}"
+                    method="POST"
+                    class="inline-form"
+                    onsubmit="return confirm(
+                        'Deleting this category will also delete all subcategories and risks inside it. Continue?'
+                    )">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="manage-item delete-btn">
+                        🗑 Delete
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
     </div>
 
     <div class="nested {{ ($level ?? 0) === 0 ? 'active' : '' }}">
@@ -46,9 +69,15 @@
             <ul class="risk-list">
                 @foreach($category->risks as $risk)
                     <li class="risk-item">
-                        <span class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
+                        <!-- <span class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
                             ⚠ {{ $risk->nama_risiko }}
-                        </span>
+                        </span> -->
+                        <a href="{{ route('projects.risks.show',[$project->id, $risk->id]) }}"
+                            class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
+
+                             {{ $risk->nama_risiko }}
+
+                        </a>
 
                         <form action="{{ route('projects.risks.destroy', [$project->id, $risk->id]) }}"
                               method="POST"

@@ -180,4 +180,21 @@ class ProjectController extends Controller
             ->route('projects.index')
             ->with('success', 'Project berhasil dihapus');
     }
+
+    private function logActivity(
+        $projectId,
+        $action,
+        $targetType,
+        $targetId,
+        $description
+    ) {
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'project_id' => $projectId,
+            'action' => $action,
+            'target_type' => $targetType,
+            'target_id' => $targetId,
+            'description' => $description,
+        ]);
+    }
 }

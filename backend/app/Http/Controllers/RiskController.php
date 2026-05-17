@@ -73,9 +73,14 @@ class RiskController extends Controller
     /**
      * Detail risk
      */
-    public function show(Risk $risk)
+    public function show(Project $project, Risk $risk)
     {
-        return view('risks.show', compact('risk'));
+        $this->authorizeProject($project);
+
+        return view(
+            'risks.show',
+            compact('project', 'risk')
+        );
     }
 
     public function edit(Project $project, Risk $risk)
