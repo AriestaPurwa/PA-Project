@@ -25,9 +25,7 @@
 
             <button type="submit"
                     class="icon-btn"
-                    onclick="return confirm('Hapus kategori ini?')">
-                🗑
-            </button>
+                    onclick="return confirm('Hapus kategori ini?')"> 🗑 </button>
         </form>
     </div>
 
@@ -54,16 +52,13 @@
 
                         <form action="{{ route('projects.risks.destroy', [$project->id, $risk->id]) }}"
                               method="POST"
+                              onsubmit="return confirm('Deleting this category will also delete all subcategories and risks inside it. Continue?')"
                               class="inline-form"
                               data-export-ignore>
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit"
-                                    onclick="return confirm('Yakin ingin menghapus risk ini?')"
-                                    class="icon-btn">
-                                🗑
-                            </button>
+                            <button type="submit" class="icon-btn"> 🗑</button>
                         </form>
                     </li>
                 @endforeach
