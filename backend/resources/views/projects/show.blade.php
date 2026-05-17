@@ -3,6 +3,23 @@
 @section('content')
 
 <div class="diagram-page">
+    @if($project->is_guest)
+
+        <div class="card app-card" style="margin-bottom:20px;">
+
+            <strong>Guest Mode Active</strong><br>
+
+            This project is temporary and may be deleted automatically later.
+
+            <div style="margin-top:10px;">
+                <a href="/login" class="btn app-btn">
+                    Login to Save Permanently
+                </a>
+            </div>
+
+        </div>
+
+    @endif
 
     <div class="diagram-toolbar" data-export-ignore>
         <button type="button" class="btn app-btn" id="export-png-btn">

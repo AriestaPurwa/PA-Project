@@ -292,11 +292,11 @@
             </div>
 
             <div class="nav-buttons">
-                <a href="#" class="btn btn-secondary">
+                <a href="/login" class="btn btn-secondary">
                     Login
                 </a>
 
-                <a href="#" class="btn btn-primary">
+                <a href="/register" class="btn btn-primary">
                     Register
                 </a>
             </div>
@@ -322,9 +322,13 @@
 
                 <div class="hero-buttons">
 
-                    <a href="/try" class="btn btn-primary">
+                    <a href="/guest-mode" class="btn btn-primary">
                         Try Without Login
                     </a>
+
+                    <!-- <a href="/try-test" class="btn btn-primary">
+                        Try Without Login
+                    </a> -->
 
                     <a href="#" class="btn btn-secondary">
                         Learn More

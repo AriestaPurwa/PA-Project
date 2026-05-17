@@ -733,6 +733,45 @@
         padding-left: 18px;
     }
 
+    .manage-dropdown {
+        position: relative;
+    }
+
+    .manage-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 30px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        min-width: 140px;
+        z-index: 100;
+    }
+
+    .manage-dropdown:hover .manage-menu {
+        display: block;
+    }
+
+    .manage-item {
+        display: block;
+        width: 100%;
+        padding: 10px 14px;
+        text-decoration: none;
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .manage-item:hover {
+        background: #f3f4f6;
+    }
+
+    .delete-btn {
+        color: red;
+    }
+
     @media (max-width: 768px) {
         .form-row {
             grid-template-columns: 1fr;
@@ -770,6 +809,37 @@
 
     <div class="navbar app-navbar">
         <h3>Risk Breakdown Structure System</h3>
+        @guest
+
+            <a href="/login" class="btn-secondary">
+                Login
+            </a>
+
+            <a href="/register" class="btn app-btn">
+                Register
+            </a>
+
+        @endguest
+
+        @auth
+
+            <span style="margin-right:15px;">
+                Hi, {{ auth()->user()->name }}
+            </span>
+
+            <a href="/projects" class="btn-secondary">
+                Dashboard
+            </a>
+
+            <form action="/logout" method="POST" style="display:inline;">
+                @csrf
+
+                <button type="submit" class="btn app-btn">
+                    Logout
+                </button>
+            </form>
+
+        @endauth
     </div>
 
     <div class="container app-layout">

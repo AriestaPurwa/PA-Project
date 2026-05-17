@@ -55,8 +55,7 @@
 
                 <a
                     href="{{ route('projects.show', $project->id) }}"
-                    class="btn-secondary"
-                >
+                    class="btn-secondary">
                     Cancel
                 </a>
 

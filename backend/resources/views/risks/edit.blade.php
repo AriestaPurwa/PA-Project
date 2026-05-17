@@ -27,9 +27,9 @@
 
                 <input
                     type="text"
-                    name="nama_risk"
+                    name="nama_risiko"
                     class="form-input"
-                    value="{{ old('nama_risk', $risk->nama_risk) }}"
+                    value="{{ old('nama_risiko', $risk->nama_risiko) }}"
                     required
                 >
 
@@ -38,15 +38,15 @@
             <div class="form-group">
 
                 <label class="form-label">
-                    Likelihood
+                    probability
                 </label>
 
                 <input
                     type="number"
-                    name="likelihood"
+                    name="probability"
                     min="1"
                     max="5"
-                    value="{{ old('likelihood', $risk->likelihood) }}"
+                    value="{{ old('probability', $risk->probability) }}"
                     class="form-input"
                     required
                 >

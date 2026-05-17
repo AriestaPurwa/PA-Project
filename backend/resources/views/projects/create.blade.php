@@ -9,6 +9,14 @@
         </a>
     </div>
 
+    @if(request('guest'))
+
+        <div class="card app-card" style="margin-bottom:20px;">
+            <strong>Guest Mode Active</strong><br>
+            This project is temporary and will not be saved permanently.
+        </div>
+    @endif
+
     <div class="form-card">
         <h2 class="form-title">Tambah Project</h2>
         <p class="form-subtitle">Buat project baru untuk mulai menyusun kategori risiko dan risk matrix.</p>
@@ -25,6 +33,10 @@
 
         <form action="{{ route('projects.store') }}" method="POST">
             @csrf
+
+            @if(request()->has('guest'))
+                <input type="hidden" name="guest_mode" value="1">
+            @endif
 
             <div class="form-grid">
                 <div class="form-group">
