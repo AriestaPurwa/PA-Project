@@ -18,7 +18,7 @@
 
         <a href="{{ route('projects.edit', $project->id) }}"
             class="btn app-btn">
-            ✏ Edit Project
+            Edit Project
         </a>
 
         <form action="{{ route('projects.destroy', $project->id) }}"

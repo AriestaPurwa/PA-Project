@@ -807,6 +807,7 @@
 </head>
 <body>
 
+    <!-- navbar -->
     <div class="navbar app-navbar">
         <h3>Risk Breakdown Structure System</h3>
         @guest
