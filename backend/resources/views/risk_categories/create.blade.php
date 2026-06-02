@@ -1,15 +1,19 @@
+{{-- file views\risk_categories\create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
 
 <div class="form-page">
+
+    {{-- CHANGED: Back link --}}
     <div class="mb-3">
         <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">
-            ← Back
+            ← Kembali ke Project
         </a>
     </div>
 
     <div class="form-card">
+
         <h2 class="form-title">Tambah Category</h2>
         <p class="form-subtitle">Tambahkan kategori baru untuk project ini, baik sebagai root category maupun sub category.</p>
 
@@ -27,6 +31,7 @@
             @csrf
 
             <div class="form-grid">
+
                 <div class="form-group">
                     <label class="form-label" for="nama_kategori">Nama Category</label>
                     <input
@@ -34,16 +39,18 @@
                         type="text"
                         name="nama_kategori"
                         class="form-input"
-                        placeholder="Masukkan nama category"
+                        placeholder="Contoh: Technical, External, Organizational"
                         value="{{ old('nama_kategori') }}"
                         required
+                        autocomplete="off"
                     >
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="parent_id">Parent Category</label>
                     <select id="parent_id" name="parent_id" class="form-select">
-                        <option value="">-- Root Category --</option>
+                        {{-- CHANGED: Opsi root lebih deskriptif --}}
+                        <option value="">— Jadikan Root Category —</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}"
                                 {{ old('parent_id', request('parent')) == $category->id ? 'selected' : '' }}>
@@ -51,13 +58,15 @@
                             </option>
                         @endforeach
                     </select>
-                    <span class="field-hint">Kosongkan jika ingin membuat root category.</span>
+                    {{-- CHANGED: Hint lebih informatif --}}
+                    <span class="field-hint">Biarkan kosong jika ini adalah kategori utama (root).</span>
                 </div>
 
                 <div class="form-actions">
                     <button type="submit" class="btn app-btn">Simpan Category</button>
                     <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">Batal</a>
                 </div>
+
             </div>
         </form>
     </div>

@@ -92,7 +92,7 @@
         </span>
     </div>
 
-    <div class="matrix-axis-top">Likelihood (Kemungkinan)</div>
+    <div class="matrix-axis-top">Probability (Kemungkinan)</div>
 
     <div class="matrix-wrapper">
         <div class="matrix-axis-left">Impact (Dampak)</div>

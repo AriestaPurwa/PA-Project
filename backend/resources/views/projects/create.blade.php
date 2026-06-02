@@ -1,26 +1,34 @@
+{{-- file views\projects\create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
 
 <div class="form-page">
+
+    {{-- CHANGED: Tombol back dengan label yang lebih jelas --}}
     <div class="mb-3">
         <a href="{{ route('projects.index') }}" class="btn-secondary">
-            ← Back
+            ← Kembali ke Daftar Project
         </a>
     </div>
 
+    {{-- CHANGED: Guest mode notice tampil lebih mencolok dengan icon --}}
     @if(request('guest'))
-
-        <div class="card app-card" style="margin-bottom:20px;">
-            <strong>Guest Mode Active</strong><br>
-            This project is temporary and will not be saved permanently.
+        <div class="card app-card">
+            {{-- CHANGED: Icon warning di depan teks --}}
+            <strong>⚠️ Guest Mode Active</strong><br>
+            {{-- CHANGED: Teks lebih informatif --}}
+            <span style="font-size:13px; color:#78350f;">Project ini bersifat sementara dan tidak tersimpan secara permanen.</span>
         </div>
     @endif
 
     <div class="form-card">
+
+        {{-- CHANGED: Judul dan subtitle dipisahkan dengan lebih jelas --}}
         <h2 class="form-title">Tambah Project</h2>
         <p class="form-subtitle">Buat project baru untuk mulai menyusun kategori risiko dan risk matrix.</p>
 
+        {{-- CHANGED: Error alert tampil di dalam form-card --}}
         @if ($errors->any())
             <div class="alert-error">
                 <ul>
@@ -39,6 +47,7 @@
             @endif
 
             <div class="form-grid">
+
                 <div class="form-group">
                     <label class="form-label" for="nama_project">Nama Project</label>
                     <input
@@ -46,19 +55,20 @@
                         type="text"
                         name="nama_project"
                         class="form-input"
-                        placeholder="Masukkan nama project"
+                        placeholder="Contoh: Pembangunan Gedung A"
                         value="{{ old('nama_project') }}"
                         required
+                        autocomplete="off"
                     >
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="deskripsi">Deskripsi</label>
+                    <label class="form-label" for="deskripsi">Deskripsi <span style="font-weight:400; color:#94a3b8;">(opsional)</span></label>
                     <textarea
                         id="deskripsi"
                         name="deskripsi"
                         class="form-textarea"
-                        placeholder="Tulis deskripsi singkat project"
+                        placeholder="Tulis deskripsi singkat tentang project ini..."
                     >{{ old('deskripsi') }}</textarea>
                 </div>
 
@@ -66,6 +76,7 @@
                     <button type="submit" class="btn app-btn">Simpan Project</button>
                     <a href="{{ route('projects.index') }}" class="btn-secondary">Batal</a>
                 </div>
+
             </div>
         </form>
     </div>
