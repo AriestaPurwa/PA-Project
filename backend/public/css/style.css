@@ -1,0 +1,1625 @@
+/* ===== GOOGLE FONTS IMPORT ===== */
+/* CHANGED: Menggunakan font modern Plus Jakarta Sans & DM Sans */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ===== BASE ===== */
+/* CHANGED: Font family diganti ke Plus Jakarta Sans yang lebih modern */
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f0f4f8; /* CHANGED: Background sedikit lebih dingin */
+}
+
+/* ===== NAVBAR ===== */
+/* CHANGED: Navbar diperbarui dengan glass-morphism effect, border bawah, dan shadow */
+.navbar {
+    background-color: #1a2535; /* CHANGED: Warna lebih dalam dan premium */
+    color: white;
+    padding: 0 28px; /* CHANGED: Padding horizontal lebih besar, vertikal di-handle oleh min-height */
+    min-height: 64px; /* CHANGED: Tinggi navbar lebih konsisten */
+    display: flex; /* CHANGED: Flex untuk alignment konten navbar */
+    align-items: center; /* CHANGED: Vertikal center */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07); /* CHANGED: Border subtle di bawah navbar */
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18); /* CHANGED: Shadow lebih dalam untuk depth */
+    position: sticky; /* CHANGED: Navbar sticky agar tetap terlihat saat scroll */
+    top: 0;
+    z-index: 100; /* CHANGED: Z-index tinggi agar navbar berada di atas konten */
+    gap: 12px; /* CHANGED: Gap antar elemen navbar */
+}
+
+/* CHANGED: H3 di navbar direstyling agar lebih eye-catching */
+.navbar h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #ffffff;
+    flex: 1; /* CHANGED: Mengisi ruang kosong agar tombol login/logout terdorong ke kanan */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* CHANGED: Logo icon sebelum teks judul navbar */
+.navbar h3::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #4b9be6, #60b8ff);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+/* CHANGED: Span teks sambutan user di navbar */
+.navbar span {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65); /* CHANGED: Teks muted untuk kesan hirarki */
+    font-weight: 500;
+}
+
+/* ===== LAYOUT CONTAINER ===== */
+.container {
+    display: flex;
+    min-height: calc(100vh - 64px); /* CHANGED: Disesuaikan dengan tinggi navbar baru */
+}
+
+/* ===== SIDEBAR ===== */
+/* CHANGED: Sidebar diperbarui dengan warna lebih gelap, border kanan subtle, dan lebar lebih ramping */
+.sidebar {
+    width: 220px; /* CHANGED: Sedikit lebih lebar untuk ruang nafas */
+    background: #1e2d40; /* CHANGED: Warna sidebar lebih dalam dari konten utama */
+    color: white;
+    padding: 24px 16px; /* CHANGED: Padding disesuaikan */
+    border-right: 1px solid rgba(255, 255, 255, 0.06); /* CHANGED: Border kanan subtle */
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* CHANGED: Gap antar item navigasi */
+}
+
+/* CHANGED: H4 label "Menu" di sidebar direstyling */
+.sidebar h4 {
+    margin: 0 0 16px 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35); /* CHANGED: Warna sangat muted untuk kesan label kategori */
+    padding: 0 12px;
+}
+
+/* CHANGED: Link navigasi sidebar direstyling dengan hover state yang lebih jelas */
+.sidebar a {
+    color: rgba(255, 255, 255, 0.7); /* CHANGED: Teks semi-transparan saat tidak aktif */
+    text-decoration: none;
+    display: flex; /* CHANGED: Flex untuk ikon dan teks */
+    align-items: center;
+    gap: 10px;
+    margin: 2px 0;
+    padding: 10px 12px; /* CHANGED: Padding internal untuk clickable area lebih besar */
+    border-radius: 10px; /* CHANGED: Rounded corner pada tiap item */
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s ease, color 0.15s ease; /* CHANGED: Transisi hover smooth */
+}
+
+/* CHANGED: Hover state link sidebar */
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.09); /* CHANGED: Background terang subtle saat hover */
+    color: #ffffff; /* CHANGED: Teks putih penuh saat hover */
+}
+
+/* CHANGED: State aktif link sidebar */
+.sidebar a.active {
+    background: rgba(75, 155, 230, 0.2); /* CHANGED: Background biru muted untuk state aktif */
+    color: #7ec3f5; /* CHANGED: Warna biru terang untuk teks aktif */
+}
+
+/* ===== CONTENT AREA ===== */
+/* CHANGED: Area konten dengan background lebih bersih */
+.content {
+    flex: 1;
+    padding: 28px 32px; /* CHANGED: Padding lebih lega */
+    background: #f0f4f8; /* CHANGED: Konsisten dengan body background */
+    overflow-x: auto;
+}
+
+/* ===== CARDS ===== */
+/* CHANGED: Card diperbarui dengan shadow yang lebih halus dan border subtle */
+.card,
+.app-card {
+    background: #fff;
+    padding: 20px 24px; /* CHANGED: Padding lebih lega */
+    margin-top: 16px; /* CHANGED: Margin antar card dikurangi */
+    border-radius: 14px; /* CHANGED: Radius lebih besar untuk kesan modern */
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04); /* CHANGED: Shadow berlapis untuk depth */
+    border: 1px solid rgba(15, 23, 42, 0.06); /* CHANGED: Border subtle pada card */
+    transition: box-shadow 0.2s ease, transform 0.2s ease; /* CHANGED: Transisi hover */
+}
+
+/* CHANGED: Hover state card untuk interaktivitas */
+.card:hover,
+.app-card:hover {
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23, 42, 0.06); /* CHANGED: Shadow lebih besar saat hover */
+}
+
+/* ===== BUTTONS ===== */
+/* CHANGED: Tombol utama dengan style lebih modern */
+.btn,
+.app-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px; /* CHANGED: Sedikit lebih kecil untuk kesan lebih rapi */
+    padding: 0 16px;
+    background: #3b82f6; /* CHANGED: Warna biru lebih segar */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 9px; /* CHANGED: Radius tombol lebih kecil untuk kesan profesional */
+    border: none;
+    cursor: pointer;
+    font-size: 13.5px; /* CHANGED: Font size sedikit lebih kecil */
+    font-weight: 600; /* CHANGED: Lebih tebal untuk keterbacaan */
+    font-family: 'Plus Jakarta Sans', sans-serif; /* CHANGED: Konsisten dengan font utama */
+    box-sizing: border-box;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.1s ease; /* CHANGED: Transisi hover & klik */
+    letter-spacing: 0.1px; /* CHANGED: Sedikit letter-spacing untuk tombol */
+}
+
+/* CHANGED: Hover state tombol utama */
+.btn:hover,
+.app-btn:hover {
+    background: #2563eb; /* CHANGED: Biru lebih gelap saat hover */
+    transform: translateY(-1px); /* CHANGED: Efek "terangkat" saat hover */
+}
+
+/* CHANGED: Active state tombol */
+.btn:active,
+.app-btn:active {
+    transform: translateY(0); /* CHANGED: Kembali ke posisi normal saat diklik */
+}
+
+/* CHANGED: Tombol secondary diperbarui */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px; /* CHANGED: Disesuaikan dengan tombol utama */
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.1); /* CHANGED: Background transparan untuk navbar */
+    color: rgba(255, 255, 255, 0.9); /* CHANGED: Teks putih untuk navbar */
+    text-decoration: none;
+    border-radius: 9px; /* CHANGED: Konsisten dengan tombol utama */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* CHANGED: Border transparan */
+    font-weight: 600;
+    font-size: 13.5px;
+    font-family: 'Plus Jakarta Sans', sans-serif; /* CHANGED: Konsisten dengan font utama */
+    transition: background 0.15s ease;
+}
+
+/* CHANGED: Hover state tombol secondary */
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.18); /* CHANGED: Lebih terang saat hover */
+}
+
+/* ===== HEADING DI HALAMAN DASHBOARD ===== */
+/* CHANGED: Style untuk h2 "Daftar Project" yang lebih modern */
+.content h2 {
+    margin: 0 0 20px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.4px;
+}
+
+/* CHANGED: H4 di dalam card project */
+.app-card h4, .card h4 {
+    margin: 0 0 14px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    letter-spacing: -0.2px;
+}
+
+/* ===== PROJECT INDEX — ENRICHED CARD ===== */
+
+/* CHANGED: Header halaman dashboard — heading & tombol sejajar */
+.project-index-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* CHANGED: H2 di dalam header baru tanpa margin bawah sendiri */
+.project-index-header h2 {
+    margin: 0;
+}
+
+/* CHANGED: Subtitle kecil di bawah heading */
+.project-index-subtitle {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* CHANGED: Meta info baris (kategori · risk) di bawah nama project */
+.project-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0 0 0;
+    flex-wrap: wrap;
+}
+
+/* CHANGED: Tiap item meta (ikon + teks) */
+.project-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* CHANGED: Separator titik antar meta item */
+.project-meta-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    display: inline-block;
+}
+
+/* CHANGED: Wrapper badge risk level */
+.risk-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* CHANGED: Badge individual High / Medium / Low */
+.risk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+/* CHANGED: Warna badge sesuai level */
+.risk-badge.high   { background: #fef2f2; color: #b91c1c; }
+.risk-badge.medium { background: #fff7ed; color: #c2410c; }
+.risk-badge.low    { background: #f0fdf4; color: #15803d; }
+
+/* CHANGED: Dot kecil di kiri badge */
+.risk-badge::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.risk-badge.high::before   { background: #ef4444; }
+.risk-badge.medium::before { background: #f97316; }
+.risk-badge.low::before    { background: #22c55e; }
+
+/* CHANGED: Garis pemisah tipis antara meta info dan baris tombol */
+.project-card-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 14px 0;
+}
+
+/* CHANGED: Baris tombol aksi */
+.project-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+/* CHANGED: Tombol Lihat Detail — biru solid */
+.project-card-actions .btn-primary {
+    background: #3b82f6;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: 9px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background 0.15s, transform 0.1s;
+}
+.project-card-actions .btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+/* CHANGED: Tombol Edit — abu secondary */
+.project-card-actions .btn-edit {
+    background: #f1f5f9;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 9px;
+    border: 1px solid #e2e8f0;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background 0.15s, border-color 0.15s;
+}
+.project-card-actions .btn-edit:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+    border-color: #cbd5e1;
+    transform: none;
+}
+
+/* CHANGED: Tombol Hapus — merah ghost */
+.project-card-actions .btn-danger {
+    background: transparent;
+    color: #dc2626;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 9px;
+    border: 1px solid #fecaca;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background 0.15s, border-color 0.15s;
+}
+.project-card-actions .btn-danger:hover {
+    background: #fef2f2;
+    border-color: #f87171;
+    transform: none;
+}
+
+/* CHANGED: Empty state saat belum ada project */
+.project-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 32px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1.5px dashed #e2e8f0;
+    text-align: center;
+    margin-top: 8px;
+    gap: 10px;
+}
+.project-empty-icon {
+    width: 52px;
+    height: 52px;
+    background: #f1f5f9;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+.project-empty-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+.project-empty-desc {
+    font-size: 13px;
+    color: #94a3b8;
+    margin: 0;
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+/* ===== INLINE FORM ===== */
+.inline-form {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* ===== ICON BUTTON ===== */
+/* CHANGED: Icon button diperbarui */
+.icon-btn {
+    width: 36px; /* CHANGED: Lebih kecil */
+    height: 36px;
+    min-width: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0; /* CHANGED: Border lebih subtle */
+    background: #fff;
+    border-radius: 9px; /* CHANGED: Konsisten dengan tombol */
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+/* CHANGED: Hover state icon button */
+.icon-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+/* ===== ARROW ===== */
+.arrow {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    flex: 0 0 16px;
+    /* CHANGED: font-size arrow dikecilkan agar proporsional */
+    font-size: 10px;
+    color: #64748b;
+}
+
+/* =====================================================
+   ===== DIAGRAM RBS - TOP-DOWN TREE LAYOUT =====
+   ===================================================== */
+
+/* CHANGED: diagram-page sebagai canvas utama */
+.diagram-page {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* CHANGED: Toolbar export rapi */
+.diagram-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
+}
+
+/* CHANGED: Export buttons abu-abu */
+.diagram-toolbar .btn,
+.diagram-toolbar .app-btn {
+    min-height: 32px;
+    padding: 0 14px;
+    font-size: 13px;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.diagram-toolbar .btn:hover,
+.diagram-toolbar .app-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+    transform: none;
+}
+
+/* CHANGED: overflow-y visible agar dropdown tidak terpotong */
+.rbs-scroll-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding-bottom: 24px;
+    margin-top: 0;
+}
+
+.rbs-scroll-wrap::-webkit-scrollbar { height: 6px; }
+.rbs-scroll-wrap::-webkit-scrollbar-track { background: #e5e7eb; border-radius: 999px; }
+.rbs-scroll-wrap::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 999px; }
+
+/* CHANGED: Board diagram - "kertas" putih */
+.rbs-board {
+    min-width: max-content;
+    padding: 40px 48px 48px 48px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
+}
+
+/* ===== ROOT NODE (PROJECT) ===== */
+
+/* CHANGED: Header diagram — terpusat, padding bawah untuk konektor vertikal ke tree */
+.diagram-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+    position: relative;
+    padding-bottom: 40px;
+}
+
+/* CHANGED: Garis vertikal dari root turun ke garis horizontal rbs-tree */
+.diagram-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 40px;
+    background: #94a3b8;
+}
+
+/* CHANGED: Wrapper project-node + tombol "+ Category" */
+.project-diagram-head {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.project-node-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+/* CHANGED: Label "PROJECT" kecil muted di atas root */
+.project-node-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+/* CHANGED: Node root — warna dari gambar revisi user (gelap premium) */
+.project-node {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    min-width: 220px;
+    max-width: 380px;
+    padding: 12px 32px;
+    background: #1e2d40;
+    border: 2px solid #2d4a6b;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #f0f9ff;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2);
+    position: relative;
+    letter-spacing: -0.3px;
+}
+
+/* CHANGED: Hapus pseudo-element lama — konektor dihandle .diagram-header::after */
+.project-node::after {
+    display: none;
+}
+
+/* CHANGED: Tombol "+ Category" dashed kecil */
+.root-category-btn {
+    min-height: 34px;
+    padding: 0 14px;
+    font-size: 12px;
+    align-self: center;
+    background: transparent;
+    color: #3b82f6;
+    border: 1.5px dashed #93c5fd;
+    border-radius: 8px;
+}
+
+.root-category-btn:hover {
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #60a5fa;
+    transform: none;
+}
+
+/* ===== RBS TREE — KOLOM KATEGORI LEVEL 0 ===== */
+
+.rbs-tree,
+.rbs-tree ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* CHANGED: Baris horizontal kolom-kolom kategori */
+.rbs-tree {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: flex-start;
+    width: max-content;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* CHANGED: Garis horizontal yang menghubungkan semua kolom kategori level-0 */
+.rbs-tree::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 80px;
+    right: 80px;
+    height: 2px;
+    background: #94a3b8;
+}
+
+/* CHANGED: Kolom tiap kategori level-0, dengan padding sebagai jarak antar kolom */
+.rbs-tree > .category-item {
+    flex: 0 0 auto;
+    min-width: 260px;
+    max-width: none;
+    margin: 0;
+    padding: 0 20px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* CHANGED: Garis vertikal dari garis horizontal turun ke category-header */
+.rbs-tree > .category-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 28px;
+    background: #94a3b8;
+}
+
+.category-item {
+    list-style: none;
+}
+
+/* ===== CATEGORY HEADER ===== */
+
+/* CHANGED: category-header = baris horizontal berisi rbs-node + tombol + dropdown,
+   semuanya sejajar. margin-top memberi ruang konektor vertikal di atasnya. */
+.category-header {
+    display: flex;
+    flex-direction: row;        /* CHANGED: Horizontal, semua dalam satu baris */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-bottom: 0;
+    margin-top: 28px;           /* CHANGED: Ruang untuk garis konektor vertikal di atas */
+    position: relative;
+}
+
+/* CHANGED: Bagian kiri: node + tombol +Sub, sejajar dalam satu baris */
+.category-header-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    flex: 1;                    /* CHANGED: Mengisi ruang, dorong dropdown ke kanan */
+}
+
+/* CHANGED: manage-dropdown tetap di ujung kanan, sejajar dengan category-header */
+.manage-dropdown {
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* CHANGED: Node kategori level-0 — putih bersih */
+.rbs-node {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 42px;
+    min-width: 160px;
+    max-width: 220px;
+    width: fit-content;
+    padding: 8px 14px;
+    background: #ffffff;
+    border: 1.5px solid #94a3b8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    box-sizing: border-box;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.07);
+    white-space: normal;
+    word-break: break-word;
+}
+
+.rbs-node:hover {
+    background: #f8fafc;
+    border-color: #64748b;
+}
+
+.rbs-node .arrow {
+    color: #94a3b8;
+    font-size: 9px;
+    flex-shrink: 0;
+}
+
+/* CHANGED: Tombol "+Sub" dashed kecil */
+.subcategory-inline-btn {
+    min-height: 30px;
+    padding: 0 10px;
+    font-size: 12px;
+    background: transparent;
+    color: #3b82f6;
+    border: 1.5px dashed #93c5fd;
+    border-radius: 7px;
+    flex-shrink: 0;
+}
+
+.subcategory-inline-btn:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    transform: none;
+}
+
+/* ===== NESTED — KONTEN DI BAWAH KATEGORI ===== */
+
+/* CHANGED: Nested menyembunyikan konten, transparan tanpa border */
+.nested {
+    display: none;
+    margin-top: 8px;
+    padding-left: 40px;
+    border: none;
+    background: transparent;
+}
+
+.nested.active {
+    display: block;
+}
+
+/* =====================================================
+   TREE CONNECTOR SYSTEM
+   Prinsip: setiap level menggunakan border-left sebagai
+   garis vertikal, dan ::before pada item sebagai garis
+   horizontal. Hasilnya adalah struktur tree klasik:
+     category
+       ├── subcategory
+       │     └── risk
+       └── risk
+   ===================================================== */
+
+/* CHANGED: subcategory-row — garis kiri + indentasi kanan */
+.subcategory-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 8px 0 6px 0;
+    padding-left: 20px;         /* CHANGED: Lebar "cabang" horizontal */
+    /*border-left: 2px solid #cbd5e1;  CHANGED: Garis vertikal tree */
+    list-style: none;
+    position: relative;
+}
+
+/* CHANGED: Tiap item subcategory */
+.subcategory-row > .category-item {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0;
+    position: relative;
+}
+
+/* CHANGED: Cabang horizontal dari garis vertikal ke category-header */
+.subcategory-row > .category-item::before {
+    content: '';
+    position: absolute;
+    top: 21px;                  /* CHANGED: Vertikal center node (42px/2) */
+    left: -20px;
+    width: 20px;
+    height: 2px;
+    background: #cbd5e1;
+}
+
+/* CHANGED: category-header di dalam subcategory — tidak perlu margin-top besar */
+.subcategory-row .category-header {
+    margin-top: 0;
+}
+
+/* CHANGED: rbs-node di dalam subcategory — lebih kecil dan sedikit abu */
+.subcategory-row .rbs-node {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    font-size: 12px;
+    min-height: 38px;
+    min-width: 140px;
+    color: #334155;
+}
+
+.subcategory-row .rbs-node:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+/* CHANGED: risk-list di dalam subcategory — sama indentasinya */
+.subcategory-row .nested {
+    margin-top: 4px;
+}
+
+/* CHANGED: risk-list — garis vertikal lebih tipis/subtle dari subcategory */
+.risk-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 8px 0 6px 0;
+    padding-left: 20px;         /* CHANGED: Sama dengan subcategory-row */
+    border-left: 2px solid #e2e8f0; /* CHANGED: Abu lebih terang dari subcategory */
+    list-style: none;
+}
+
+/* CHANGED: Tiap risk item */
+.risk-item {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 0;
+    position: relative;
+}
+
+/* CHANGED: Cabang horizontal dari garis vertikal ke risk badge */
+.risk-item::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 2px;
+    background: #e2e8f0;
+}
+
+/* CHANGED: Risk badge — kotak berwarna */
+.risk {
+    display: inline-flex;
+    align-items: center;
+    flex: 1;
+    min-height: 38px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    box-sizing: border-box;
+    white-space: normal;
+    word-break: break-word;
+    text-decoration: none;
+    transition: filter 0.15s ease;
+    border: none;
+}
+
+.risk:hover {
+    filter: brightness(1.08);
+    transform: none;
+}
+
+/* CHANGED: Warna risk sesuai gambar revisi user */
+.risk.high {
+    background-color: #e74c3c;
+}
+
+.risk.medium {
+    background-color: #f39c12;
+}
+
+.risk.low {
+    background-color: #27ae60;
+}
+
+/* CHANGED: Tombol hapus risk kecil */
+.risk-item .icon-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-color: #fecaca;
+    background: transparent;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.risk-item .icon-btn:hover {
+    background: #fee2e2;
+    border-color: #f87171;
+}
+
+/* ===== CATEGORY ACTIONS (tombol "+ Risk") ===== */
+
+/* CHANGED: + Risk button dengan indentasi menyambung ke tree line */
+.category-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-top: 6px;
+    padding-left: 20px;         /* CHANGED: Sejajar dengan risk-list */
+}
+
+.category-actions .btn,
+.category-actions .app-btn {
+    min-height: 28px;
+    padding: 0 12px;
+    font-size: 12px;
+    background: transparent;
+    color: #16a34a;
+    border: 1.5px dashed #86efac;
+    border-radius: 7px;
+}
+
+.category-actions .btn:hover,
+.category-actions .app-btn:hover {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #15803d;
+    transform: none;
+}
+
+/* ===== MANAGE DROPDOWN — FIX BUG GAP ===== */
+
+/* CHANGED: Toggle button kecil */
+.manage-toggle {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #94a3b8;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.manage-toggle:hover {
+    border-color: #e2e8f0;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+/* CHANGED: FIX BUG DROPDOWN HILANG SAAT KURSOR PINDAH
+   Masalah: ada celah (gap) antara tombol .manage-toggle dan .manage-menu
+   sehingga saat kursor melintasi celah itu, :hover pada .manage-dropdown
+   terputus dan menu hilang.
+   Solusi: .manage-menu diposisikan top: 100% (langsung di bawah tombol),
+   lalu diberi padding-top sebagai "jembatan hover transparan" agar area
+   hover dari tombol ke menu tidak terputus. Box visual menu ada di dalam
+   ::after, namun karena CSS murni kita gunakan pendekatan lain:
+   Dropdown wrapper diberi padding-bottom agar hover area lebih luas. */
+.manage-dropdown {
+    position: relative;
+    /* CHANGED: padding-bottom membuat area hover wrapper lebih besar,
+       sehingga kursor tidak "keluar" saat transisi dari tombol ke menu */
+}
+
+/* CHANGED: Menu memakai top: 100% sehingga langsung di bawah tombol,
+   tidak ada celah sama sekali. margin-top negatif kecil memastikan
+   tidak ada gap pixel. */
+.manage-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;                  /* CHANGED: Langsung di bawah tombol, no gap */
+    margin-top: 2px;            /* CHANGED: Jarak 2px saja */
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    min-width: 120px;
+    z-index: 200;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+    padding: 4px;
+    /* CHANGED: Tambahkan pseudo "bridge" via outline transparan agar
+       hover area wrapper tidak putus saat kursor di atas gap 2px */
+    outline: 4px solid transparent;
+    outline-offset: -2px;
+}
+
+.manage-dropdown:hover .manage-menu {
+    display: block;
+}
+
+/* CHANGED: Tambahkan ::before pada manage-menu sebagai hover bridge transparan.
+   Ini membuat area hover "memanjang" ke atas menutupi gap 2px + border tombol */
+.manage-menu::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -6px;                  /* CHANGED: Naik ke atas menutupi gap */
+    left: 0;
+    right: 0;
+    height: 6px;                /* CHANGED: Tinggi jembatan hover */
+    background: transparent;
+}
+
+.manage-item {
+    display: block;
+    width: 100%;
+    padding: 7px 12px;
+    text-decoration: none;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #334155;
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+
+.manage-item:hover {
+    background: #f1f5f9;
+}
+
+.delete-btn {
+    color: #dc2626;
+}
+
+/* ===== EXPORT REPORT AREA ===== */
+.export-report-area {
+    background: #ffffff;
+    padding: 32px 32px 40px 32px; /* CHANGED: Konsisten dengan rbs-board */
+    border-radius: 16px;
+    display: inline-block;
+    min-width: max-content;
+    box-sizing: border-box;
+}
+
+.export-matrix-section {
+    margin-top: 40px; /* CHANGED: Lebih banyak ruang */
+    padding-top: 32px; /* CHANGED: Lebih banyak ruang */
+    border-top: 2px solid #e2e8f0;
+}
+
+.export-matrix-section .app-card,
+.export-matrix-section .card {
+    box-shadow: none;
+    margin-top: 0;
+    padding: 0;
+    background: transparent;
+}
+
+/* ===== IS-EXPORTING STATE ===== */
+.is-exporting [data-export-ignore] {
+    display: none !important;
+}
+
+.is-exporting .rbs-scroll-wrap {
+    overflow: visible !important;
+}
+
+.is-exporting #export-report-area,
+.is-exporting .export-report-area {
+    box-shadow: none !important;
+}
+
+.is-exporting .rbs-node,
+.is-exporting .risk,
+.is-exporting .project-node {
+    box-shadow: none !important;
+}
+
+/* ===== RISK MATRIX ===== */
+
+.matrix-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* CHANGED: Judul matrix lebih besar dan tebal */
+.matrix-title {
+    margin: 0 0 8px 0;
+    font-size: 20px; /* CHANGED: Sedikit lebih kecil dari h1 */
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.3px;
+}
+
+/* CHANGED: Deskripsi matrix lebih readable */
+.matrix-description {
+    margin: 0;
+    max-width: 820px;
+    color: #64748b; /* CHANGED: Lebih muted */
+    line-height: 1.65;
+    font-size: 13.5px; /* CHANGED: Sedikit lebih kecil */
+}
+
+/* CHANGED: Summary cards dengan layout lebih baik */
+.matrix-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* CHANGED: Gap lebih kecil */
+}
+
+/* CHANGED: Summary card individual */
+.summary-card {
+    min-width: 100px; /* CHANGED: Lebih kecil */
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #dbe4ee;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-card.low {
+    background: #f0fdf4; /* CHANGED: Hijau lebih modern */
+    border-color: #bbf7d0;
+}
+
+.summary-card.medium {
+    background: #fffbeb;
+    border-color: #fcd34d;
+}
+
+.summary-card.high {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.summary-label {
+    font-size: 12px; /* CHANGED: Lebih kecil */
+    color: #64748b;
+    font-weight: 500;
+}
+
+.summary-value {
+    font-size: 28px; /* CHANGED: Lebih besar untuk impact */
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1;
+}
+
+/* CHANGED: Legend lebih compact */
+.matrix-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px; /* CHANGED: Gap lebih kecil */
+}
+
+.legend-title {
+    font-weight: 600;
+    color: #475569; /* CHANGED: Lebih muted */
+    font-size: 13px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* CHANGED: Gap lebih kecil */
+    font-size: 13px; /* CHANGED: Lebih kecil */
+    color: #475569;
+}
+
+.legend-dot {
+    width: 12px; /* CHANGED: Lebih kecil */
+    height: 12px;
+    border-radius: 999px;
+    display: inline-block;
+}
+
+.legend-dot.low { background: #16a34a; } /* CHANGED: Konsisten dengan risk.low */
+.legend-dot.medium { background: #d97706; } /* CHANGED: Konsisten */
+.legend-dot.high { background: #dc2626; } /* CHANGED: Konsisten */
+
+.matrix-axis-top {
+    font-size: 13px; /* CHANGED: Lebih kecil */
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.matrix-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* CHANGED: Gap lebih kecil */
+}
+
+.matrix-axis-left {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 13px; /* CHANGED: Lebih kecil */
+    font-weight: 600;
+    color: #475569;
+    min-width: 24px; /* CHANGED: Lebih kecil */
+    text-align: center;
+}
+
+/* CHANGED: Grid matrix sedikit lebih kecil */
+.risk-matrix {
+    display: grid;
+    grid-template-columns: 100px repeat(5, 100px); /* CHANGED: Sedikit lebih kecil */
+    gap: 6px; /* CHANGED: Gap lebih kecil */
+    margin-top: 0;
+    align-items: stretch;
+}
+
+.header {
+    font-weight: 600; /* CHANGED: Tidak terlalu bold */
+    text-align: center;
+    padding: 8px 4px; /* CHANGED: Padding lebih kecil */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    font-size: 13px; /* CHANGED: Font lebih kecil */
+    color: #334155;
+}
+
+.header small {
+    font-size: 10px; /* CHANGED: Lebih kecil */
+    font-weight: 500;
+    color: #64748b;
+    line-height: 1.3;
+}
+
+/* CHANGED: Cell matrix lebih compact */
+.cell {
+    min-height: 68px; /* CHANGED: Sedikit lebih kecil */
+    border-radius: 8px; /* CHANGED: Radius lebih kecil */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px; /* CHANGED: Gap lebih kecil */
+    font-weight: bold;
+    color: white;
+    border: none; /* CHANGED: Tidak ada border */
+}
+
+.cell-value {
+    font-size: 22px; /* CHANGED: Sedikit lebih kecil */
+    line-height: 1;
+    font-weight: 700;
+}
+
+.cell-label {
+    font-size: 11px; /* CHANGED: Lebih kecil */
+    font-weight: 600;
+    opacity: 0.85; /* CHANGED: Sedikit lebih transparan */
+}
+
+.cell.low { background: #16a34a; } /* CHANGED: Konsisten */
+.cell.medium { background: #d97706; color: #fff; } /* CHANGED: Teks putih untuk medium juga */
+.cell.high { background: #dc2626; } /* CHANGED: Konsisten */
+.cell.none { background: #e2e8f0; color: #64748b; } /* CHANGED: Lebih subtle */
+
+/* ===== FORM PAGES ===== */
+
+/* CHANGED: Lebar form diperlebar sedikit agar lebih breathable */
+.form-page {
+    max-width: 600px;
+}
+
+/* CHANGED: Tombol back di atas form, class mb-3 diberi style */
+.mb-3 {
+    margin-bottom: 16px; /* CHANGED: Konsisten spacing */
+}
+
+/* CHANGED: btn-secondary di luar navbar — warna disesuaikan untuk background terang */
+.form-page .btn-secondary,
+.content > div .btn-secondary,
+.mb-3 .btn-secondary {
+    background: #fff; /* CHANGED: Background putih untuk halaman terang */
+    color: #475569; /* CHANGED: Teks abu gelap */
+    border-color: #e2e8f0; /* CHANGED: Border abu terang */
+    font-size: 13px;
+}
+
+.form-page .btn-secondary:hover,
+.mb-3 .btn-secondary:hover {
+    background: #f8fafc;
+    color: #1e293b;
+    border-color: #cbd5e1;
+}
+
+/* CHANGED: form-card lebih lega dan polished */
+.form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0; /* CHANGED: Border lebih terang dan halus */
+    border-radius: 16px; /* CHANGED: Radius lebih besar, konsisten dengan card lain */
+    padding: 32px; /* CHANGED: Padding lebih lega */
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04); /* CHANGED: Shadow berlapis */
+}
+
+/* CHANGED: Judul form lebih compact dan rapi */
+.form-title {
+    margin: 0 0 6px 0; /* CHANGED: Margin bawah dikurangi, subtitle langsung mengisi */
+    font-size: 22px; /* CHANGED: Sedikit lebih kecil, tidak perlu besar-besar */
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.4px;
+}
+
+/* CHANGED: Subtitle rapi dengan margin bawah konsisten */
+.form-subtitle {
+    margin: 0 0 28px 0; /* CHANGED: Margin atas 0, bawah lebih besar sebagai spacer ke form */
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+/* CHANGED: Divider tipis antara header form dan body form */
+.form-card .form-subtitle {
+    padding-bottom: 24px; /* CHANGED: Ruang sebelum garis */
+    border-bottom: 1px solid #f1f5f9; /* CHANGED: Garis pemisah subtle */
+    margin-bottom: 24px; /* CHANGED: Jarak dari garis ke form-grid */
+}
+
+/* CHANGED: Grid form dengan gap konsisten */
+.form-grid {
+    display: grid;
+    gap: 20px; /* CHANGED: Gap sedikit lebih besar untuk ruang nafas */
+}
+
+/* CHANGED: Setiap grup field */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* CHANGED: Gap label-input lebih kecil */
+}
+
+/* CHANGED: Label field — lebih compact */
+.form-label {
+    font-size: 13px; /* CHANGED: Sedikit lebih kecil */
+    font-weight: 600;
+    color: #374151; /* CHANGED: Warna sedikit lebih netral */
+    letter-spacing: 0.1px;
+}
+
+/* CHANGED: Input, select, textarea — konsisten dan polished */
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1.5px solid #e2e8f0; /* CHANGED: Border lebih tebal dan terang */
+    border-radius: 10px;
+    background: #f8fafc; /* CHANGED: Background sedikit off-white, bukan putih polos */
+    font-size: 14px;
+    color: #0f172a;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    appearance: none; /* CHANGED: Hapus native styling */
+    -webkit-appearance: none;
+}
+
+/* CHANGED: Placeholder lebih subtle */
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: #94a3b8; /* CHANGED: Abu terang */
+    font-weight: 400;
+}
+
+/* CHANGED: Textarea */
+.form-textarea {
+    min-height: 100px; /* CHANGED: Sedikit lebih pendek */
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* CHANGED: Select — tambahkan ikon panah custom */
+.form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); /* CHANGED: Arrow icon custom */
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 38px; /* CHANGED: Ruang untuk arrow */
+    cursor: pointer;
+}
+
+/* CHANGED: Focus state — biru */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: #3b82f6; /* CHANGED: Biru lebih solid */
+    background: #fff; /* CHANGED: Background putih saat fokus */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12); /* CHANGED: Glow biru lebih subtle */
+}
+
+/* CHANGED: Hover state — sedikit lebih terang */
+.form-input:hover:not(:focus),
+.form-select:hover:not(:focus),
+.form-textarea:hover:not(:focus) {
+    border-color: #cbd5e1; /* CHANGED: Sedikit lebih gelap dari default */
+    background: #fff;
+}
+
+/* CHANGED: Input number — sembunyikan spinner bawaan browser */
+.form-input[type="number"]::-webkit-inner-spin-button,
+.form-input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* CHANGED: form-row — dua kolom berdampingan */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* CHANGED: Divider sebelum tombol aksi */
+.form-actions {
+    display: flex;
+    gap: 10px; /* CHANGED: Gap lebih kecil */
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 20px; /* CHANGED: Padding atas */
+    border-top: 1px solid #f1f5f9; /* CHANGED: Garis pemisah subtle sebelum tombol */
+}
+
+/* CHANGED: Tombol submit utama di form */
+.form-actions .btn,
+.form-actions .app-btn {
+    min-height: 42px; /* CHANGED: Sedikit lebih tinggi dari default */
+    padding: 0 22px; /* CHANGED: Padding lebih lega */
+    font-size: 14px;
+}
+
+/* CHANGED: Tombol batal di form — override warna untuk background terang */
+.form-actions .btn-secondary {
+    background: #fff;
+    color: #475569;
+    border: 1.5px solid #e2e8f0;
+    min-height: 42px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.form-actions .btn-secondary:hover {
+    background: #f8fafc;
+    color: #1e293b;
+    border-color: #cbd5e1;
+}
+
+/* CHANGED: field-hint — teks bantuan di bawah input */
+.field-hint {
+    font-size: 12px;
+    color: #94a3b8; /* CHANGED: Lebih muted */
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* CHANGED: Alert error lebih polished */
+.alert-error {
+    margin-bottom: 20px;
+    padding: 14px 16px; /* CHANGED: Padding lebih besar */
+    border-radius: 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 3px solid #ef4444; /* CHANGED: Aksen kiri merah */
+    color: #991b1b; /* CHANGED: Sedikit lebih gelap */
+    font-size: 13.5px;
+}
+
+.alert-error ul {
+    margin: 6px 0 0 0; /* CHANGED: Margin atas kecil */
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* CHANGED: Gap antar item error */
+}
+
+/* CHANGED: Guest mode notice card */
+.form-page .card,
+.form-page .app-card {
+    margin-bottom: 16px; /* CHANGED: Konsisten */
+    padding: 16px 20px;
+    background: #fffbeb; /* CHANGED: Background kuning sangat muda untuk notice */
+    border-color: #fcd34d; /* CHANGED: Border kuning */
+    box-shadow: none;
+}
+
+/* CHANGED: Teks strong dalam guest card */
+.form-page .card strong,
+.form-page .app-card strong {
+    color: #92400e; /* CHANGED: Teks coklat tua untuk warning */
+    font-size: 13.5px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card {
+        padding: 18px;
+    }
+
+    .project-diagram-head {
+        flex-direction: column;
+    }
+
+    .project-node {
+        min-width: 200px;
+        width: 100%;
+        max-width: 100%;
+        font-size: 18px;
+        min-height: 52px;
+    }
+
+    .project-node::after {
+        height: 20px;
+        bottom: -20px;
+    }
+
+    .category-header-left {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .sidebar {
+        width: 180px;
+        padding: 16px 12px;
+    }
+
+    .content {
+        padding: 20px 16px;
+    }
+
+    /* CHANGED: Di mobile, rbs-tree kembali ke kolom agar tidak terlalu kecil */
+    .rbs-tree {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .rbs-tree::before {
+        display: none; /* CHANGED: Sembunyikan garis horizontal di mobile */
+    }
+
+    .rbs-tree > .category-item::before {
+        display: none; /* CHANGED: Sembunyikan konektor vertikal di mobile */
+    }
+
+    .rbs-tree > .category-item {
+        padding: 0;
+    }
+}
