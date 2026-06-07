@@ -5,19 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\RiskCategory;    
 use Illuminate\Http\Request;
-use App\Services\RiskCalculationService; //sementara
+use App\Services\RiskCalculationService; 
+use App\Services\ActivityLogService;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     $projects = Project::where('user_id', auth()->id())
+    //         ->where('is_guest', false)
+    //         ->latest()
+    //         ->get();
+    //     return view('projects.index', compact('projects'));
+    // }
+
     public function index()
     {
         $projects = Project::where('user_id', auth()->id())
             ->where('is_guest', false)
+            ->withCount([
+                'risks',                                                                        // CHANGED: total semua risk
+                'risks as high_risks_count'   => fn($q) => $q->where('risk_level', 'High'),   // CHANGED: hitung High
+                'risks as medium_risks_count' => fn($q) => $q->where('risk_level', 'Medium'), // CHANGED: hitung Medium
+                'risks as low_risks_count'    => fn($q) => $q->where('risk_level', 'Low'),    // CHANGED: hitung Low
+                'riskCategories',                                                               // CHANGED: total kategori (semua level)
+            ])
             ->latest()
             ->get();
+
         return view('projects.index', compact('projects'));
     }
 
@@ -179,22 +197,5 @@ class ProjectController extends Controller
         return redirect()
             ->route('projects.index')
             ->with('success', 'Project berhasil dihapus');
-    }
-
-    private function logActivity(
-        $projectId,
-        $action,
-        $targetType,
-        $targetId,
-        $description
-    ) {
-        ActivityLog::create([
-            'user_id' => auth()->id(),
-            'project_id' => $projectId,
-            'action' => $action,
-            'target_type' => $targetType,
-            'target_id' => $targetId,
-            'description' => $description,
-        ]);
     }
 }
