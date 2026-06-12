@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $fillable = [
+        'user_id',
         'nama_project',
         'is_guest',
         'deskripsi',
-        'project_type_id'
+        'project_type_id',
     ];
     public function categories()
     {
@@ -36,6 +37,11 @@ class Project extends Model
     public function riskCategories()
     {
         return $this->hasMany(RiskCategory::class);
+    }
+
+    public function projectType()
+    {
+        return $this->belongsTo(ProjectType::class);
     }
     
 }

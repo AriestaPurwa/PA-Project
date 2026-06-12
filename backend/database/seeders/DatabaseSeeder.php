@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             RiskCategorySeeder::class,
             RiskSeeder::class,
+            ProjectTypeSeeder::class,
+            ProjectTypeCategorySeeder::class,
         ]);
     }
 }

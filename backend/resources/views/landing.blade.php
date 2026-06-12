@@ -1,521 +1,416 @@
+{{-- file views\landing.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RBS System</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        /* NAVBAR */
-
-        .navbar {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 18px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            color: #2563eb;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn {
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
-
-        .btn-secondary {
-            border: 1px solid #cbd5e1;
-            color: #334155;
-            background: white;
-        }
-
-        .btn-secondary:hover {
-            background: #f8fafc;
-        }
-
-        /* HERO */
-
-        .hero {
-            padding: 90px 0;
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 52px;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        .hero-text p {
-            font-size: 18px;
-            color: #64748b;
-            margin-bottom: 30px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        /* PREVIEW */
-
-        .preview-box {
-            background: white;
-            border-radius: 18px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-        }
-
-        .preview-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 24px;
-        }
-
-        .project-node {
-            background: #eff6ff;
-            border: 2px solid #93c5fd;
-            border-radius: 14px;
-            padding: 16px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-        .risk-group {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-left: 25px;
-        }
-
-        .risk-item {
-            background: #ffffff;
-            border: 1px solid #dbe4f0;
-            border-radius: 12px;
-            padding: 12px 16px;
-        }
-
-        /* FEATURES */
-
-        .features {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: 0 5px 14px rgba(0,0,0,0.05);
-        }
-
-        .feature-card h3 {
-            margin-bottom: 14px;
-            font-size: 20px;
-        }
-
-        .feature-card p {
-            color: #64748b;
-            font-size: 15px;
-        }
-
-        /* HOW IT WORKS */
-
-        .steps {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .step-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-top: 50px;
-        }
-
-        .step-card {
-            text-align: center;
-            padding: 30px;
-        }
-
-        .step-number {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: #2563eb;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: auto;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .step-card h3 {
-            margin-bottom: 10px;
-        }
-
-        /* CTA */
-
-        .cta {
-            padding: 90px 0;
-            text-align: center;
-        }
-
-        .cta h2 {
-            font-size: 42px;
-            margin-bottom: 20px;
-        }
-
-        .cta p {
-            color: #64748b;
-            margin-bottom: 30px;
-            font-size: 18px;
-        }
-
-        /* FOOTER */
-
-        footer {
-            background: #0f172a;
-            color: white;
-            text-align: center;
-            padding: 24px;
-            margin-top: 40px;
-        }
-
-        /* RESPONSIVE */
-
-        @media (max-width: 992px) {
-
-            .hero-content,
-            .feature-grid,
-            .step-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-text h1 {
-                font-size: 40px;
-            }
-
-            .section-title {
-                font-size: 30px;
-            }
-
-            .cta h2 {
-                font-size: 34px;
-            }
-        }
-
-    </style>
+    <title>RBS System — Risk Breakdown Structure</title>
+    {{-- CHANGED: Font dan CSS baru, terpisah dari app.css --}}
+    <link rel="stylesheet" href="{{ asset('css/landing-style.css') }}">
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    {{-- ===== NAVBAR ===== --}}
+    <nav class="navbar">
+        <div class="container navbar-inner">
 
-    <div class="navbar">
-        <div class="container navbar-content">
-
-            <div class="logo">
+            <a href="/" class="nav-logo">
+                <div class="nav-logo-icon">
+                    {{-- Ikon shield --}}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
                 RBS System
-            </div>
-
-            <div class="nav-buttons">
-                <a href="/login" class="btn btn-secondary">
-                    Login
-                </a>
-
-                <a href="/register" class="btn btn-primary">
-                    Register
-                </a>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- HERO -->
-
-    <section class="hero">
-        <div class="container hero-content">
-
-            <div class="hero-text">
-
-                <h1>
-                    Build Risk Breakdown Structures Easily
-                </h1>
-
-                <p>
-                    Create, visualize, and manage hierarchical risk structures
-                    for project risk management efficiently and professionally.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="/guest-mode" class="btn btn-primary">
-                        Try Without Login
-                    </a>
-
-                    <!-- <a href="/try-test" class="btn btn-primary">
-                        Try Without Login
-                    </a> -->
-
-                    <a href="#" class="btn btn-secondary">
-                        Learn More
-                    </a>
-
-                </div>
-
-            </div>
-
-            <!-- PREVIEW -->
-
-            <div class="preview-box">
-
-                <div class="preview-title">
-                    RBS Diagram Preview
-                </div>
-
-                <div class="project-node">
-                    Website Development Project
-                </div>
-
-                <div class="risk-group">
-
-                    <div class="risk-item">
-                        Technical Risks
-                    </div>
-
-                    <div class="risk-item">
-                        Financial Risks
-                    </div>
-
-                    <div class="risk-item">
-                        Schedule Risks
-                    </div>
-
-                    <div class="risk-item">
-                        Operational Risks
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- FEATURES -->
-
-    <section class="features">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                Main Features
-            </h2>
-
-            <div class="feature-grid">
-
-                <div class="feature-card">
-                    <h3>Create RBS</h3>
-
-                    <p>
-                        Build hierarchical risk structures for projects
-                        using interactive diagrams.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>Risk Matrix</h3>
-
-                    <p>
-                        Analyze risk levels using visual risk matrix
-                        classification.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>Export Report</h3>
-
-                    <p>
-                        Export project risk analysis into printable reports
-                        and documentation.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <h3>Guest Mode</h3>
-
-                    <p>
-                        Try creating diagrams instantly without needing
-                        to register first.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- HOW IT WORKS -->
-
-    <section class="steps">
-
-        <div class="container">
-
-            <h2 class="section-title">
-                How It Works
-            </h2>
-
-            <div class="step-grid">
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        1
-                    </div>
-
-                    <h3>Create Project</h3>
-
-                    <p>
-                        Start by creating a project or trying the guest editor.
-                    </p>
-
-                </div>
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        2
-                    </div>
-
-                    <h3>Build Risk Structure</h3>
-
-                    <p>
-                        Add categories and risks into a hierarchical structure.
-                    </p>
-
-                </div>
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        3
-                    </div>
-
-                    <h3>Export Result</h3>
-
-                    <p>
-                        Export and share your completed risk analysis result.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- CTA -->
-
-    <section class="cta">
-
-        <div class="container">
-
-            <h2>
-                Start Building Your RBS Today
-            </h2>
-
-            <p>
-                Try the system instantly and create your first
-                Risk Breakdown Structure diagram.
-            </p>
-
-            <a href="/projects/create" class="btn btn-primary">
-                Try Now
             </a>
 
-        </div>
+            {{-- CHANGED: Nav links tambahan --}}
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#guide">Risk Guide</a></li>
+            </ul>
 
+            <div class="nav-cta">
+                <a href="/login" class="btn btn-secondary">Login</a>
+                <a href="/register" class="btn btn-primary">Register</a>
+            </div>
+
+        </div>
+    </nav>
+
+    {{-- ===== HERO ===== --}}
+    <section class="hero">
+        <div class="container hero-inner">
+
+            <div class="hero-text">
+                {{-- CHANGED: Badge referensi standar --}}
+                <div class="hero-badge">Based on PMBOK Risk Management</div>
+
+                <h1 class="hero-title">
+                    Build <span>Risk Breakdown</span> Structures Easily
+                </h1>
+
+                <p class="hero-desc">
+                    Create, visualize, and manage hierarchical risk structures
+                    for your projects. Identify, classify, and analyze risks
+                    professionally using PMBOK-based methodology.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/guest-mode" class="btn btn-primary btn-lg">Try Without Login</a>
+                    <a href="#how-it-works" class="btn btn-secondary btn-lg">See How It Works</a>
+                </div>
+
+                {{-- CHANGED: Trust note --}}
+                <p class="hero-note">No account required to try the editor</p>
+            </div>
+
+            {{-- CHANGED: Preview diagram mini --}}
+            <div class="hero-visual">
+                <div class="preview-card">
+                    <div class="preview-float">
+                        <span class="preview-float-dot"></span>
+                        Live Preview
+                    </div>
+
+                    <div class="prev-root">Website Development Project</div>
+                    <div class="prev-connector"></div>
+
+                    <div class="prev-cols">
+                        <div class="prev-col">
+                            <div class="prev-category">📁 Technical</div>
+                            <div class="prev-risks">
+                                <div class="prev-risk l">Requirement</div>
+                                <div class="prev-risk m">Technology</div>
+                                <div class="prev-risk h">Complexity</div>
+                            </div>
+                        </div>
+                        <div class="prev-col">
+                            <div class="prev-category">📁 External</div>
+                            <div class="prev-risks">
+                                <div class="prev-risk l">Regulator</div>
+                                <div class="prev-risk h">Customer</div>
+                                <div class="prev-risk m">Market</div>
+                            </div>
+                        </div>
+                        <div class="prev-col">
+                            <div class="prev-category">📁 Org.</div>
+                            <div class="prev-risks">
+                                <div class="prev-risk m">Staffing</div>
+                                <div class="prev-risk l">Decision</div>
+                                <div class="prev-risk h">Funding</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </section>
 
-    <!-- FOOTER -->
+    {{-- ===== FEATURES ===== --}}
+    <section class="section section-alt" id="features">
+        <div class="container">
 
-    <footer>
-        © 2026 Risk Breakdown Structure System
+            <div class="section-head center">
+                <span class="section-label">Features</span>
+                <h2 class="section-title">Everything You Need for Risk Management</h2>
+                <p class="section-desc">
+                    A complete toolkit for building, analyzing, and exporting
+                    risk breakdown structures for any project.
+                </p>
+            </div>
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon">🗂️</div>
+                    <h3>Create RBS</h3>
+                    <p>Build hierarchical risk structures with unlimited categories and subcategories using an interactive diagram editor.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Risk Matrix</h3>
+                    <p>Visualize risk distribution with a 5×5 probability-impact matrix. Auto-classify risks into High, Medium, and Low levels.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3>Export Report</h3>
+                    <p>Export your complete risk analysis as PNG, JPG, or PDF for presentations, documentation, and stakeholder reports.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👤</div>
+                    <h3>Guest Mode</h3>
+                    <p>Try the full editor instantly without registering. Create and explore RBS diagrams without any commitment.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    {{-- ===== HOW IT WORKS ===== --}}
+    <section class="section" id="how-it-works">
+        <div class="container">
+
+            <div class="section-head center">
+                <span class="section-label">How It Works</span>
+                <h2 class="section-title">Three Steps to Your Risk Analysis</h2>
+                <p class="section-desc">
+                    From project creation to a complete risk breakdown structure — fast, structured, and professional.
+                </p>
+            </div>
+
+            <div class="steps-grid">
+
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Create a Project</h3>
+                    <p>Start by creating a new project or jumping straight into the guest editor to explore without signing up.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Build Risk Structure</h3>
+                    <p>Add risk categories, subcategories, and individual risks. Assign probability and impact values to each risk.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Analyze & Export</h3>
+                    <p>Review your risk matrix, see automatic High/Medium/Low classification, then export your results as a report.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    {{-- ===== RISK GUIDE ===== --}}
+    {{-- CHANGED: Section baru — panduan probability & impact berdasarkan PMBOK --}}
+    <section class="section section-alt" id="guide">
+        <div class="container">
+
+            <div class="section-head">
+                <span class="section-label">Risk Guide</span>
+                <h2 class="section-title">Probability & Impact Reference</h2>
+                <p class="section-desc">
+                    Scale values are based on <strong>PMBOK Guide (Project Management Body of Knowledge)</strong>
+                    by PMI — the international standard for project risk management.
+                    Use this as your reference when assigning values in the risk editor.
+                </p>
+            </div>
+
+            <div class="guide-grid">
+
+                {{-- Tabel Probability --}}
+                <div class="guide-table-wrap">
+                    <div class="guide-table-title">📈 Probability Scale (Likelihood)</div>
+                    <table class="guide-table">
+                        <thead>
+                            <tr>
+                                <th>Val</th>
+                                <th>Level</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Very Low</td>
+                                <td>Very unlikely to occur (&lt;10% chance)</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Low</td>
+                                <td>Unlikely but possible (10–30%)</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Medium</td>
+                                <td>May occur under some circumstances (30–50%)</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>High</td>
+                                <td>Likely to occur in most circumstances (50–70%)</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Very High</td>
+                                <td>Almost certain to occur (&gt;70%)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Tabel Impact --}}
+                <div class="guide-table-wrap">
+                    <div class="guide-table-title">💥 Impact Scale (Consequence)</div>
+                    <table class="guide-table">
+                        <thead>
+                            <tr>
+                                <th>Val</th>
+                                <th>Level</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Very Low</td>
+                                <td>Negligible effect on project objectives</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Low</td>
+                                <td>Minor effect, easily manageable</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Medium</td>
+                                <td>Moderate effect, requires management attention</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>High</td>
+                                <td>Significant effect on cost, time, or scope</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Very High</td>
+                                <td>Severe or catastrophic effect on project success</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Risk Score Matrix --}}
+                <div class="score-matrix" style="grid-column: 1 / -1;">
+                    <div class="score-matrix-title">🔢 Risk Score = Probability × Impact — Level Classification</div>
+                    <div class="score-matrix-grid">
+
+                        {{-- Header row --}}
+                        <div class="sm-header"></div>
+                        <div class="sm-header">P=1</div>
+                        <div class="sm-header">P=2</div>
+                        <div class="sm-header">P=3</div>
+                        <div class="sm-header">P=4</div>
+                        <div class="sm-header">P=5</div>
+
+                        {{-- I=5 --}}
+                        <div class="sm-row-label">I=5</div>
+                        <div class="sm-cell m">5</div>
+                        <div class="sm-cell m">10</div>
+                        <div class="sm-cell h">15</div>
+                        <div class="sm-cell h">20</div>
+                        <div class="sm-cell h">25</div>
+
+                        {{-- I=4 --}}
+                        <div class="sm-row-label">I=4</div>
+                        <div class="sm-cell l">4</div>
+                        <div class="sm-cell m">8</div>
+                        <div class="sm-cell m">12</div>
+                        <div class="sm-cell h">16</div>
+                        <div class="sm-cell h">20</div>
+
+                        {{-- I=3 --}}
+                        <div class="sm-row-label">I=3</div>
+                        <div class="sm-cell l">3</div>
+                        <div class="sm-cell l">6</div>
+                        <div class="sm-cell m">9</div>
+                        <div class="sm-cell m">12</div>
+                        <div class="sm-cell h">15</div>
+
+                        {{-- I=2 --}}
+                        <div class="sm-row-label">I=2</div>
+                        <div class="sm-cell l">2</div>
+                        <div class="sm-cell l">4</div>
+                        <div class="sm-cell l">6</div>
+                        <div class="sm-cell m">8</div>
+                        <div class="sm-cell m">10</div>
+
+                        {{-- I=1 --}}
+                        <div class="sm-row-label">I=1</div>
+                        <div class="sm-cell l">1</div>
+                        <div class="sm-cell l">2</div>
+                        <div class="sm-cell l">3</div>
+                        <div class="sm-cell l">4</div>
+                        <div class="sm-cell m">5</div>
+
+                    </div>
+                    <div class="score-matrix-legend">
+                        <span class="level-badge high">● High (score ≥ 15)</span>
+                        <span class="level-badge medium">● Medium (score 8–14)</span>
+                        <span class="level-badge low">● Low (score &lt; 8)</span>
+                        <span class="ref">Source: PMBOK Guide, 6th ed. — PMI</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    {{-- ===== CTA ===== --}}
+    <section class="cta-section">
+        <div class="container cta-inner">
+            <h2>Start Building Your RBS Today</h2>
+            <p>Try the system instantly — no registration required.</p>
+            <div class="cta-buttons">
+                <a href="/guest-mode" class="btn btn-primary btn-lg">Try Without Login</a>
+                <a href="/register" class="btn btn-secondary btn-lg">Create Free Account</a>
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== FOOTER ===== --}}
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+
+                <div class="footer-brand">
+                    <div class="nav-logo">
+                        <div class="nav-logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        RBS System
+                    </div>
+                    <p>A web-based Risk Breakdown Structure tool for project risk management, based on PMBOK methodology.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Features</h4>
+                    <ul>
+                        <li><a href="#features">Create RBS</a></li>
+                        <li><a href="#features">Risk Matrix</a></li>
+                        <li><a href="#features">Export Report</a></li>
+                        <li><a href="#features">Guest Mode</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
+                        <li><a href="/guest-mode">Try as Guest</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 Risk Breakdown Structure System</span>
+                <span>Based on PMBOK Guide — PMI</span>
+            </div>
+        </div>
     </footer>
 
 </body>

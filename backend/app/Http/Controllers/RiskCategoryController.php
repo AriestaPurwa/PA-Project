@@ -6,6 +6,7 @@ use App\Models\RiskCategory;
 use App\Models\Risk;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Services\ActivityLogService;
 
 class RiskCategoryController extends Controller
 {

@@ -72,6 +72,30 @@
                     >{{ old('deskripsi') }}</textarea>
                 </div>
 
+                <div class="mb-3">
+                    <label for="project_type_id" class="form-label">
+                        Project Type
+                    </label>
+
+                    <select
+                        name="project_type_id"
+                        id="project_type_id"
+                        class="form-select"
+                        required
+                    >
+                        <option value="">-- Select Project Type --</option>
+
+                        @foreach($projectTypes as $type)
+                            <option
+                                value="{{ $type->id }}"
+                                {{ old('project_type_id') == $type->id ? 'selected' : '' }}
+                            >
+                                {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn app-btn">Simpan Project</button>
                     <a href="{{ route('projects.index') }}" class="btn-secondary">Batal</a>

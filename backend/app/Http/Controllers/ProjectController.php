@@ -7,6 +7,8 @@ use App\Models\RiskCategory;
 use Illuminate\Http\Request;
 use App\Services\RiskCalculationService; 
 use App\Services\ActivityLogService;
+use App\Models\ProjectType;
+use App\Models\ProjectTypeCategory;
 
 class ProjectController extends Controller
 {
@@ -27,16 +29,28 @@ class ProjectController extends Controller
         $projects = Project::where('user_id', auth()->id())
             ->where('is_guest', false)
             ->withCount([
-                'risks',                                                                        // CHANGED: total semua risk
-                'risks as high_risks_count'   => fn($q) => $q->where('risk_level', 'High'),   // CHANGED: hitung High
-                'risks as medium_risks_count' => fn($q) => $q->where('risk_level', 'Medium'), // CHANGED: hitung Medium
-                'risks as low_risks_count'    => fn($q) => $q->where('risk_level', 'Low'),    // CHANGED: hitung Low
-                'riskCategories',                                                               // CHANGED: total kategori (semua level)
+                'risks',
+                'risks as high_risks_count'   => fn($q) => $q->where('risk_level', 'High'),
+                'risks as medium_risks_count' => fn($q) => $q->where('risk_level', 'Medium'),
+                'risks as low_risks_count'    => fn($q) => $q->where('risk_level', 'Low'),
+                'riskCategories',
             ])
             ->latest()
             ->get();
-
-        return view('projects.index', compact('projects'));
+ 
+        // CHANGED: Agregat untuk summary bar — dihitung dari koleksi, bukan query tambahan
+        $summaryTotalProjects  = $projects->count();
+        $summaryTotalRisks     = $projects->sum('risks_count');
+        $summaryHighRisks      = $projects->sum('high_risks_count');
+        $summaryTotalCategories = $projects->sum('risk_categories_count');
+ 
+        return view('projects.index', compact(
+            'projects',
+            'summaryTotalProjects',
+            'summaryTotalRisks',
+            'summaryHighRisks',
+            'summaryTotalCategories'
+        ));
     }
 
     /**
@@ -44,7 +58,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $projectTypes = ProjectType::where('is_active', true)->get();
+
+        return view('projects.create', compact('projectTypes'));
     }
 
     /**
@@ -53,19 +69,20 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         // Guest mode
-        if ($request->has('guest_mode')) {
+        // if ($request->has('guest_mode')) {
 
-            $project = Project::create([
-                'user_id' => null,
-                'is_guest' => true,
-                'nama_project' => $request->nama_project,
-                'deskripsi' => $request->deskripsi,
-            ]);
+        //     $project = Project::create([
+        //         'user_id' => null,
+        //         'is_guest' => true,
+        //         'nama_project' => $request->nama_project,
+        //         'deskripsi' => $request->deskripsi,
+        //         'project_type_id' => 'required|exists:project_types,id', //edit
+        //     ]);
 
-            return redirect("/projects/{$project->id}")
-                ->with('success',
-                'Guest project created temporarily.');
-        }
+        //     return redirect("/projects/{$project->id}")
+        //         ->with('success',
+        //         'Guest project created temporarily.');
+        // }
 
          // Must login
         if (!auth()->check()) {
@@ -76,13 +93,27 @@ class ProjectController extends Controller
         }
 
         // Normal save
-        Project::create([
-            'user_id' => auth()->id(),
-            'is_guest' => false,
+        $project =Project::create([
+            'user_id'         => auth()->id(),
+            'is_guest'        => false,
             'project_type_id' => $request->project_type_id,
-            'nama_project' => $request->nama_project,
-            'deskripsi' => $request->deskripsi,
+            'nama_project'    => $request->nama_project,
+            'deskripsi'       => $request->deskripsi,
         ]);
+
+        $templateCategories = ProjectTypeCategory::where(
+            'project_type_id',
+            $project->project_type_id
+        )->get();
+
+        foreach ($templateCategories as $template) {
+            RiskCategory::create([
+                'project_id'    => $project->id,
+                'parent_id'     => null,
+                'nama_kategori' => $template->category_name,
+                'level'         => 0,
+            ]);
+        }
 
         return redirect()
             ->route('projects.index')

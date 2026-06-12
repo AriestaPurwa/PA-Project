@@ -4,7 +4,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RiskController;
 use App\Http\Controllers\RiskCategoryController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\GuestController;
 
 
 Route::middleware('auth')->group(function () {
@@ -34,10 +34,33 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/guest-mode', function () {
-    return redirect('/projects/create?guest=1');
-});
+// Route::get('/guest-mode', function () {
+//     return redirect('/projects/create?guest=1');
+// });
 
+Route::get('/guest-mode',
+    [GuestController::class, 'create']);
+
+Route::post('/guest-mode',
+    [GuestController::class, 'store']);
+
+Route::post('/guest/category/store',
+    [GuestController::class, 'storeCategory']);
+
+Route::get('/guest/editor',
+    [GuestController::class, 'editor']);
+
+Route::get('/guest/category/create/{parentId?}',
+    [GuestController::class, 'createCategory']);
+
+Route::post('/guest/category/store',
+    [GuestController::class, 'storeCategory']);
+
+Route::get('/guest/risk/create/{categoryId}',
+    [GuestController::class, 'createRisk']);
+
+Route::post('/guest/risk/store',
+    [GuestController::class, 'storeRisk']);
 
 //testing only
 Route::get('/try-test', function () {
@@ -152,3 +175,4 @@ Route::put('/projects/{project}/risks/{risk}',
 //     '/projects/{project}/categories/{category}/risks/create',
 //     [RiskController::class, 'create']
 // )->name('risks.create.from.category');
+

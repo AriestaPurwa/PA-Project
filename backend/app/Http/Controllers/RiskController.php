@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Risk;
 use App\Models\Project;
 use App\Models\RiskCategory;
+use App\Services\ActivityLogService;
 
 class RiskController extends Controller
 {
@@ -55,7 +56,7 @@ class RiskController extends Controller
             $level = 'Low';
         }
 
-        Risk::create([
+        $risk = Risk::create([
             'project_id'  => $project->id,
             'category_id' => $request->category_id,
             'nama_risiko' => $request->nama_risiko,
@@ -64,6 +65,12 @@ class RiskController extends Controller
             'risk_score'  => $riskScore,
             'risk_level'  => $level,
         ]);
+        
+        ActivityLogService::log(
+            $project->id,'create','risk',
+            $risk->id,
+            'Created new risk: ' . $risk->nama_risiko
+        );
 
         return redirect()
             ->route('projects.show', $project->id)
@@ -101,18 +108,37 @@ class RiskController extends Controller
         $this->authorizeProject($project);
 
         $request->validate([
-            'nama_risk' => 'required|max:255',
+            'nama_risiko' => 'required|max:255',
             'probability' => 'required|integer|min:1|max:5',
             'impact' => 'required|integer|min:1|max:5',
             'deskripsi' => 'nullable',
         ]);
 
+        $score = $request->probability * $request->impact;
+
+        if ($score >= 15) {
+            $level = 'High';
+        } elseif ($score >= 8) {
+            $level = 'Medium';
+        } else {
+            $level = 'Low';
+        }
+
         $risk->update([
-            'nama_risk' => $request->nama_risk,
+            'nama_risiko' => $request->nama_risiko,
             'probability' => $request->probability,
             'impact' => $request->impact,
             'deskripsi' => $request->deskripsi,
         ]);
+
+        ActivityLogService::log(
+
+            $project->id,'update','risk',
+            $risk->id,
+
+            'Updated risk: ' . $risk->nama_risiko
+
+        );
 
         return redirect()
             ->route('projects.show', $project->id)
@@ -127,6 +153,14 @@ class RiskController extends Controller
         $this->authorizeProject($project);
         $risk->delete();
 
+        ActivityLogService::log(
+
+            $project->id, 'delete','risk',
+            $risk->id,
+
+            'Deleted risk: ' . $risk->nama_risiko
+
+        );
         return redirect()
             ->route('projects.show', $project->id)
             ->with('success', 'Risk berhasil dihapus');
