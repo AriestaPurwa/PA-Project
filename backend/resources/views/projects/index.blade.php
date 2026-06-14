@@ -44,16 +44,16 @@
     </div>
 
     {{-- High Risks --}}
-    <div class="stat-card">
+    {{-- <div class="stat-card">
         <div class="stat-icon red">⚠️</div>
         <div class="stat-body">
-            {{-- CHANGED: Warna merah jika ada high risk --}}
+            CHANGED: Warna merah jika ada high risk 
             <span class="stat-value" style="{{ $summaryHighRisks > 0 ? 'color:#dc2626;' : '' }}">
                 {{ $summaryHighRisks }}
             </span>
             <span class="stat-label">High Risk</span>
         </div>
-    </div>
+    </div>--}}
 
 </div>
 
@@ -81,7 +81,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                     </svg>
-                    {{ $project->risk_categories_count }} {{ Str::plural('kategori', $project->risk_categories_count) }}
+                    {{ $project->risk_categories_count }} {{ $project->risk_categories_count }} kategori
                 </span>
 
                 <span class="project-meta-sep"></span>
@@ -90,23 +90,38 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
-                    {{ $project->risks_count }} {{ Str::plural('risk', $project->risks_count) }}
+                    {{ $project->risks_count }} {{ $project->risks_count }} risiko
                 </span>
 
-                @if($project->risks_count > 0)
-                    <span class="project-meta-sep"></span>
+                <span class="project-meta-sep"></span>
+
                     <div class="risk-badges">
-                        @if($project->high_risks_count > 0)
-                            <span class="risk-badge high">{{ $project->high_risks_count }} High</span>
-                        @endif
-                        @if($project->medium_risks_count > 0)
-                            <span class="risk-badge medium">{{ $project->medium_risks_count }} Medium</span>
-                        @endif
-                        @if($project->low_risks_count > 0)
-                            <span class="risk-badge low">{{ $project->low_risks_count }} Low</span>
-                        @endif
+
+                        <span class="risk-badge high">
+                            {{ $project->high_risks_count }} High
+                        </span>
+
+                        <span class="risk-badge medium">
+                            {{ $project->medium_risks_count }} Medium
+                        </span>
+
+                        <span class="risk-badge low">
+                            {{ $project->low_risks_count }} Low
+                        </span>
+
                     </div>
-                @endif
+
+                    @if($project->high_risks_count > 0)
+                        <div class="project-risk-warning">
+                            ⚠ Mengandung
+                            <strong>{{ $project->high_risks_count }}</strong>
+                            risiko tingkat tinggi yang memerlukan perhatian.
+                        </div>
+                    @elseif($project->risks_count > 0)
+                        <div class="project-risk-status">
+                            ✅ Tidak ada risiko kritis.
+                        </div>
+                    @endif
 
             </div>
 
