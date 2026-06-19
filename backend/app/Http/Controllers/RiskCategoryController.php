@@ -79,6 +79,14 @@ class RiskCategoryController extends Controller
             'level' => $level
         ]);
 
+        ActivityLogService::log(
+            $project->id,
+            'create',
+            'category',
+            $category->id,
+            'Created category: ' . $category->nama_kategori
+        );
+
         return redirect()
             ->route('projects.show', $project->id)
             ->with('success', 'Kategori berhasil ditambahkan');
@@ -144,9 +152,23 @@ class RiskCategoryController extends Controller
             'nama_kategori' => 'required|max:255',
         ]);
 
+        $oldName = $category->nama_kategori;
+
         $category->update([
             'nama_kategori' => $request->nama_kategori,
         ]);
+
+        ActivityLogService::log(
+            $project->id,
+            'update',
+            'category',
+            $category->id,
+            'Renamed category "' .
+            $oldName .
+            '" to "' .
+            $category->nama_kategori .
+            '"'
+        );
 
         return redirect()
             ->route('projects.show', $project->id)
@@ -159,6 +181,17 @@ class RiskCategoryController extends Controller
     public function destroy(Project $project, RiskCategory $category)
     {
         $this->authorizeProject($project);
+
+        $categoryName = $category->nama_kategori;
+        $categoryId = $category->id;
+
+        ActivityLogService::log(
+            $project->id,
+            'delete',
+            'category',
+            $categoryId,
+            'Deleted category: ' . $categoryName
+        );
 
         $this->deleteCategoryRecursive($category);
 

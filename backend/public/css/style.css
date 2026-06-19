@@ -399,6 +399,141 @@ body {
 .risk-badge.medium::before { background: #f97316; }
 .risk-badge.low::before    { background: #22c55e; }
 
+/* =====================================================
+   ===== PROJECT STATUS BADGE & TRACKING (BARU) =====
+   ===================================================== */
+
+/* CHANGED: Badge status project (Planning/Ongoing/Completed) */
+.project-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+/* CHANGED: Dot kecil di kiri badge status */
+.project-status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* CHANGED: Warna per status */
+.project-status-badge.planning {
+    background: #f1f5f9;
+    color: #475569;
+}
+.project-status-badge.planning::before { background: #94a3b8; }
+
+.project-status-badge.ongoing {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+.project-status-badge.ongoing::before { background: #3b82f6; }
+
+.project-status-badge.completed {
+    background: #f0fdf4;
+    color: #15803d;
+}
+.project-status-badge.completed::before { background: #22c55e; }
+
+/* CHANGED: Wrapper baris status + progress mitigasi di dalam card */
+.project-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+/* CHANGED: Wrapper progress bar mitigasi */
+.mitigation-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 160px;
+}
+
+/* CHANGED: Label kecil di samping bar */
+.mitigation-progress-label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* CHANGED: Track progress bar */
+.progress-bar-track {
+    flex: 1;
+    height: 7px;
+    background: #f1f5f9;
+    border-radius: 999px;
+    overflow: hidden;
+    min-width: 80px;
+}
+
+/* CHANGED: Fill progress bar — warna hijau (mitigasi) */
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+/* CHANGED: Variant warna biru untuk progress proyek (manual) — dipakai di halaman detail */
+.progress-bar-fill.blue {
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+}
+
+/* CHANGED: Persentase angka di kanan bar */
+.mitigation-progress-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    min-width: 34px;
+    text-align: right;
+}
+
+/* CHANGED: Box peringatan jika ada high risk — full width di bawah badges */
+.project-risk-warning {
+    flex: 1 0 100%; /* CHANGED: Force ke baris baru di dalam .project-meta yang flex-wrap */
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #b91c1c;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.project-risk-warning strong {
+    font-weight: 700;
+}
+
+/* CHANGED: Box status aman jika tidak ada high risk — full width di bawah badges */
+.project-risk-status {
+    flex: 1 0 100%; /* CHANGED: Force ke baris baru di dalam .project-meta yang flex-wrap */
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #15803d;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
 /* CHANGED: Garis pemisah tipis antara meta info dan baris tombol */
 .project-card-divider {
     height: 1px;
@@ -1654,6 +1789,84 @@ body {
     display: none !important;
 } */
 
+.project-info-card {
+    margin-bottom: 24px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.project-info-actions{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.project-info-title {
+    margin-bottom: 16px;
+}
+
+.project-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.project-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.project-description {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 16px;
+}
+
+.project-description h4 {
+    margin-bottom: 8px;
+}
+
+.project-description p {
+    margin: 0;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.history-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.history-date {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.history-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-icon {
+    font-size: 1.1rem;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .form-row {
@@ -1712,5 +1925,11 @@ body {
 
     .rbs-tree > .category-item {
         padding: 0;
+    }
+
+    /* CHANGED: Teks risk warning/status sedikit dikecilkan di mobile */
+    .project-risk-warning,
+    .project-risk-status {
+        font-size: 12px;
     }
 }

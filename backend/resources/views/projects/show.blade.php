@@ -35,6 +35,81 @@
         </button>
     </div>
 
+    {{-- ===== INFORMASI PROYEK ===== --}}
+    <div class="project-info-card">
+
+        <h3 class="project-info-title">
+            📋 Informasi Proyek
+        </h3>
+
+        <div class="project-info-grid">
+
+            <div class="project-info-item">
+                <span class="info-label">Tipe Proyek</span>
+                <span class="info-value">
+                    {{ $project->projectType->name ?? '-' }}
+                </span>
+            </div>
+
+            <div class="project-info-item">
+                <span class="info-label">Status Proyek</span>
+                <span class="info-value">
+                    {{ $project->status ?? 'Planning' }}
+                </span>
+            </div>
+
+            <div class="project-info-item">
+                <span class="info-label">Progress Proyek</span>
+                <span class="info-value">
+                    {{ $project->progress ?? 0 }}%
+                </span>
+            </div>
+
+            <div class="project-info-item">
+                <span class="info-label">Estimasi Anggaran</span>
+                <span class="info-value">
+                    @if($project->estimated_budget)
+                        Rp {{ number_format($project->estimated_budget, 0, ',', '.') }}
+                    @else
+                        -
+                    @endif
+                </span>
+            </div>
+
+            <div class="project-info-item">
+                <span class="info-label">Progress Mitigasi</span>
+                <span class="info-value">
+                    {{ $project->mitigation_progress ?? 0 }}%
+                </span>
+            </div>
+
+        </div>
+
+        {{-- Deskripsi Proyek --}}
+        <div class="project-description">
+            <h4>Deskripsi Proyek</h4>
+
+            <p margin-bottom-20>
+                {{ $project->deskripsi ?: 'Belum ada deskripsi proyek.' }}
+            </p>
+        </div>
+
+        <div class="project-info-actions padding-top-20">
+
+            <a href="{{ route('projects.edit', $project->id) }}"
+            class="btn app-btn">
+                ✏ Edit Project
+            </a>
+
+            <a href="{{ route('projects.history', $project->id) }}"
+            class="btn-secondary">
+                📜 View History
+            </a>
+
+        </div>
+
+    </div>
+
     <div class="rbs-scroll-wrap">
         <div class="rbs-board export-report-area" id="export-report-area">
 

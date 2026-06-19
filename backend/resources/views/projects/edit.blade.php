@@ -34,6 +34,53 @@
 
             </div>
 
+            <h3>Manajemen Proyek</h3>
+
+            <div class="form-group">
+                <label for="status">Status Proyek</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="Planning"
+                        {{ old('status', $project->status) == 'Planning' ? 'selected' : '' }}>
+                        Planning
+                    </option>
+
+                    <option value="Ongoing"
+                        {{ old('status', $project->status) == 'Ongoing' ? 'selected' : '' }}>
+                        Ongoing
+                    </option>
+
+                    <option value="Completed"
+                        {{ old('status', $project->status) == 'Completed' ? 'selected' : '' }}>
+                        Completed
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="progress">Progress Proyek (%)</label>
+                <input
+                    type="number"
+                    id="progress"
+                    name="progress"
+                    min="0"
+                    max="100"
+                    class="form-control"
+                    value="{{ old('progress', $project->progress) }}"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="estimated_budget">Estimasi Anggaran (Rp)</label>
+                <input
+                    type="number"
+                    id="estimated_budget"
+                    name="estimated_budget"
+                    min="0"
+                    class="form-control"
+                    value="{{ old('estimated_budget', $project->estimated_budget) }}"
+                >
+            </div>
+
             <div class="form-group">
 
                 <label class="form-label">

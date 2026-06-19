@@ -14,7 +14,11 @@ class Risk extends Model
         'impact',
         'risk_score',
         'risk_level',
-        'deskripsi'
+        'deskripsi',
+        // baru
+        'status',
+        'is_occurred',
+        'resolved_at',
     ];
 
     public function project()

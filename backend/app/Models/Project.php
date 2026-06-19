@@ -9,9 +9,12 @@ class Project extends Model
     protected $fillable = [
         'user_id',
         'nama_project',
-        'is_guest',
         'deskripsi',
         'project_type_id',
+        // baru
+        'status',
+        'progress',
+        'estimated_budget',
     ];
     public function categories()
     {
@@ -42,6 +45,11 @@ class Project extends Model
     public function projectType()
     {
         return $this->belongsTo(ProjectType::class);
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
     }
     
 }

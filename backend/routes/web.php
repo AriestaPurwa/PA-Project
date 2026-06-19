@@ -5,6 +5,7 @@ use App\Http\Controllers\RiskController;
 use App\Http\Controllers\RiskCategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuestController;
+use App\Http\Controllers\ActivityLogController;
 
 
 Route::middleware('auth')->group(function () {
@@ -176,3 +177,7 @@ Route::put('/projects/{project}/risks/{risk}',
 //     [RiskController::class, 'create']
 // )->name('risks.create.from.category');
 
+Route::get(
+    '/projects/{project}/history',
+    [ActivityLogController::class, 'index']
+)->name('projects.history');

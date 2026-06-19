@@ -7,6 +7,7 @@ use App\Models\Risk;
 use App\Models\Project;
 use App\Models\RiskCategory;
 use App\Services\ActivityLogService;
+use App\Services\RecommendationService;
 
 class RiskController extends Controller
 {
@@ -80,13 +81,22 @@ class RiskController extends Controller
     /**
      * Detail risk
      */
+
+
     public function show(Project $project, Risk $risk)
     {
         $this->authorizeProject($project);
 
+        $risk->load('project.projectType');
+
+        $recommendation = RecommendationService::get(
+            $risk->project->projectType->name,
+            $risk->risk_level
+        );
+
         return view(
             'risks.show',
-            compact('project', 'risk')
+            compact('project', 'risk', 'recommendation')
         );
     }
 
@@ -94,10 +104,14 @@ class RiskController extends Controller
     {
         $this->authorizeProject($project);
 
-        return view('risks.edit', compact(
-            'project',
-            'risk'
-        ));
+        $categories = $project->riskCategories()
+            ->orderBy('nama_kategori')
+            ->get();
+
+        return view(
+            'risks.edit',
+            compact('project', 'risk', 'categories')
+        );
     }
 
     public function update(

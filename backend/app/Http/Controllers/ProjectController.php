@@ -27,23 +27,34 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::where('user_id', auth()->id())
-            ->where('is_guest', false)
+            // ->where('is_guest', false)
             ->withCount([
                 'risks',
                 'risks as high_risks_count'   => fn($q) => $q->where('risk_level', 'High'),
                 'risks as medium_risks_count' => fn($q) => $q->where('risk_level', 'Medium'),
                 'risks as low_risks_count'    => fn($q) => $q->where('risk_level', 'Low'),
                 'riskCategories',
+                // CHANGED: Breakdown risk berdasarkan status penanganan (treatment_status)
+                'risks as open_risks_count'        => fn($q) => $q->where('status', 'Open'),
+                'risks as in_progress_risks_count' => fn($q) => $q->where('status', 'In Progress'),
+                'risks as closed_risks_count'      => fn($q) => $q->where('status', 'Closed'),
             ])
             ->latest()
             ->get();
- 
-        // CHANGED: Agregat untuk summary bar — dihitung dari koleksi, bukan query tambahan
-        $summaryTotalProjects  = $projects->count();
-        $summaryTotalRisks     = $projects->sum('risks_count');
-        $summaryHighRisks      = $projects->sum('high_risks_count');
-        $summaryTotalCategories = $projects->sum('risk_categories_count');
- 
+
+        // CHANGED: Hitung Progress Mitigasi (%) per project = closed / total risk
+        $projects->each(function ($project) {
+            $project->mitigation_progress = $project->risks_count > 0
+                ? round(($project->closed_risks_count / $project->risks_count) * 100)
+                : 0;
+        });
+
+        // Agregat untuk summary bar
+        $summaryTotalProjects    = $projects->count();
+        $summaryTotalRisks       = $projects->sum('risks_count');
+        $summaryHighRisks        = $projects->sum('high_risks_count');
+        $summaryTotalCategories  = $projects->sum('risk_categories_count');
+
         return view('projects.index', compact(
             'projects',
             'summaryTotalProjects',
@@ -68,21 +79,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // Guest mode
-        // if ($request->has('guest_mode')) {
-
-        //     $project = Project::create([
-        //         'user_id' => null,
-        //         'is_guest' => true,
-        //         'nama_project' => $request->nama_project,
-        //         'deskripsi' => $request->deskripsi,
-        //         'project_type_id' => 'required|exists:project_types,id', //edit
-        //     ]);
-
-        //     return redirect("/projects/{$project->id}")
-        //         ->with('success',
-        //         'Guest project created temporarily.');
-        // }
 
          // Must login
         if (!auth()->check()) {
@@ -115,6 +111,14 @@ class ProjectController extends Controller
             ]);
         }
 
+        ActivityLogService::log(
+            $project->id,
+            'create',
+            'project',
+            $project->id,
+            'Created project: ' . $project->nama_project
+        );
+
         return redirect()
             ->route('projects.index')
             ->with('success', 'Project berhasil dibuat');
@@ -136,6 +140,15 @@ class ProjectController extends Controller
                 abort(403);
             }
         }
+
+        $totalRisks = $project->risks()->count();
+        $closedRisks = $project->risks()
+            ->where('status', 'Closed')
+            ->count();
+
+        $project->mitigation_progress = $totalRisks > 0
+            ? round(($closedRisks / $totalRisks) * 100)
+            : 0;
 
         $calculator = new RiskCalculationService();
 
@@ -195,15 +208,36 @@ class ProjectController extends Controller
             }
         }
 
+        $progress = $request->progress;
+
+        if ($request->status === 'Completed') {
+            $progress = 100;
+        }
+
         $request->validate([
             'nama_project' => 'required|max:255',
+            'status' => 'required|in:Planning,Ongoing,Completed',
+            'progress' => 'required|integer|min:0|max:100',
+            'estimated_budget' => 'nullable|numeric|min:0',
             'deskripsi' => 'nullable',
         ]);
 
         $project->update([
-            'nama_project' => $request->nama_project,
-            'deskripsi' => $request->deskripsi,
+            'nama_project'      => $request->nama_project,
+            'deskripsi'         => $request->deskripsi,
+            'project_type_id'   => $request->project_type_id,
+            'status'            => $request->status,
+            'progress'          => $request->progress,
+            'estimated_budget'  => $request->estimated_budget,
         ]);
+
+        ActivityLogService::log(
+            $project->id,
+            'update',
+            'project',
+            $project->id,
+            'Updated project: ' . $project->nama_project
+        );
 
         return redirect()
             ->route('projects.show', $project->id)
@@ -223,6 +257,18 @@ class ProjectController extends Controller
                 abort(403);
             }
         }
+
+        $projectName = $project->nama_project;
+        $projectId = $project->id;
+
+        ActivityLogService::log(
+            $projectId,
+            'delete',
+            'project',
+            $projectId,
+            'Deleted project: ' . $projectName
+        );
+
         $project->delete();
 
         return redirect()

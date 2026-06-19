@@ -13,7 +13,7 @@
 </div>
 
 {{-- ===== SUMMARY BAR ===== --}}
-{{-- CHANGED: 4 stat card ringkasan keseluruhan --}}
+{{-- CHANGED: 3 stat card (High Risk card tetap di-nonaktifkan sesuai perubahan Anda) --}}
 <div class="summary-bar">
 
     {{-- Total Projects --}}
@@ -47,7 +47,7 @@
     {{-- <div class="stat-card">
         <div class="stat-icon red">⚠️</div>
         <div class="stat-body">
-            CHANGED: Warna merah jika ada high risk 
+            CHANGED: Warna merah jika ada high risk
             <span class="stat-value" style="{{ $summaryHighRisks > 0 ? 'color:#dc2626;' : '' }}">
                 {{ $summaryHighRisks }}
             </span>
@@ -72,7 +72,21 @@
     @foreach($projects as $project)
         <div class="card app-card">
 
-            <h4>{{ $project->nama_project }}</h4>
+            {{-- CHANGED: Nama project + status badge sejajar --}}
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <h4 style="margin:0;">{{ $project->nama_project }}</h4>
+
+                {{-- CHANGED: Status badge (Planning/Ongoing/Completed) --}}
+                @php
+                    $statusClass = match($project->status) {
+                        'Ongoing'   => 'ongoing',
+                        'Completed' => 'completed',
+                        default     => 'planning', // Planning atau null
+                    };
+                    $statusLabel = $project->status ?? 'Planning';
+                @endphp
+                <span class="project-status-badge {{ $statusClass }}">{{ $statusLabel }}</span>
+            </div>
 
             {{-- Meta info --}}
             <div class="project-meta">
@@ -81,7 +95,8 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
                     </svg>
-                    {{ $project->risk_categories_count }} {{ $project->risk_categories_count }} kategori
+                    {{-- CHANGED: Hapus duplikasi angka kategori --}}
+                    {{ $project->risk_categories_count }} kategori
                 </span>
 
                 <span class="project-meta-sep"></span>
@@ -90,40 +105,54 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
-                    {{ $project->risks_count }} {{ $project->risks_count }} risiko
+                    {{-- CHANGED: Hapus duplikasi angka risiko --}}
+                    {{ $project->risks_count }} risiko
                 </span>
 
                 <span class="project-meta-sep"></span>
 
-                    <div class="risk-badges">
+                <div class="risk-badges">
 
-                        <span class="risk-badge high">
-                            {{ $project->high_risks_count }} High
-                        </span>
+                    <span class="risk-badge high">
+                        {{ $project->high_risks_count }} High
+                    </span>
 
-                        <span class="risk-badge medium">
-                            {{ $project->medium_risks_count }} Medium
-                        </span>
+                    <span class="risk-badge medium">
+                        {{ $project->medium_risks_count }} Medium
+                    </span>
 
-                        <span class="risk-badge low">
-                            {{ $project->low_risks_count }} Low
-                        </span>
+                    <span class="risk-badge low">
+                        {{ $project->low_risks_count }} Low
+                    </span>
 
+                </div>
+
+                @if($project->high_risks_count > 0)
+                    <div class="project-risk-warning">
+                        ⚠ Mengandung
+                        <strong>{{ $project->high_risks_count }}</strong>
+                        risiko tingkat tinggi yang memerlukan perhatian.
                     </div>
-
-                    @if($project->high_risks_count > 0)
-                        <div class="project-risk-warning">
-                            ⚠ Mengandung
-                            <strong>{{ $project->high_risks_count }}</strong>
-                            risiko tingkat tinggi yang memerlukan perhatian.
-                        </div>
-                    @elseif($project->risks_count > 0)
-                        <div class="project-risk-status">
-                            ✅ Tidak ada risiko kritis.
-                        </div>
-                    @endif
+                @elseif($project->risks_count > 0)
+                    <div class="project-risk-status">
+                        ✅ Tidak ada risiko kritis.
+                    </div>
+                @endif
 
             </div>
+
+            {{-- CHANGED: Progress Mitigasi — hanya tampil jika project punya risk --}}
+            @if($project->risks_count > 0)
+                <div class="project-progress-row">
+                    <div class="mitigation-progress">
+                        <span class="mitigation-progress-label">Progress Mitigasi</span>
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" style="width: {{ $project->mitigation_progress }}%;"></div>
+                        </div>
+                        <span class="mitigation-progress-value">{{ $project->mitigation_progress }}%</span>
+                    </div>
+                </div>
+            @endif
 
             <div class="project-card-divider"></div>
 

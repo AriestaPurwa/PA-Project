@@ -52,10 +52,10 @@
 
             <div class="detail-item">
 
-                <label>Likelihood</label>
+                <label>Probability</label>
 
                 <div class="detail-value">
-                    {{ $risk->likelihood }}
+                    {{ $risk->probability }}
                 </div>
 
             </div>
@@ -75,7 +75,7 @@
                 <label>Risk Score</label>
 
                 <div class="detail-value">
-                    {{ $risk->likelihood * $risk->impact }}
+                    {{ $risk->probability * $risk->impact }}
                 </div>
 
             </div>
@@ -98,6 +98,16 @@
 
             <p>
                 {{ $risk->deskripsi ?? 'No description available.' }}
+            </p>
+
+        </div>
+
+        <div class="detail-section">
+
+            <h3>💡 Mitigation Recommendation</h3>
+
+            <p>
+                {{ $recommendation }}
             </p>
 
         </div>

@@ -92,6 +92,31 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label" for="status">
+                        Status Proyek Saat Ini
+                    </label>
+                    <span class="field-hint">
+                        Digunakan untuk menggambarkan tahap pelaksanaan proyek saat risiko ini dicatat.
+                    </span>
+                    <select name="status" class="form-control">
+                        <option value="Planning"
+                            {{ old('status', $project->status ?? 'Planning') == 'Planning' ? 'selected' : '' }}>
+                            Planning
+                        </option>
+
+                        <option value="Ongoing"
+                            {{ old('status', $project->status ?? '') == 'Ongoing' ? 'selected' : '' }}>
+                            Ongoing
+                        </option>
+
+                        <option value="Completed"
+                            {{ old('status', $project->status ?? '') == 'Completed' ? 'selected' : '' }}>
+                            Completed
+                        </option>
+                    </select>
+                </div>
+
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
 
                 <div class="form-actions">
