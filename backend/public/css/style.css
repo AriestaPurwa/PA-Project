@@ -756,6 +756,9 @@ body {
 
 /* CHANGED: Board diagram - "kertas" putih */
 .rbs-board {
+    --tree-indent: 40px;
+    --node-width: 240px;
+
     min-width: max-content;
     padding: 40px 48px 48px 48px;
     background: #ffffff;
@@ -859,15 +862,19 @@ body {
 
 /* ===== RBS TREE — KOLOM KATEGORI LEVEL 0 ===== */
 
-.rbs-tree,
-.rbs-tree ul {
+/* .rbs-tree {
     list-style: none;
     padding-left: 0;
     margin: 0;
+} */
+
+.rbs-tree ul {
+    list-style: none;
 }
 
 /* CHANGED: Baris horizontal kolom-kolom kategori */
 .rbs-tree {
+    list-style: none;
     display: flex;
     flex-wrap: nowrap;
     gap: 0;
@@ -884,8 +891,8 @@ body {
     content: '';
     position: absolute;
     top: 0;
-    left: 80px;
-    right: 80px;
+    left: 130px;
+    right: 130px;
     height: 2px;
     background: #94a3b8;
 }
@@ -893,7 +900,7 @@ body {
 /* CHANGED: Kolom tiap kategori level-0, dengan padding sebagai jarak antar kolom */
 .rbs-tree > .category-item {
     flex: 0 0 auto;
-    min-width: 260px;
+    min-width: 380px;
     max-width: none;
     margin: 0;
     padding: 0 20px;
@@ -953,9 +960,9 @@ body {
     align-items: center;
     gap: 6px;
     min-height: 42px;
-    min-width: 160px;
-    max-width: 220px;
-    width: fit-content;
+    width: var(--node-width);
+    min-width: var(--node-width);
+    max-width: var(--node-width);
     padding: 8px 14px;
     background: #ffffff;
     border: 1.5px solid #94a3b8;
@@ -1027,22 +1034,46 @@ body {
    ===================================================== */
 
 /* CHANGED: subcategory-row — garis kiri + indentasi kanan */
-.subcategory-row {
+/* ===== SUBCATEGORY CONNECTOR ===== */
+.rbs-tree .subcategory-row {
+    --connector-x: 24px;
+
     display: flex;
     flex-direction: column;
     gap: 6px;
     margin: 8px 0 6px 0;
-    padding-left: 20px;         /* CHANGED: Lebar "cabang" horizontal */
-    border-left: none; /* CHANGED: Garis vertikal tree */
+    padding-left: var(--tree-indent);
+    border-left: none;
     list-style: none;
     position: relative;
 }
+
+.rbs-tree .subcategory-row::before {
+    content: '';
+    position: absolute;
+    left: var(--connector-x);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #cbd5e1;
+}
+
+/* .subcategory-row::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 21px;
+    bottom: 21px;
+    width: 2px;
+    background: #cbd5e1;
+} */
 
 /* CHANGED: Tiap item subcategory */
 .subcategory-row > .category-item {
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    margin-left: 0;
     padding: 0;
     position: relative;
 }
@@ -1051,11 +1082,24 @@ body {
 .subcategory-row > .category-item::before {
     content: '';
     position: absolute;
-    top: 21px;                  /* CHANGED: Vertikal center node (42px/2) */
-    left: -20px;
-    width: 20px;
+    top: 21px;
+    left: calc(-1 * (var(--tree-indent) - var(--connector-x)));
+    width: calc(var(--tree-indent) - var(--connector-x));
     height: 2px;
     background: #cbd5e1;
+    z-index: 2;
+}
+
+/* Potong garis vertikal setelah child terakhir */
+.subcategory-row > .category-item:last-child::after {
+    content: '';
+    position: absolute;
+    left: calc(-1 * (var(--tree-indent) - var(--connector-x)) - 2px);
+    top: 22px;
+    bottom: -20px;
+    width: 5px;
+    background: #ffffff;
+    z-index: 1;
 }
 
 /* CHANGED: category-header di dalam subcategory — tidak perlu margin-top besar */
@@ -1084,14 +1128,27 @@ body {
 }
 
 /* CHANGED: risk-list — garis vertikal lebih tipis/subtle dari subcategory */
-.risk-list {
+.rbs-tree .risk-list {
+    --risk-connector-x: 24px;
+
     display: flex;
     flex-direction: column;
     gap: 5px;
     margin: 8px 0 6px 0;
-    padding-left: 20px;         /* CHANGED: Sama dengan subcategory-row */
-    border-left: 2px solid #e2e8f0; /* CHANGED: Abu lebih terang dari subcategory */
+    padding-left: var(--tree-indent);
+    border-left: none;
     list-style: none;
+    position: relative;
+}
+
+.rbs-tree .risk-list::before {
+    content: '';
+    position: absolute;
+    left: var(--risk-connector-x);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e2e8f0;
 }
 
 /* CHANGED: Tiap risk item */
@@ -1103,6 +1160,7 @@ body {
     width: 100%;
     max-width: 100%;
     padding-bottom: 0;
+    margin-left: 0;
     position: relative;
 }
 
@@ -1110,19 +1168,32 @@ body {
 .risk-item::before {
     content: '';
     position: absolute;
-    left: -20px;
+    left: calc(-1 * (var(--tree-indent) - var(--risk-connector-x)));
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
+    width: calc(var(--tree-indent) - var(--risk-connector-x));
     height: 2px;
     background: #e2e8f0;
+    z-index: 2;
+}
+/* Potong garis vertikal setelah risk terakhir */
+.risk-list > .risk-item:last-child::after {
+    content: '';
+    position: absolute;
+    left: calc(-1 * (var(--tree-indent) - var(--risk-connector-x)) - 2px);
+    top: 50%;
+    bottom: -20px;
+    width: 5px;
+    background: #ffffff;
+    z-index: 1;
 }
 
 /* CHANGED: Risk badge — kotak berwarna */
 .risk {
+    flex: 0 0 var(--node-width);
     display: inline-flex;
     align-items: center;
-    flex: 1;
+    /* flex: 1; */
     min-height: 38px;
     padding: 6px 14px;
     border-radius: 8px;
@@ -1136,6 +1207,14 @@ body {
     text-decoration: none;
     transition: filter 0.15s ease;
     border: none;
+}
+
+.rbs-node,
+.risk {
+    width: var(--node-width);
+    min-width: var(--node-width);
+    max-width: var(--node-width);
+    box-sizing: border-box;
 }
 
 .risk:hover {
@@ -1180,8 +1259,8 @@ body {
     gap: 6px;
     align-items: center;
     margin-top: 6px;
-    padding-left: 20px;         /* CHANGED: Sejajar dengan risk-list */
-}
+    padding-left: var(--tree-indent);
+}        /* CHANGED: Sejajar dengan risk-list */
 
 .category-actions .btn,
 .category-actions .app-btn {
