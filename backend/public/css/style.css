@@ -103,6 +103,42 @@ body {
     transition: background 0.15s ease, color 0.15s ease; /* CHANGED: Transisi hover smooth */
 }
 
+.sidebar-section {
+    margin-bottom: 28px;
+}
+
+.sidebar-section h4 {
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #7f8da3;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 11px 14px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.sidebar-link.active {
+    background: #2f80ed;
+    color: #ffffff;
+}
+
 /* CHANGED: Hover state link sidebar */
 .sidebar a:hover {
     background: rgba(255, 255, 255, 0.09); /* CHANGED: Background terang subtle saat hover */
@@ -222,6 +258,300 @@ body {
     letter-spacing: -0.2px;
 }
 
+/* ===== HALAMAN DASHBOARD ===== */
+.dashboard-page {
+    width: 100%;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #1e293b;
+}
+
+.page-header p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.dashboard-card span {
+    display: block;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.dashboard-card h3 {
+    margin: 0;
+    font-size: 32px;
+    color: #0f172a;
+}
+
+.dashboard-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-bottom: 22px;
+}
+
+.dashboard-section .dashboard-panel:only-child {
+    grid-column: 1 / -1;
+}
+
+.dashboard-panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.panel-header h3 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 18px;
+}
+
+.panel-header a {
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.panel-header a:hover {
+    text-decoration: underline;
+}
+
+.risk-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.risk-summary-item {
+    padding: 16px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.risk-summary-item span {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.risk-summary-item strong {
+    display: block;
+    font-size: 26px;
+    color: #0f172a;
+}
+
+.risk-summary-item.high {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.risk-summary-item.medium {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.risk-summary-item.low {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.quick-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.quick-action-link {
+    display: block;
+    padding: 13px 15px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.quick-action-link:hover {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 14px;
+}
+
+.dashboard-table th {
+    color: #64748b;
+    font-weight: 700;
+    background: #f8fafc;
+}
+
+.dashboard-table td {
+    color: #334155;
+}
+
+.status-badge,
+.risk-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.risk-badge.high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.risk-badge.medium {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.risk-badge.low {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.risk-badge.none {
+    background: #e5e7eb;
+    color: #4b5563;
+}
+
+.table-link {
+    color: #2563eb;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.table-link:hover {
+    text-decoration: underline;
+}
+
+.high-risk-list,
+.activity-list {
+    display: grid;
+    gap: 12px;
+}
+
+.high-risk-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.high-risk-item strong {
+    color: #1e293b;
+}
+
+.high-risk-item p {
+    margin: 4px 0 0;
+    color: #b91c1c;
+    font-size: 13px;
+}
+
+.activity-item {
+    padding: 14px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.activity-item p {
+    margin: 0 0 6px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.activity-item span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.empty-state {
+    padding: 24px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    text-align: center;
+}
+
+.empty-state p {
+    margin: 0 0 12px;
+    color: #64748b;
+}
+
+
+
+
 /* ===== PROJECT INDEX — ENRICHED CARD ===== */
 
 /* CHANGED: Header halaman dashboard — heading & tombol sejajar */
@@ -326,11 +656,35 @@ body {
     .summary-bar {
         grid-template-columns: repeat(2, 1fr);
     }
+        .summary-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-section {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
     .summary-bar {
         grid-template-columns: 1fr;
+    }
+
+    .dashboard-card,
+    .dashboard-panel {
+        padding: 16px;
+    }
+
+    .dashboard-card h3 {
+        font-size: 26px;
+    }
+
+    .page-header h2 {
+        font-size: 24px;
     }
 }
 
@@ -2010,5 +2364,32 @@ body {
     .project-risk-warning,
     .project-risk-status {
         font-size: 12px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-section {
+        grid-template-columns: 1fr;
+    }
+
+    .risk-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .high-risk-item {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

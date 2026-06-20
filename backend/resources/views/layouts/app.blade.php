@@ -37,7 +37,7 @@
             </span>
  
             {{-- CHANGED: Tombol Dashboard pakai btn-secondary agar konsisten dengan navbar gelap --}}
-            <a href="/projects" class="btn-secondary">
+            <a href="{{ url('/dashboard') }}" class="btn-secondary">
                 Dashboard
             </a>
  
@@ -57,11 +57,71 @@
         
         {{-- CHANGED: Sidebar dengan class app-sidebar tambahan --}}
         <div class="sidebar app-sidebar">
-            {{-- CHANGED: H4 label "Menu" tetap ada, styling diperbarui di CSS jadi lebih kecil dan muted --}}
-            <h4>Menu</h4>
- 
-            {{-- CHANGED: Link navigasi Projects mendapat padding dan hover state yang dihandle CSS --}}
-            <a href="{{ route('projects.index') }}">Projects</a>
+
+            <div class="sidebar-section">
+                <h4>Menu</h4>
+
+                <a
+                    href="{{ url('/dashboard') }}"
+                    class="sidebar-link {{ request()->is('dashboard') ? 'active' : '' }}"
+                >
+                    Dashboard
+                </a>
+
+                <a
+                    href="{{ route('projects.index') }}"
+                    class="sidebar-link {{ request()->routeIs('projects.index') ? 'active' : '' }}"
+                >
+                    Projects
+                </a>
+
+                <a
+                    href="{{ url('/risk-overview') }}"
+                    class="sidebar-link {{ request()->is('risk-overview*') ? 'active' : '' }}"
+                >
+                    Risk Overview
+                </a>
+
+                <a
+                    href="{{ url('/activity-log') }}"
+                    class="sidebar-link {{ request()->is('activity-log*') ? 'active' : '' }}"
+                >
+                    Activity Log
+                </a>
+
+                <a
+                    href="{{ url('/reports') }}"
+                    class="sidebar-link {{ request()->is('reports*') ? 'active' : '' }}"
+                >
+                    Reports
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>System</h4>
+
+                <a
+                    href="{{ url('/user-guide') }}"
+                    class="sidebar-link {{ request()->is('user-guide*') ? 'active' : '' }}"
+                >
+                    User Guide
+                </a>
+
+                <a
+                    href="{{ url('/settings') }}"
+                    class="sidebar-link {{ request()->is('settings*') ? 'active' : '' }}"
+                >
+                    Settings
+                </a>
+
+                <a
+                    href="{{ url('/about-system') }}"
+                    class="sidebar-link {{ request()->is('about-system*') ? 'active' : '' }}"
+                >
+                    About System
+                </a>
+            </div>
+
         </div>
  
         {{-- CHANGED: Area konten utama dengan class app-content --}}

@@ -6,6 +6,7 @@ use App\Http\Controllers\RiskCategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::middleware('auth')->group(function () {
@@ -181,3 +182,31 @@ Route::get(
     '/projects/{project}/history',
     [ActivityLogController::class, 'index']
 )->name('projects.history');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboard');
+
+Route::get('/risk-overview', function () {
+    return view('pages.risk-overview');
+})->name('risk-overview');
+
+Route::get('/activity-log', function () {
+    return view('pages.activity-log');
+})->name('activity-log');
+
+Route::get('/reports', function () {
+    return view('pages.reports');
+})->name('reports');
+
+Route::get('/user-guide', function () {
+    return view('pages.user-guide');
+})->name('user-guide');
+
+Route::get('/settings', function () {
+    return view('pages.settings');
+})->name('settings');
+
+Route::get('/about-system', function () {
+    return view('pages.about-system');
+})->name('about-system');

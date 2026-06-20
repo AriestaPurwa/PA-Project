@@ -36,7 +36,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/login')
+        return redirect()->route('login')
             ->with('success', 'Register berhasil');
     }
 
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect('/projects');
+           return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
