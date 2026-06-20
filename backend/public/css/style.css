@@ -10,6 +10,51 @@ body {
     background: #f0f4f8; /* CHANGED: Background sedikit lebih dingin */
 }
 
+/* ===== AUTH PAGE ===== */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    background: #f0f4f8;
+}
+
+.auth-page .form-page {
+    width: 100%;
+    max-width: 520px;
+}
+
+.auth-page .form-card {
+    margin: 0;
+}
+
+.auth-brand {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.auth-brand-icon {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 12px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4b9be6, #60b8ff);
+}
+
+.auth-brand h1 {
+    margin: 0;
+    font-size: 22px;
+    color: #0f172a;
+}
+
+.auth-brand p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
 /* ===== NAVBAR ===== */
 /* CHANGED: Navbar diperbarui dengan glass-morphism effect, border bawah, dan shadow */
 .navbar {
