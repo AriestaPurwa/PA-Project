@@ -7,6 +7,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RiskOverviewController;
+
+
+
 
 
 Route::middleware('auth')->group(function () {
@@ -187,13 +191,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
 
-Route::get('/risk-overview', function () {
-    return view('pages.risk-overview');
-})->name('risk-overview');
+Route::get('/risk-overview', [RiskOverviewController::class, 'index'])
+    ->middleware('auth')
+    ->name('risk-overview');
 
-Route::get('/activity-log', function () {
-    return view('pages.activity-log');
-})->name('activity-log');
+Route::get('/activity-log', [ActivityLogController::class, 'globalIndex'])
+    ->middleware('auth')
+    ->name('activity-log');
 
 Route::get('/reports', function () {
     return view('pages.reports');

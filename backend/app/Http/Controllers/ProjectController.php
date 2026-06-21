@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Risk;
 use App\Models\RiskCategory;    
 use Illuminate\Http\Request;
 use App\Services\RiskCalculationService; 
@@ -12,55 +13,33 @@ use App\Models\ProjectTypeCategory;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index()
-    // {
-    //     $projects = Project::where('user_id', auth()->id())
-    //         ->where('is_guest', false)
-    //         ->latest()
-    //         ->get();
-    //     return view('projects.index', compact('projects'));
-    // }
-
     public function index()
     {
         $projects = Project::where('user_id', auth()->id())
-            // ->where('is_guest', false)
             ->withCount([
                 'risks',
-                'risks as high_risks_count'   => fn($q) => $q->where('risk_level', 'High'),
+                'risks as high_risks_count' => fn($q) => $q->where('risk_level', 'High'),
                 'risks as medium_risks_count' => fn($q) => $q->where('risk_level', 'Medium'),
-                'risks as low_risks_count'    => fn($q) => $q->where('risk_level', 'Low'),
+                'risks as low_risks_count' => fn($q) => $q->where('risk_level', 'Low'),
                 'riskCategories',
-                // CHANGED: Breakdown risk berdasarkan status penanganan (treatment_status)
-                'risks as open_risks_count'        => fn($q) => $q->where('status', 'Open'),
+                'risks as open_risks_count' => fn($q) => $q->where('status', 'Open'),
                 'risks as in_progress_risks_count' => fn($q) => $q->where('status', 'In Progress'),
-                'risks as closed_risks_count'      => fn($q) => $q->where('status', 'Closed'),
+                'risks as closed_risks_count' => fn($q) => $q->where('status', 'Closed'),
             ])
             ->latest()
             ->get();
 
-        // CHANGED: Hitung Progress Mitigasi (%) per project = closed / total risk
-        $projects->each(function ($project) {
-            $project->mitigation_progress = $project->risks_count > 0
-                ? round(($project->closed_risks_count / $project->risks_count) * 100)
-                : 0;
-        });
-
-        // Agregat untuk summary bar
-        $summaryTotalProjects    = $projects->count();
-        $summaryTotalRisks       = $projects->sum('risks_count');
-        $summaryHighRisks        = $projects->sum('high_risks_count');
-        $summaryTotalCategories  = $projects->sum('risk_categories_count');
+        $summaryTotalProjects = $projects->count();
+        $summaryTotalCategories = $projects->sum('risk_categories_count');
+        $summaryTotalRisks = $projects->sum('risks_count');
+        $summaryHighRisks = $projects->sum('high_risks_count');
 
         return view('projects.index', compact(
             'projects',
             'summaryTotalProjects',
+            'summaryTotalCategories',
             'summaryTotalRisks',
-            'summaryHighRisks',
-            'summaryTotalCategories'
+            'summaryHighRisks'
         ));
     }
 

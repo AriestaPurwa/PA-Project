@@ -599,6 +599,141 @@ body {
 
 /* ===== PROJECT INDEX — ENRICHED CARD ===== */
 
+/* ===== PROJECT INDEX - CLEAN CARD ===== */
+
+.project-index-page {
+    width: 100%;
+}
+
+.project-list {
+    display: grid;
+    gap: 16px;
+}
+
+.project-card-modern {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05), 0 4px 16px rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.project-card-modern:hover {
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23, 42, 0.06);
+    transform: translateY(-1px);
+}
+
+.project-card-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.project-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.project-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.project-title-row h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.3px;
+}
+
+.project-type-text {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.project-card-stats {
+    display: grid;
+    grid-template-columns: 120px 100px 150px minmax(180px, 1fr);
+    gap: 14px;
+    align-items: center;
+}
+
+.project-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.project-stat-label {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.project-stat-item strong {
+    font-size: 16px;
+    color: #1e293b;
+    line-height: 1;
+}
+
+.project-progress-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-progress-track {
+    flex: 1;
+    height: 8px;
+    min-width: 100px;
+    background: #f1f5f9;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.project-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    border-radius: 999px;
+}
+
+.project-progress-mini strong {
+    min-width: 38px;
+    text-align: right;
+    font-size: 13px;
+    color: #1e293b;
+}
+
+.project-card-actions-modern {
+    flex-shrink: 0;
+    justify-content: flex-end;
+    border-left: 1px solid #f1f5f9;
+    padding-left: 20px;
+}
+
+/* Badge none untuk project yang belum punya risiko */
+.risk-badge.none {
+    background: #e5e7eb;
+    color: #4b5563;
+}
+
+.risk-badge.none::before {
+    background: #94a3b8;
+}
+
 /* CHANGED: Header halaman dashboard — heading & tombol sejajar */
 .project-index-header {
     display: flex;
@@ -694,43 +829,6 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-/* CHANGED: Responsive summary bar — 2 kolom di layar kecil */
-@media (max-width: 900px) {
-    .summary-bar {
-        grid-template-columns: repeat(2, 1fr);
-    }
-        .summary-bar {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-section {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .summary-bar {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-card,
-    .dashboard-panel {
-        padding: 16px;
-    }
-
-    .dashboard-card h3 {
-        font-size: 26px;
-    }
-
-    .page-header h2 {
-        font-size: 24px;
-    }
 }
 
 /* CHANGED: Meta info baris (kategori · risk) di bawah nama project */
@@ -2313,6 +2411,8 @@ body {
     color: #374151;
 }
 
+
+
 .history-item {
     padding: 14px 0;
     border-bottom: 1px solid #e5e7eb;
@@ -2334,7 +2434,480 @@ body {
     font-size: 1.1rem;
 }
 
+/* ===== RISK OVERVIEW PAGE ===== */
+
+.risk-overview-page {
+    width: 100%;
+}
+
+.risk-overview-summary {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.risk-overview-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.risk-overview-card span {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.risk-overview-card h3 {
+    margin: 0;
+    font-size: 30px;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.risk-overview-card.high {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.risk-overview-card.medium {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.risk-overview-card.low {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.risk-overview-panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.risk-overview-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.risk-overview-table th,
+.risk-overview-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.risk-overview-table th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.risk-overview-table td {
+    color: #334155;
+}
+
+.project-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.project-cell strong {
+    color: #0f172a;
+    font-size: 14px;
+}
+
+.project-cell span {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.risk-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 26px;
+    padding: 0 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.risk-count-badge.high {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.risk-count-badge.medium {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.risk-count-badge.low {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.risk-badge.none {
+    background: #e5e7eb;
+    color: #4b5563;
+}
+
+.table-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.table-progress-track {
+    flex: 1;
+    height: 7px;
+    background: #f1f5f9;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.table-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    border-radius: 999px;
+}
+
+.table-progress span {
+    min-width: 36px;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+}
+
+/* ===== GLOBAL ACTIVITY LOG PAGE ===== */
+
+.activity-log-page {
+    width: 100%;
+}
+
+.activity-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.activity-summary-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.activity-summary-card span {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.activity-summary-card h3 {
+    margin: 0;
+    font-size: 30px;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.activity-log-panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-log-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+}
+
+.activity-log-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.activity-log-icon.project {
+    background: #eff6ff;
+}
+
+.activity-log-icon.category {
+    background: #f5f3ff;
+}
+
+.activity-log-icon.risk {
+    background: #fef2f2;
+}
+
+.activity-log-icon.general {
+    background: #f1f5f9;
+}
+
+.activity-log-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
+}
+
+.activity-log-main {
+    min-width: 0;
+}
+
+.activity-log-main p {
+    margin: 0 0 8px;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.activity-log-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.activity-dot {
+    width: 4px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 50%;
+}
+
+.activity-log-project {
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    text-align: right;
+}
+
+.activity-log-project span {
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.activity-log-project a {
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.activity-log-project a:hover {
+    text-decoration: underline;
+}
+
+.pagination-wrapper {
+    margin-top: 20px;
+}
+
+/* ===== PROJECT ACTIVITY HISTORY ===== */
+
+.project-history-summary {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.project-history-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.project-history-card span {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.project-history-card h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.project-history-card.main h3 {
+    font-size: 22px;
+}
+
+.project-history-card p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.project-history-meta {
+    margin-top: 12px;
+}
+
+.last-activity-time {
+    font-size: 20px !important;
+}
+
+.activity-badge-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.target-type-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.target-type-badge.project {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.target-type-badge.category {
+    background: #f5f3ff;
+    color: #6d28d9;
+}
+
+.target-type-badge.risk {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.target-type-badge.general {
+    background: #f1f5f9;
+    color: #475569;
+}
+
 /* ===== RESPONSIVE ===== */
+
+@media (max-width: 480px) {
+    .summary-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card,
+    .dashboard-panel {
+        padding: 16px;
+    }
+
+    .dashboard-card h3 {
+        font-size: 26px;
+    }
+
+    .page-header h2 {
+        font-size: 24px;
+    }
+    .risk-overview-summary {
+    grid-template-columns: 1fr;
+    }
+
+    .risk-overview-panel {
+        padding: 16px;
+    }
+    .project-card-stats {
+    grid-template-columns: 1fr;
+    }
+
+    .project-card-modern {
+        padding: 18px;
+    }
+
+    .project-title-row h3 {
+        font-size: 16px;
+    }
+
+    .project-progress-track {
+        min-width: 80px;
+    }
+    .activity-summary-grid {
+    grid-template-columns: 1fr;
+    }
+
+    .activity-log-panel {
+        padding: 16px;
+    }
+
+    .activity-log-item {
+        padding: 14px;
+    }
+
+    .activity-log-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        font-size: 16px;
+    }
+    .project-history-card {
+        padding: 16px;
+    }
+
+    .project-history-card h3 {
+        font-size: 20px;
+    }
+}
+
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
@@ -2425,5 +2998,58 @@ body {
     .high-risk-item {
         flex-direction: column;
         align-items: flex-start;
+    }
+}
+
+/* CHANGED: Responsive summary bar — 2 kolom di layar kecil */
+@media (max-width: 900px) {
+    .summary-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+        .summary-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-section {
+        grid-template-columns: 1fr;
+    }
+    .risk-overview-summary {
+    grid-template-columns: repeat(2, 1fr);
+    }
+    .project-card-modern {
+    flex-direction: column;
+    align-items: stretch;
+    }
+
+    .project-card-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .project-card-actions-modern {
+        border-left: none;
+        border-top: 1px solid #f1f5f9;
+        padding-left: 0;
+        padding-top: 16px;
+        justify-content: flex-start;
+    }
+
+    .activity-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    }
+
+    .activity-log-content {
+        flex-direction: column;
+    }
+
+    .activity-log-project {
+        align-items: flex-start;
+        text-align: left;
+    }
+    .project-history-summary {
+        grid-template-columns: 1fr;
     }
 }

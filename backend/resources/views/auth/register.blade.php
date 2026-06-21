@@ -3,6 +3,11 @@
 @section('content')
 
 <div class="form-page">
+    <div class="auth-brand">
+        <div class="auth-brand-icon"></div>
+        <h1>RBS System</h1>
+        <p>Risk Breakdown Structure System</p>
+    </div>
 
     <div class="form-card">
 

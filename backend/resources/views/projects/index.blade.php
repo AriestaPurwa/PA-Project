@@ -142,7 +142,7 @@
             </div>
 
             {{-- CHANGED: Progress Mitigasi — hanya tampil jika project punya risk --}}
-            @if($project->risks_count > 0)
+            {{--@if($project->risks_count > 0)
                 <div class="project-progress-row">
                     <div class="mitigation-progress">
                         <span class="mitigation-progress-label">Progress Mitigasi</span>
@@ -152,7 +152,7 @@
                         <span class="mitigation-progress-value">{{ $project->mitigation_progress }}%</span>
                     </div>
                 </div>
-            @endif
+            @endif--}}
 
             <div class="project-card-divider"></div>
 
