@@ -8,6 +8,7 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RiskOverviewController;
+use App\Http\Controllers\ReportController;
 
 
 
@@ -199,9 +200,13 @@ Route::get('/activity-log', [ActivityLogController::class, 'globalIndex'])
     ->middleware('auth')
     ->name('activity-log');
 
-Route::get('/reports', function () {
-    return view('pages.reports');
-})->name('reports');
+Route::get('/reports', [ReportController::class, 'index'])
+    ->middleware('auth')
+    ->name('reports.index');
+
+Route::get('/reports/{project}', [ReportController::class, 'show'])
+    ->middleware('auth')
+    ->name('reports.show');
 
 Route::get('/user-guide', function () {
     return view('pages.user-guide');

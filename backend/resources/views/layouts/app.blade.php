@@ -62,7 +62,7 @@
                 <h4>Menu</h4>
 
                 <a
-                    href="{{ url('/dashboard') }}"
+                    href="{{ route('dashboard') }}"
                     class="sidebar-link {{ request()->is('dashboard') ? 'active' : '' }}"
                 >
                     Dashboard
@@ -76,23 +76,25 @@
                 </a>
 
                 <a
-                    href="{{ url('/risk-overview') }}"
+                    href="{{ route('risk-overview') }}"
                     class="sidebar-link {{ request()->is('risk-overview*') ? 'active' : '' }}"
                 >
                     Risk Overview
                 </a>
 
                 <a
-                    href="{{ url('/activity-log') }}"
+                    href="{{ route('activity-log') }}"
                     class="sidebar-link {{ request()->is('activity-log*') ? 'active' : '' }}"
                 >
                     Activity Log
                 </a>
 
                 <a
-                    href="{{ url('/reports') }}"
+                    href="{{ route('reports.index') }}"
                     class="sidebar-link {{ request()->is('reports*') ? 'active' : '' }}"
                 >
+                    Reports
+                </a>
                     Reports
                 </a>
             </div>

@@ -2840,6 +2840,343 @@ body {
     color: #475569;
 }
 
+/* ===== REPORTS PAGE ===== */
+
+.reports-page,
+.report-preview-page {
+    width: 100%;
+}
+
+.reports-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.reports-summary-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.reports-summary-card span {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.reports-summary-card h3 {
+    margin: 0;
+    font-size: 30px;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.reports-summary-card.high {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.reports-panel {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reports-table th,
+.reports-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.reports-table th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.report-action-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.report-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.report-action.primary {
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+.report-action.primary:hover {
+    background: #2563eb;
+}
+
+.report-action.secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.report-action.secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* ===== REPORT PREVIEW ===== */
+
+.report-header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.report-document {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 40px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.report-cover {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.report-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.report-cover h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+    color: #0f172a;
+    letter-spacing: -0.8px;
+}
+
+.report-cover p {
+    margin: 0;
+    max-width: 720px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.report-date {
+    color: #64748b;
+    font-size: 13px;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.report-section {
+    margin-bottom: 32px;
+}
+
+.report-section h3 {
+    margin: 0 0 16px;
+    color: #0f172a;
+    font-size: 18px;
+}
+
+.report-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.report-info-item {
+    padding: 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.report-info-item span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.report-info-item strong {
+    color: #0f172a;
+    font-size: 14px;
+}
+
+.report-description {
+    padding: 16px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+.report-description span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.report-description p {
+    margin: 0;
+    color: #334155;
+    line-height: 1.7;
+}
+
+.report-risk-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.report-risk-card {
+    padding: 16px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.report-risk-card span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.report-risk-card strong {
+    font-size: 28px;
+    color: #0f172a;
+}
+
+.report-risk-card.high {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.report-risk-card.medium {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.report-risk-card.low {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table th,
+.report-table td {
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.report-table th {
+    background: #f8fafc;
+    color: #475569;
+    font-weight: 800;
+}
+
+.report-table td {
+    color: #334155;
+}
+
+.report-table small {
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.report-empty-text {
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* ===== PRINT ===== */
+
+@media print {
+    body {
+        background: #ffffff;
+    }
+
+    .navbar,
+    .sidebar,
+    [data-print-ignore] {
+        display: none !important;
+    }
+
+    .container {
+        display: block;
+        min-height: auto;
+    }
+
+    .content {
+        padding: 0;
+        background: #ffffff;
+        overflow: visible;
+    }
+
+    .report-document {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+    }
+
+    .report-section {
+        page-break-inside: avoid;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 480px) {
@@ -2905,6 +3242,19 @@ body {
 
     .project-history-card h3 {
         font-size: 20px;
+    }
+    .reports-summary-grid,
+    .report-info-grid,
+    .report-risk-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .report-document {
+        padding: 22px;
+    }
+
+    .report-cover h1 {
+        font-size: 24px;
     }
 }
 
@@ -3051,5 +3401,14 @@ body {
     }
     .project-history-summary {
         grid-template-columns: 1fr;
+    }
+    .reports-summary-grid,
+    .report-info-grid,
+    .report-risk-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .report-cover {
+        flex-direction: column;
     }
 }
