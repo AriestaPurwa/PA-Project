@@ -53,55 +53,57 @@
     </div>
 
     <div class="nested {{ ($level ?? 0) === 0 ? 'active' : '' }}">
-        @if($category->children->count())
-            <ul class="subcategory-row">
-                @foreach($category->children as $child)
-                    @include('projects.partials.category-node', [
-                        'category' => $child,
-                        'project' => $project,
-                        'level' => ($level ?? 0) + 1
-                    ])
-                @endforeach
-            </ul>
-        @endif
 
-        @if($category->risks->count())
-            <ul class="risk-list">
-                @foreach($category->risks as $risk)
-                    <li class="risk-item">
-                        <!-- <span class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
-                            ⚠ {{ $risk->nama_risiko }}
-                        </span> -->
-                        <a href="{{ route('projects.risks.show',[$project->id, $risk->id]) }}"
-                            class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
+    @if($category->children->count() || $category->risks->count())
+        <div class="tree-children">
 
-                             {{ $risk->nama_risiko }}
+            @if($category->children->count())
+                <ul class="subcategory-row">
+                    @foreach($category->children as $child)
+                        @include('projects.partials.category-node', [
+                            'category' => $child,
+                            'project' => $project,
+                            'level' => ($level ?? 0) + 1
+                        ])
+                    @endforeach
+                </ul>
+            @endif
 
-                        </a>
+            @if($category->risks->count())
+                <ul class="risk-list">
+                    @foreach($category->risks as $risk)
+                        <li class="risk-item">
+                            <a href="{{ route('projects.risks.show',[$project->id, $risk->id]) }}"
+                               class="risk {{ strtolower($risk->risk_level ?? 'low') }}">
+                                {{ $risk->nama_risiko }}
+                            </a>
 
-                        <form action="{{ route('projects.risks.destroy', [$project->id, $risk->id]) }}"
-                              method="POST"
-                              onsubmit="return confirm('Deleting this category will also delete all subcategories and risks inside it. Continue?')"
-                              class="inline-form"
-                              data-export-ignore>
-                            @csrf
-                            @method('DELETE')
+                            <form action="{{ route('projects.risks.destroy', [$project->id, $risk->id]) }}"
+                                  method="POST"
+                                  onsubmit="return confirm('Deleting this category will also delete all subcategories and risks inside it. Continue?')"
+                                  class="inline-form"
+                                  data-export-ignore>
+                                @csrf
+                                @method('DELETE')
 
-                            <button type="submit" class="icon-btn"> 🗑</button>
-                        </form>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
+                                <button type="submit" class="icon-btn"> 🗑</button>
+                            </form>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
 
-        <div class="category-actions" data-export-ignore>
-            <a class="btn app-btn"
-               href="{{ route('projects.risks.create', [
-                    'project' => $project->id,
-                    'category_id' => $category->id
-               ]) }}">
-                + Risk
-            </a>
         </div>
+    @endif
+
+    <div class="category-actions" data-export-ignore>
+        <a class="btn app-btn"
+           href="{{ route('projects.risks.create', [
+                'project' => $project->id,
+                'category_id' => $category->id
+           ]) }}">
+            + Risk
+        </a>
     </div>
+</div>
 </li>

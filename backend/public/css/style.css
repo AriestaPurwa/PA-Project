@@ -1157,6 +1157,8 @@ body {
 .rbs-board {
     --tree-indent: 40px;
     --node-width: 240px;
+    --connector-x: 24px;
+    --connector-color: #cbd5e1;
 
     min-width: max-content;
     padding: 40px 48px 48px 48px;
@@ -1432,22 +1434,36 @@ body {
        └── risk
    ===================================================== */
 
+   .tree-children {
+    position: relative;
+    margin-top: 8px;
+    padding-left: var(--tree-indent);
+    }
+
+    .tree-children::before {
+        content: '';
+        position: absolute;
+        left: var(--connector-x);
+
+        top: -8px;
+        bottom: 19px;
+
+        width: 2px;
+        background: var(--connector-color);
+    }
+
 /* CHANGED: subcategory-row — garis kiri + indentasi kanan */
 /* ===== SUBCATEGORY CONNECTOR ===== */
-.rbs-tree .subcategory-row {
-    --connector-x: 24px;
-
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 8px 0 6px 0;
-    padding-left: var(--tree-indent);
-    border-left: none;
+.rbs-tree .subcategory-row,
+.rbs-tree .risk-list {
     list-style: none;
+    margin: 0;
+    padding-left: 0;
+    border-left: none;
     position: relative;
 }
 
-.rbs-tree .subcategory-row::before {
+/* .rbs-tree .subcategory-row::before {
     content: '';
     position: absolute;
     left: var(--connector-x);
@@ -1455,26 +1471,13 @@ body {
     bottom: 0;
     width: 2px;
     background: #cbd5e1;
-}
-
-/* .subcategory-row::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 21px;
-    bottom: 21px;
-    width: 2px;
-    background: #cbd5e1;
 } */
 
 /* CHANGED: Tiap item subcategory */
-.subcategory-row > .category-item {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    margin-left: 0;
-    padding: 0;
+.subcategory-row > .category-item,
+.risk-item {
     position: relative;
+    margin-bottom: 6px;
 }
 
 /* CHANGED: Cabang horizontal dari garis vertikal ke category-header */
@@ -1485,12 +1488,11 @@ body {
     left: calc(-1 * (var(--tree-indent) - var(--connector-x)));
     width: calc(var(--tree-indent) - var(--connector-x));
     height: 2px;
-    background: #cbd5e1;
-    z-index: 2;
+    background: var(--connector-color);
 }
 
 /* Potong garis vertikal setelah child terakhir */
-.subcategory-row > .category-item:last-child::after {
+/* .subcategory-row > .category-item:last-child::after {
     content: '';
     position: absolute;
     left: calc(-1 * (var(--tree-indent) - var(--connector-x)) - 2px);
@@ -1499,7 +1501,7 @@ body {
     width: 5px;
     background: #ffffff;
     z-index: 1;
-}
+} */
 
 /* CHANGED: category-header di dalam subcategory — tidak perlu margin-top besar */
 .subcategory-row .category-header {
@@ -1526,21 +1528,8 @@ body {
     margin-top: 4px;
 }
 
-/* CHANGED: risk-list — garis vertikal lebih tipis/subtle dari subcategory */
-.rbs-tree .risk-list {
-    --risk-connector-x: 24px;
 
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin: 8px 0 6px 0;
-    padding-left: var(--tree-indent);
-    border-left: none;
-    list-style: none;
-    position: relative;
-}
-
-.rbs-tree .risk-list::before {
+/* .rbs-tree .risk-list::before {
     content: '';
     position: absolute;
     left: var(--risk-connector-x);
@@ -1548,10 +1537,10 @@ body {
     bottom: 0;
     width: 2px;
     background: #e2e8f0;
-}
+} */
 
 /* CHANGED: Tiap risk item */
-.risk-item {
+/* .risk-item {
     list-style: none;
     display: flex;
     align-items: center;
@@ -1561,22 +1550,22 @@ body {
     padding-bottom: 0;
     margin-left: 0;
     position: relative;
-}
+} */
 
 /* CHANGED: Cabang horizontal dari garis vertikal ke risk badge */
 .risk-item::before {
     content: '';
     position: absolute;
-    left: calc(-1 * (var(--tree-indent) - var(--risk-connector-x)));
+    left: calc(-1 * (var(--tree-indent) - var(--connector-x)));
     top: 50%;
     transform: translateY(-50%);
-    width: calc(var(--tree-indent) - var(--risk-connector-x));
+    width: calc(var(--tree-indent) - var(--connector-x));
     height: 2px;
-    background: #e2e8f0;
-    z-index: 2;
+    background: var(--connector-color);
 }
+
 /* Potong garis vertikal setelah risk terakhir */
-.risk-list > .risk-item:last-child::after {
+/* .risk-list > .risk-item:last-child::after {
     content: '';
     position: absolute;
     left: calc(-1 * (var(--tree-indent) - var(--risk-connector-x)) - 2px);
