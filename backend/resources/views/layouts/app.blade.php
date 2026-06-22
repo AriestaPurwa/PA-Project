@@ -95,29 +95,27 @@
                 >
                     Reports
                 </a>
-                    Reports
-                </a>
             </div>
 
             <div class="sidebar-section">
                 <h4>System</h4>
 
                 <a
-                    href="{{ url('/user-guide') }}"
+                    href="{{ route('user-guide') }}"
                     class="sidebar-link {{ request()->is('user-guide*') ? 'active' : '' }}"
                 >
                     User Guide
                 </a>
 
                 <a
-                    href="{{ url('/settings') }}"
+                    href="{{ route('settings') }}"
                     class="sidebar-link {{ request()->is('settings*') ? 'active' : '' }}"
                 >
                     Settings
                 </a>
 
                 <a
-                    href="{{ url('/about-system') }}"
+                    href="{{ route('about-system') }}"
                     class="sidebar-link {{ request()->is('about-system*') ? 'active' : '' }}"
                 >
                     About System

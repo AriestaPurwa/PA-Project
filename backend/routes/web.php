@@ -9,7 +9,7 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RiskOverviewController;
 use App\Http\Controllers\ReportController;
-
+use App\Http\Controllers\SettingsController;
 
 
 
@@ -208,14 +208,16 @@ Route::get('/reports/{project}', [ReportController::class, 'show'])
     ->middleware('auth')
     ->name('reports.show');
 
-Route::get('/user-guide', function () {
-    return view('pages.user-guide');
-})->name('user-guide');
+Route::view('/user-guide', 'pages.user-guide')
+    ->middleware('auth')
+    ->name('user-guide');
 
-Route::get('/settings', function () {
-    return view('pages.settings');
-})->name('settings');
 
-Route::get('/about-system', function () {
-    return view('pages.about-system');
-})->name('about-system');
+Route::get('/settings', [SettingsController::class, 'index'])
+    ->middleware('auth')
+    ->name('settings');
+
+
+Route::view('/about-system', 'pages.about-system')
+    ->middleware('auth')
+    ->name('about-system');

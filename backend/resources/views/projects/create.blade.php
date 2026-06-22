@@ -1,34 +1,36 @@
-{{-- file views\projects\create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
 
-<div class="form-page">
+<div class="project-form-page">
 
-    {{-- CHANGED: Tombol back dengan label yang lebih jelas --}}
-    <div class="mb-3">
+    <div class="project-form-header">
+        <div>
+            <h2>Tambah Project</h2>
+            <p>Buat project baru untuk mulai menyusun Risk Breakdown Structure.</p>
+        </div>
+
         <a href="{{ route('projects.index') }}" class="btn-secondary">
-            ← Kembali ke Daftar Project
+            ← Kembali
         </a>
     </div>
 
-    {{-- CHANGED: Guest mode notice tampil lebih mencolok dengan icon --}}
     @if(request('guest'))
-        <div class="card app-card">
-            {{-- CHANGED: Icon warning di depan teks --}}
-            <strong>⚠️ Guest Mode Active</strong><br>
-            {{-- CHANGED: Teks lebih informatif --}}
-            <span style="font-size:13px; color:#78350f;">Project ini bersifat sementara dan tidak tersimpan secara permanen.</span>
+        <div class="project-form-alert warning">
+            <strong>⚠️ Guest Mode Active</strong>
+            <p>Project ini bersifat sementara dan tidak tersimpan secara permanen.</p>
         </div>
     @endif
 
-    <div class="form-card">
+    <div class="project-form-card">
 
-        {{-- CHANGED: Judul dan subtitle dipisahkan dengan lebih jelas --}}
-        <h2 class="form-title">Tambah Project</h2>
-        <p class="form-subtitle">Buat project baru untuk mulai menyusun kategori risiko dan risk matrix.</p>
+        <div class="project-form-card-header">
+            <div>
+                <h3>Informasi Project</h3>
+                <p>Lengkapi data dasar project sebelum menyusun kategori risiko.</p>
+            </div>
+        </div>
 
-        {{-- CHANGED: Error alert tampil di dalam form-card --}}
         @if ($errors->any())
             <div class="alert-error">
                 <ul>
@@ -46,24 +48,127 @@
                 <input type="hidden" name="guest_mode" value="1">
             @endif
 
-            <div class="form-grid">
+            <div class="project-form-section">
 
-                <div class="form-group">
-                    <label class="form-label" for="nama_project">Nama Project</label>
-                    <input
-                        id="nama_project"
-                        type="text"
-                        name="nama_project"
-                        class="form-input"
-                        placeholder="Contoh: Pembangunan Gedung A"
-                        value="{{ old('nama_project') }}"
-                        required
-                        autocomplete="off"
-                    >
+                <div class="form-row two-columns">
+
+                    <div class="form-group">
+                        <label class="form-label" for="nama_project">
+                            Nama Project
+                        </label>
+
+                        <input
+                            id="nama_project"
+                            type="text"
+                            name="nama_project"
+                            class="form-input"
+                            placeholder="Contoh: Pembangunan Gedung A"
+                            value="{{ old('nama_project') }}"
+                            required
+                            autocomplete="off"
+                        >
+
+                        <small class="form-help">
+                            Gunakan nama project yang mudah dikenali.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="project_type_id">
+                            Project Type
+                        </label>
+
+                        <select
+                            name="project_type_id"
+                            id="project_type_id"
+                            class="form-select"
+                            required
+                        >
+                            <option value="">-- Select Project Type --</option>
+
+                            @foreach($projectTypes as $type)
+                                <option
+                                    value="{{ $type->id }}"
+                                    {{ old('project_type_id') == $type->id ? 'selected' : '' }}
+                                >
+                                    {{ $type->name ?? $type->nama_tipe }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <small class="form-help">
+                            Tipe project digunakan untuk kategori awal dan rekomendasi mitigasi.
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="form-row three-columns">
+
+                    <div class="form-group">
+                        <label class="form-label" for="status">
+                            Status Project
+                        </label>
+
+                        <select
+                            name="status"
+                            id="status"
+                            class="form-select"
+                        >
+                            <option value="Planning" {{ old('status', 'Planning') == 'Planning' ? 'selected' : '' }}>
+                                Planning
+                            </option>
+
+                            <option value="Ongoing" {{ old('status') == 'Ongoing' ? 'selected' : '' }}>
+                                Ongoing
+                            </option>
+
+                            <option value="Completed" {{ old('status') == 'Completed' ? 'selected' : '' }}>
+                                Completed
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="progress">
+                            Progress Project (%)
+                        </label>
+
+                        <input
+                            id="progress"
+                            type="number"
+                            name="progress"
+                            min="0"
+                            max="100"
+                            class="form-input"
+                            value="{{ old('progress', 0) }}"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="estimated_budget">
+                            Estimasi Anggaran (Rp)
+                        </label>
+
+                        <input
+                            id="estimated_budget"
+                            type="number"
+                            name="estimated_budget"
+                            min="0"
+                            class="form-input"
+                            placeholder="Contoh: 5000000"
+                            value="{{ old('estimated_budget') }}"
+                        >
+                    </div>
+
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="deskripsi">Deskripsi <span style="font-weight:400; color:#94a3b8;">(opsional)</span></label>
+                    <label class="form-label" for="deskripsi">
+                        Deskripsi
+                        <span class="label-optional">(opsional)</span>
+                    </label>
+
                     <textarea
                         id="deskripsi"
                         name="deskripsi"
@@ -72,38 +177,22 @@
                     >{{ old('deskripsi') }}</textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label for="project_type_id" class="form-label">
-                        Project Type
-                    </label>
-
-                    <select
-                        name="project_type_id"
-                        id="project_type_id"
-                        class="form-select"
-                        required
-                    >
-                        <option value="">-- Select Project Type --</option>
-
-                        @foreach($projectTypes as $type)
-                            <option
-                                value="{{ $type->id }}"
-                                {{ old('project_type_id') == $type->id ? 'selected' : '' }}
-                            >
-                                {{ $type->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn app-btn">Simpan Project</button>
-                    <a href="{{ route('projects.index') }}" class="btn-secondary">Batal</a>
-                </div>
-
             </div>
+
+            <div class="project-form-actions">
+                <a href="{{ route('projects.index') }}" class="btn-secondary">
+                    Batal
+                </a>
+
+                <button type="submit" class="btn app-btn">
+                    Simpan Project
+                </button>
+            </div>
+
         </form>
+
     </div>
+
 </div>
 
 @endsection
