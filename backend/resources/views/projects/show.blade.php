@@ -106,6 +106,10 @@
                 📜 View History
             </a>
 
+            <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn app-btn">
+                Project Timeline
+            </a>
+
         </div>
 
     </div>

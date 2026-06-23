@@ -10,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RiskOverviewController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingsController;
-
+use App\Http\Controllers\ProjectTimelineController;
 
 
 
@@ -221,3 +221,31 @@ Route::get('/settings', [SettingsController::class, 'index'])
 Route::view('/about-system', 'pages.about-system')
     ->middleware('auth')
     ->name('about-system');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/projects/{project}/timeline', [ProjectTimelineController::class, 'index'])
+        ->name('projects.timeline.index');
+
+    Route::post('/projects/{project}/timeline/generate', [ProjectTimelineController::class, 'generate'])
+        ->name('projects.timeline.generate');
+
+    Route::post('/projects/{project}/timeline/{sprint}/tasks', [ProjectTimelineController::class, 'storeTask'])
+        ->name('projects.timeline.tasks.store');
+
+    Route::put('/projects/{project}/timeline/{sprint}/tasks/{task}', [ProjectTimelineController::class, 'updateTask'])
+        ->name('projects.timeline.tasks.update');
+
+    Route::delete('/projects/{project}/timeline/{sprint}/tasks/{task}', [ProjectTimelineController::class, 'destroyTask'])
+        ->name('projects.timeline.tasks.destroy');
+
+    Route::post('/projects/{project}/timeline/{sprint}/risks', [ProjectTimelineController::class, 'attachRisk'])
+        ->name('projects.timeline.risks.attach');
+
+    Route::put('/projects/{project}/timeline/{sprint}/risks/{risk}', [ProjectTimelineController::class, 'updateRiskStatus'])
+        ->name('projects.timeline.risks.update');
+
+    Route::delete('/projects/{project}/timeline/{sprint}/risks/{risk}', [ProjectTimelineController::class, 'detachRisk'])
+        ->name('projects.timeline.risks.detach');
+
+});
