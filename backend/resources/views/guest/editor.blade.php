@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
 @section('content')
 
@@ -68,7 +68,9 @@
             </ul>
 
             <div class="export-matrix-section">
-               {{-- @include('projects.partials.risk-matrix') --}}
+               @include('guest.partials.risk-matrix', [
+                    'matrix' => $matrix
+                ])
             </div>
         </div>
     </div>

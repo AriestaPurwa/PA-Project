@@ -5057,15 +5057,37 @@ body {
     background: #22c55e;
 }
 
-@media (max-width: 768px) {
-    .project-gantt-header {
-        flex-direction: column;
-    }
+/* ===== GUEST LAYOUT ===== */
 
-    .gantt-row {
-        grid-template-columns: 180px 1fr;
-    }
+.guest-navbar {
+    background-color: #1a2535;
 }
+
+.guest-container {
+    min-height: calc(100vh - 64px);
+    background: #f0f4f8;
+}
+
+.guest-content {
+    padding: 28px 32px;
+    overflow-x: auto;
+}
+
+.guest-alert-success {
+    margin-bottom: 16px;
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #15803d;
+}
+
+.guest-alert-error {
+    margin-bottom: 16px;
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+
+
 
 /* ===== RESPONSIVE ===== */
 
@@ -5384,6 +5406,13 @@ body {
     }
         .project-gantt-header {
         flex-direction: column;
+    }
+        .project-gantt-header {
+        flex-direction: column;
+    }
+
+    .gantt-row {
+        grid-template-columns: 180px 1fr;
     }
 }
 

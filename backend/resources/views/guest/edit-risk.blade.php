@@ -13,21 +13,17 @@
     <div class="form-card">
 
         <h2 class="form-title">
-            Add Risk
+            Edit Risk
         </h2>
 
         <p class="form-subtitle">
-            Add a risk item to the selected category. Probability and impact will be used to calculate the risk level automatically.
+            Update the risk name, probability, and impact. The risk score will be recalculated after saving.
         </p>
 
-        <form action="/guest/risk/store"
+        <form action="/guest/risk/update/{{ $riskId }}"
               method="POST">
 
             @csrf
-
-            <input type="hidden"
-                   name="category_id"
-                   value="{{ $categoryId }}">
 
             <div class="form-grid">
 
@@ -40,7 +36,7 @@
                     <input type="text"
                            name="nama_risiko"
                            class="form-input"
-                           placeholder="Example: Requirement changes"
+                           value="{{ old('nama_risiko', $risk['nama_risiko'] ?? '') }}"
                            required>
 
                     <div class="field-hint">
@@ -63,7 +59,8 @@
 
                             @for($i = 1; $i <= 5; $i++)
 
-                                <option value="{{ $i }}">
+                                <option value="{{ $i }}"
+                                    {{ old('probability', $risk['probability'] ?? 1) == $i ? 'selected' : '' }}>
                                     {{ $i }}
                                 </option>
 
@@ -89,7 +86,8 @@
 
                             @for($i = 1; $i <= 5; $i++)
 
-                                <option value="{{ $i }}">
+                                <option value="{{ $i }}"
+                                    {{ old('impact', $risk['impact'] ?? 1) == $i ? 'selected' : '' }}>
                                     {{ $i }}
                                 </option>
 
@@ -111,9 +109,7 @@
 
                 <button type="submit"
                         class="btn app-btn">
-
-                    Save Risk
-
+                    Update Risk
                 </button>
 
                 <a href="/guest/editor" class="btn-secondary">

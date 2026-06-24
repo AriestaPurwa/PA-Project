@@ -199,10 +199,13 @@ class GuestController extends Controller
 
         $risks = $project['risks'] ?? [];
 
+        $matrix = $this->generateGuestRiskMatrix($categories);
+
         return view('guest.editor', compact(
             'project',
             'categories',
-            'risks'
+            'risks',
+            'matrix'
         ));
     }
     
@@ -294,5 +297,37 @@ class GuestController extends Controller
         }
 
         return $categories;
+    }
+
+    private function generateGuestRiskMatrix(array $categories)
+    {
+        $matrix = [];
+
+        for ($impact = 1; $impact <= 5; $impact++) {
+            for ($probability = 1; $probability <= 5; $probability++) {
+                $matrix[$impact][$probability] = 0;
+            }
+        }
+
+        $collectRisks = function ($categories) use (&$collectRisks, &$matrix) {
+            foreach ($categories as $category) {
+                foreach ($category['risks'] ?? [] as $risk) {
+                    $impact = (int) ($risk['impact'] ?? 0);
+                    $probability = (int) ($risk['probability'] ?? 0);
+
+                    if ($impact >= 1 && $impact <= 5 && $probability >= 1 && $probability <= 5) {
+                        $matrix[$impact][$probability]++;
+                    }
+                }
+
+                if (!empty($category['children'])) {
+                    $collectRisks($category['children']);
+                }
+            }
+        };
+
+        $collectRisks($categories);
+
+        return $matrix;
     }
 }
