@@ -2414,7 +2414,7 @@ body {
 } */
 
 .project-info-card {
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
     padding: 20px;
     border: 1px solid #e5e7eb;
     border-radius: 14px;
@@ -4916,6 +4916,157 @@ body {
     flex-wrap: wrap;
 }
 
+.timeline-task-progress-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.timeline-task-progress-area strong {
+    color: #0f172a;
+    font-size: 22px;
+}
+
+.timeline-task-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 22px;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.timeline-subtask-add-form {
+    grid-template-columns: 1fr auto;
+}
+
+.timeline-risk-add-form {
+    grid-template-columns: 1fr 150px auto;
+}
+
+.timeline-empty-main {
+    margin-top: 24px;
+    padding: 22px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    color: #64748b;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* =====================================================
+   PROJECT DETAIL GANTT CHART
+   ===================================================== */
+
+.project-gantt-card {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    margin-bottom: 20px 0;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+.project-gantt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.project-gantt-header h3 {
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-size: 18px;
+}
+
+.project-gantt-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.project-gantt-scroll {
+    overflow-x: auto;
+}
+
+.project-gantt {
+    min-width: 720px;
+    display: grid;
+    gap: 14px;
+}
+
+.gantt-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 16px;
+    align-items: center;
+}
+
+.gantt-label strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #1e293b;
+    font-size: 13px;
+}
+
+.gantt-label span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.gantt-track {
+    position: relative;
+    height: 34px;
+    border-radius: 999px;
+    background: repeating-linear-gradient(
+        to right,
+        #f8fafc,
+        #f8fafc 40px,
+        #edf2f7 40px,
+        #edf2f7 41px
+    );
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.gantt-bar {
+    position: absolute;
+    top: 5px;
+    height: 22px;
+    min-width: 36px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.gantt-bar.planned {
+    background: #3b82f6;
+}
+
+.gantt-bar.ongoing {
+    background: #f59e0b;
+}
+
+.gantt-bar.completed {
+    background: #22c55e;
+}
+
+@media (max-width: 768px) {
+    .project-gantt-header {
+        flex-direction: column;
+    }
+
+    .gantt-row {
+        grid-template-columns: 180px 1fr;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 
 @media (max-width: 480px) {
@@ -5127,6 +5278,10 @@ body {
     .timeline-risk-item {
         flex-direction: column;
     }
+        .timeline-task-progress-area {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 768px) {
@@ -5226,6 +5381,9 @@ body {
         min-width: 100%;
         height: auto;
         overflow-y: visible;
+    }
+        .project-gantt-header {
+        flex-direction: column;
     }
 }
 
@@ -5409,6 +5567,10 @@ body {
 
     .timeline-add-form,
     .timeline-column:nth-child(2) .timeline-add-form {
+        grid-template-columns: 1fr;
+    }
+    .timeline-subtask-add-form,
+    .timeline-risk-add-form {
         grid-template-columns: 1fr;
     }
 }

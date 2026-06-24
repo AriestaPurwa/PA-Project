@@ -106,22 +106,85 @@
                 📜 View History
             </a>
 
-            <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn app-btn">
+            <!-- <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn app-btn">
                 Project Timeline
-            </a>
+            </a> -->
 
         </div>
 
     </div>
 
+    <div class="project-gantt-card">
+        <div class="project-gantt-header">
+            <div>
+                <h3>Project Gantt Chart</h3>
+                <p>Visualisasi jadwal task berdasarkan tanggal mulai dan tanggal selesai.</p>
+            </div>
+            <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn-secondary">
+                Manage Timeline
+            </a>
+        </div>
+        @if(isset($ganttTasks) && $ganttTasks->count() > 0)
+            <div class="project-gantt-scroll">
+                <div class="project-gantt">
+                    @foreach($ganttTasks as $task)
+                        @php
+                            $taskStart = \Carbon\Carbon::parse($task->start_date);
+                            $taskEnd = \Carbon\Carbon::parse($task->end_date);
+
+                            $offset = $ganttStart ? $ganttStart->diffInDays($taskStart) : 0;
+                            $duration = $taskStart->diffInDays($taskEnd) + 1;
+
+                            $left = $ganttTotalDays > 0 ? ($offset / $ganttTotalDays) * 100 : 0;
+                            $width = $ganttTotalDays > 0 ? ($duration / $ganttTotalDays) * 100 : 100;
+
+                            $statusClass = match($task->status) {
+                                'In Progress' => 'ongoing',
+                                'Done' => 'completed',
+                                default => 'planned',
+                            };
+                        @endphp
+                        <div class="gantt-row">
+                            <div class="gantt-label">
+                                <strong>{{ $task->name }}</strong>
+                                <span>
+                                    {{ $task->start_date->format('d M') }}
+                                    -
+                                    {{ $task->end_date->format('d M Y') }}
+                                </span>
+                            </div>
+                            <div class="gantt-track">
+                                <div
+                                    class="gantt-bar {{ $statusClass }}"
+                                    style="left: {{ $left }}%; width: {{ $width }}%;">
+                                    <span>{{ $task->progress }}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @else
+            <div class="gantt-empty-state">
+                <div class="gantt-empty-icon">
+                    📅
+                </div>
+
+                <div>
+                    <h4>Timeline belum dibuat</h4>
+                    <p>
+                        Klik Manage Timeline untuk menambahkan task dan menampilkan Gantt Chart project.
+                    </p>
+                </div>
+            </div>
+        @endif
+    </div>
     <div class="rbs-scroll-wrap">
         <div class="rbs-board export-report-area" id="export-report-area">
-
             <div class="diagram-header">
                 <div class="project-diagram-head">
                     <div class="project-node-wrap">
                         <div class="project-node-label">PROJECT</div>
-
                         <div class="project-node">
                             {{ $project->nama_project }}
                         </div>
@@ -134,7 +197,6 @@
                     </a>
                 </div>
             </div>
-
             <ul class="rbs-tree">
                 @foreach($categories as $category)
                     @include('projects.partials.category-node', [
@@ -144,13 +206,11 @@
                     ])
                 @endforeach
             </ul>
-
             <div class="export-matrix-section">
                 @include('projects.partials.risk-matrix')
             </div>
         </div>
     </div>
-
 </div>
 
 @endsection

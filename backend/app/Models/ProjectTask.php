@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectSprint extends Model
+class ProjectTask extends Model
 {
     protected $fillable = [
         'project_id',
-        'sprint_number',
         'name',
         'start_date',
         'end_date',
+        'duration_days',
         'status',
-        'notes',
+        'progress',
     ];
 
     protected $casts = [
@@ -26,15 +26,15 @@ class ProjectSprint extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function tasks()
+    public function subtasks()
     {
-        return $this->hasMany(SprintTask::class, 'sprint_id');
+        return $this->hasMany(ProjectSubtask::class, 'task_id');
     }
 
     public function risks()
     {
-        return $this->belongsToMany(Risk::class, 'sprint_risks', 'sprint_id', 'risk_id')
-            ->withPivot('mitigation_status', 'notes')
+        return $this->belongsToMany(Risk::class, 'task_risks', 'task_id', 'risk_id')
+            ->withPivot('monitoring_status', 'notes')
             ->withTimestamps();
     }
 }

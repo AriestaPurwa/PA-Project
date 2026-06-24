@@ -11,6 +11,7 @@ use App\Services\ActivityLogService;
 use App\Models\ProjectType;
 use App\Models\ProjectTypeCategory;
 
+
 class ProjectController extends Controller
 {
     public function index()
@@ -144,13 +145,30 @@ class ProjectController extends Controller
 
         $heatmapService = $calculator;
 
-        // return view('projects.show', compact('project', 'categories'));
+        $ganttTasks = $project->projectTasks()
+            ->orderBy('start_date')
+            ->get();
+
+        $ganttStart = $ganttTasks->min('start_date');
+        $ganttEnd = $ganttTasks->max('end_date');
+
+        $ganttTotalDays = 0;
+
+        if ($ganttStart && $ganttEnd) {
+            $ganttStart = \Carbon\Carbon::parse($ganttStart);
+            $ganttEnd = \Carbon\Carbon::parse($ganttEnd);
+            $ganttTotalDays = $ganttStart->diffInDays($ganttEnd) + 1;
+        }
 
         return view('projects.show', compact(
             'project',
             'categories',
             'matrix',
-            'heatmapService'
+            'heatmapService',
+            'ganttTasks',
+            'ganttStart',
+            'ganttEnd',
+            'ganttTotalDays'
         ));
     }
 

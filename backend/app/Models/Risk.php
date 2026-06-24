@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProjectSprint;
+use App\Models\ProjectTask;
 
 class Risk extends Model
 {
@@ -31,10 +31,11 @@ class Risk extends Model
     {
         return $this->belongsTo(RiskCategory::class, 'category_id');
     }
-    public function sprints()
+
+    public function projectTasks()
     {
-        return $this->belongsToMany(ProjectSprint::class, 'sprint_risks', 'risk_id', 'sprint_id')
-            ->withPivot('mitigation_status', 'notes')
+        return $this->belongsToMany(ProjectTask::class, 'task_risks', 'risk_id', 'task_id')
+            ->withPivot('monitoring_status', 'notes')
             ->withTimestamps();
     }
 

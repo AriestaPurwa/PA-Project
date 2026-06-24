@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProjectSprint;
+use App\Models\ProjectTask;
 
 class Project extends Model
 {
@@ -52,9 +52,9 @@ class Project extends Model
     {
         return $this->hasMany(ActivityLog::class);
     }
-    public function sprints()
+    public function projectTasks()
     {
-        return $this->hasMany(ProjectSprint::class);
+        return $this->hasMany(ProjectTask::class);
     }
     
 }
