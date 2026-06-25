@@ -5087,6 +5087,107 @@ body {
     color: #b91c1c;
 }
 
+/* =====================================================
+   PROFILE SETTINGS
+   ===================================================== */
+
+.settings-avatar-photo {
+    overflow: hidden;
+}
+
+.settings-avatar-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-form {
+    display: grid;
+    gap: 18px;
+}
+
+.profile-upload-preview {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.profile-photo-preview {
+    width: 76px;
+    height: 76px;
+    min-width: 76px;
+    border-radius: 20px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    font-size: 28px;
+    font-weight: 800;
+    overflow: hidden;
+}
+
+.profile-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-upload-preview h4 {
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-size: 15px;
+}
+
+.profile-upload-preview p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.settings-form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.settings-page .form-group {
+    margin-bottom: 0;
+}
+
+.settings-page .form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.settings-page .form-input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 14px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+}
+
+.settings-page .form-input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
 
 
 /* ===== RESPONSIVE ===== */
@@ -5303,6 +5404,15 @@ body {
         .timeline-task-progress-area {
         align-items: flex-start;
         flex-direction: column;
+    }
+        .profile-upload-preview {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .settings-form-actions .btn,
+    .settings-form-actions .app-btn {
+        width: 100%;
     }
 }
 
