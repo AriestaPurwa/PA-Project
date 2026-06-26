@@ -2,22 +2,27 @@
 
 @section('content')
 
-<div class="project-form-page risk-form-page">
+<div class="project-form-page risk-form-page modern-project-form-page modern-risk-form-page">
 
-    <div class="project-form-header">
+    {{-- ===== HEADER ===== --}}
+    <div class="project-form-hero risk-form-hero">
         <div>
+            <span class="page-label">Edit Risk</span>
             <h2>Edit Risk</h2>
-            <p>Perbarui informasi risiko, kategori, probability, dan impact.</p>
+            <p>
+                Perbarui informasi risiko, kategori, probability, impact, dan deskripsi risk.
+            </p>
         </div>
 
-        <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">
+        <a href="{{ route('projects.show', $project->id) }}" class="project-form-back-btn">
             ← Kembali ke Project
         </a>
     </div>
 
-    <div class="risk-context-card">
+    {{-- ===== CONTEXT CARD ===== --}}
+    <div class="risk-context-card modern-risk-context-card">
 
-        <div class="risk-context-icon">
+        <div class="risk-context-icon modern-risk-context-icon">
             🛡️
         </div>
 
@@ -31,17 +36,21 @@
 
     </div>
 
-    <div class="project-form-card">
+    {{-- ===== FORM CARD ===== --}}
+    <div class="project-form-card modern-project-form-card">
 
-        <div class="project-form-card-header">
+        <div class="project-form-card-header modern-project-form-card-header">
             <div>
+                <span class="section-kicker">Risk Information</span>
                 <h3>Informasi Risk</h3>
                 <p>Perubahan probability dan impact akan memperbarui risk score.</p>
             </div>
         </div>
 
         @if ($errors->any())
-            <div class="alert-error">
+            <div class="alert-error modern-alert-error">
+                <strong>Terjadi kesalahan input</strong>
+
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -57,7 +66,16 @@
             @csrf
             @method('PUT')
 
-            <div class="project-form-section">
+            <div class="project-form-section modern-project-form-section">
+
+                {{-- ===== BASIC RISK ===== --}}
+                <div class="form-section-title">
+                    <span>01</span>
+                    <div>
+                        <h4>Data Risk</h4>
+                        <p>Perbarui nama risk dan kategori tempat risk berada.</p>
+                    </div>
+                </div>
 
                 <div class="form-row two-columns">
 
@@ -111,7 +129,16 @@
 
                 </div>
 
-                <div class="risk-score-layout">
+                {{-- ===== RISK SCORING ===== --}}
+                <div class="form-section-title">
+                    <span>02</span>
+                    <div>
+                        <h4>Penilaian Risk</h4>
+                        <p>Risk score dihitung dari probability × impact.</p>
+                    </div>
+                </div>
+
+                <div class="risk-score-layout modern-risk-score-layout">
 
                     <div class="risk-score-inputs">
 
@@ -134,7 +161,7 @@
                                 >
 
                                 <small class="form-help">
-                                    Kemungkinan terjadinya risiko.
+                                    Kemungkinan terjadinya risiko. Skala 1 sampai 5.
                                 </small>
                             </div>
 
@@ -155,15 +182,34 @@
                                 >
 
                                 <small class="form-help">
-                                    Besarnya dampak jika terjadi.
+                                    Besarnya dampak jika terjadi. Skala 1 sampai 5.
                                 </small>
+                            </div>
+
+                        </div>
+
+                        <div class="risk-scale-info modern-risk-scale-info">
+
+                            <div class="risk-scale-item low">
+                                <strong>Low</strong>
+                                <span>1 - 6</span>
+                            </div>
+
+                            <div class="risk-scale-item medium">
+                                <strong>Medium</strong>
+                                <span>7 - 14</span>
+                            </div>
+
+                            <div class="risk-scale-item high">
+                                <strong>High</strong>
+                                <span>15 - 25</span>
                             </div>
 
                         </div>
 
                     </div>
 
-                    <div class="risk-score-preview">
+                    <div class="risk-score-preview modern-risk-score-preview">
                         <span>Risk Score Preview</span>
 
                         <strong id="risk_score_value">
@@ -177,23 +223,13 @@
 
                 </div>
 
-                <div class="risk-scale-info">
-
-                    <div class="risk-scale-item low">
-                        <strong>Low</strong>
-                        <span>1 - 6</span>
+                {{-- ===== PROJECT STATUS ===== --}}
+                <div class="form-section-title">
+                    <span>03</span>
+                    <div>
+                        <h4>Status Project</h4>
+                        <p>Status project saat risk diperbarui.</p>
                     </div>
-
-                    <div class="risk-scale-item medium">
-                        <strong>Medium</strong>
-                        <span>7 - 14</span>
-                    </div>
-
-                    <div class="risk-scale-item high">
-                        <strong>High</strong>
-                        <span>15 - 25</span>
-                    </div>
-
                 </div>
 
                 <div class="form-group">
@@ -227,6 +263,15 @@
                     </small>
                 </div>
 
+                {{-- ===== DESCRIPTION ===== --}}
+                <div class="form-section-title">
+                    <span>04</span>
+                    <div>
+                        <h4>Deskripsi Risk</h4>
+                        <p>Perbarui penjelasan singkat mengenai penyebab atau dampak risk.</p>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label" for="deskripsi">
                         Description
@@ -243,12 +288,12 @@
 
             </div>
 
-            <div class="project-form-actions">
-                <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">
+            <div class="project-form-actions modern-project-form-actions">
+                <a href="{{ route('projects.show', $project->id) }}" class="project-form-cancel-btn">
                     Batal
                 </a>
 
-                <button type="submit" class="btn app-btn">
+                <button type="submit" class="project-form-submit-btn">
                     Update Risk
                 </button>
             </div>

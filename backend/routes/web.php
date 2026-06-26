@@ -82,7 +82,9 @@ Route::get('/try-test', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])
+    ->name('login');
+    
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/register', [AuthController::class, 'showRegister']);
@@ -213,10 +215,13 @@ Route::view('/user-guide', 'pages.user-guide')
     ->name('user-guide');
 
 
+Route::get('/settings', [SettingsController::class, 'index'])
+    ->middleware('auth')
+    ->name('settings');
+
 Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])
     ->middleware('auth')
     ->name('settings.profile.update');
-
 
 Route::view('/about-system', 'pages.about-system')
     ->middleware('auth')

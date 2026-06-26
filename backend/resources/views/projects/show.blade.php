@@ -2,129 +2,160 @@
 
 @section('content')
 
-<div class="diagram-page">
+<div class="diagram-page project-detail-page">
+
+    {{-- ===== GUEST NOTICE ===== --}}
     @if($project->is_guest)
+        <div class="project-detail-alert guest">
+            <div class="project-detail-alert-icon">⚠</div>
 
-        <div class="card app-card" style="margin-bottom:20px;">
+            <div>
+                <strong>Guest Mode Active</strong>
+                <p>This project is temporary and may be deleted automatically later.</p>
 
-            <strong>Guest Mode Active</strong><br>
-
-            This project is temporary and may be deleted automatically later.
-
-            <div style="margin-top:10px;">
                 <a href="/login" class="btn app-btn">
                     Login to Save Permanently
                 </a>
             </div>
-
         </div>
-
     @endif
 
-    <div class="diagram-toolbar" data-export-ignore>
-        <button type="button" class="btn app-btn" id="export-png-btn">
-            Export PNG
-        </button>
+    {{-- ===== PROJECT DETAIL HERO ===== --}}
+    @php
+        $statusClass = match($project->status) {
+            'Ongoing' => 'ongoing',
+            'Completed' => 'completed',
+            default => 'planning',
+        };
 
-        <button type="button" class="btn app-btn" id="export-jpg-btn">
-            Export JPG
-        </button>
+        $statusLabel = $project->status ?? 'Planning';
 
-        <button type="button" class="btn app-btn" id="export-pdf-btn">
-            Export PDF
-        </button>
+        $progress = $project->progress ?? 0;
+        $mitigationProgress = $project->mitigation_progress ?? 0;
+
+        $budgetValue = $project->estimated_budget ?? $project->budget_estimate ?? null;
+    @endphp
+
+    <div class="project-detail-hero">
+
+        <div class="project-detail-main">
+            <span class="page-label">Project Detail</span>
+
+            <div class="project-detail-title-row">
+                <h2>{{ $project->nama_project }}</h2>
+
+                <span class="project-status-badge {{ $statusClass }}">
+                    {{ $statusLabel }}
+                </span>
+            </div>
+
+            <p>
+                {{ $project->deskripsi ?: 'Belum ada deskripsi proyek.' }}
+            </p>
+        </div>
+
+        <div class="project-detail-actions" data-export-ignore>
+            <a href="{{ route('projects.edit', $project->id) }}" class="project-action-btn primary">
+                <span>✏</span>
+                Edit Project
+            </a>
+
+            <a href="{{ route('projects.history', $project->id) }}" class="project-action-btn secondary">
+                <span>📜</span>
+                View History
+            </a>
+        </div>
+
     </div>
 
-    {{-- ===== INFORMASI PROYEK ===== --}}
-    <div class="project-info-card">
+    {{-- ===== PROJECT INFORMATION ===== --}}
+    <div class="project-info-card project-detail-info-card">
 
-        <h3 class="project-info-title">
-            📋 Informasi Proyek
-        </h3>
+        <div class="project-detail-section-header">
+            <div>
+                <h3>Project Information</h3>
+                <p>Informasi utama mengenai tipe project, status, progress, dan estimasi anggaran.</p>
+            </div>
+        </div>
 
-        <div class="project-info-grid">
+        <div class="project-info-grid project-detail-info-grid">
 
-            <div class="project-info-item">
+            <div class="project-info-item detail-info-item">
                 <span class="info-label">Tipe Proyek</span>
                 <span class="info-value">
-                    {{ $project->projectType->name ?? '-' }}
+                    {{ $project->projectType->name ?? $project->projectType->nama_tipe ?? '-' }}
                 </span>
             </div>
 
-            <div class="project-info-item">
+            <div class="project-info-item detail-info-item">
                 <span class="info-label">Status Proyek</span>
                 <span class="info-value">
-                    {{ $project->status ?? 'Planning' }}
+                    {{ $statusLabel }}
                 </span>
             </div>
 
-            <div class="project-info-item">
+            <div class="project-info-item detail-info-item">
                 <span class="info-label">Progress Proyek</span>
-                <span class="info-value">
-                    {{ $project->progress ?? 0 }}%
-                </span>
+
+                <div class="detail-progress-box">
+                    <div class="project-progress-track">
+                        <div
+                            class="project-progress-fill"
+                            style="width: {{ $progress }}%;"
+                        ></div>
+                    </div>
+
+                    <strong>{{ $progress }}%</strong>
+                </div>
             </div>
 
-            <div class="project-info-item">
+            <div class="project-info-item detail-info-item">
                 <span class="info-label">Estimasi Anggaran</span>
                 <span class="info-value">
-                    @if($project->estimated_budget)
-                        Rp {{ number_format($project->estimated_budget, 0, ',', '.') }}
+                    @if($budgetValue)
+                        Rp {{ number_format($budgetValue, 0, ',', '.') }}
                     @else
                         -
                     @endif
                 </span>
             </div>
 
-            <div class="project-info-item">
+            <div class="project-info-item detail-info-item">
                 <span class="info-label">Progress Mitigasi</span>
-                <span class="info-value">
-                    {{ $project->mitigation_progress ?? 0 }}%
-                </span>
+
+                <div class="detail-progress-box">
+                    <div class="progress-bar-track">
+                        <div
+                            class="progress-bar-fill"
+                            style="width: {{ $mitigationProgress }}%;"
+                        ></div>
+                    </div>
+
+                    <strong>{{ $mitigationProgress }}%</strong>
+                </div>
             </div>
-
-        </div>
-
-        {{-- Deskripsi Proyek --}}
-        <div class="project-description">
-            <h4>Deskripsi Proyek</h4>
-
-            <p margin-bottom-20>
-                {{ $project->deskripsi ?: 'Belum ada deskripsi proyek.' }}
-            </p>
-        </div>
-
-        <div class="project-info-actions padding-top-20">
-
-            <a href="{{ route('projects.edit', $project->id) }}"
-            class="btn app-btn">
-                ✏ Edit Project
-            </a>
-
-            <a href="{{ route('projects.history', $project->id) }}"
-            class="btn-secondary">
-                📜 View History
-            </a>
-
-            <!-- <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn app-btn">
-                Project Timeline
-            </a> -->
 
         </div>
 
     </div>
 
-    <div class="project-gantt-card">
+    {{-- ===== GANTT CHART ===== --}}
+    <div class="project-gantt-card project-detail-gantt-card">
+
         <div class="project-gantt-header">
             <div>
+                <span class="section-kicker">Timeline</span>
                 <h3>Project Gantt Chart</h3>
                 <p>Visualisasi jadwal task berdasarkan tanggal mulai dan tanggal selesai.</p>
             </div>
-            <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn-secondary">
+
+            <a href="{{ route('projects.timeline.index', $project->id) }}" class="btn-secondary" data-export-ignore>
                 Manage Timeline
             </a>
         </div>
+
         @if(isset($ganttTasks) && $ganttTasks->count() > 0)
+
             <div class="project-gantt-scroll">
                 <div class="project-gantt">
                     @foreach($ganttTasks as $task)
@@ -144,19 +175,22 @@
                                 default => 'planned',
                             };
                         @endphp
+
                         <div class="gantt-row">
                             <div class="gantt-label">
                                 <strong>{{ $task->name }}</strong>
                                 <span>
-                                    {{ $task->start_date->format('d M') }}
+                                    {{ $taskStart->format('d M') }}
                                     -
-                                    {{ $task->end_date->format('d M Y') }}
+                                    {{ $taskEnd->format('d M Y') }}
                                 </span>
                             </div>
+
                             <div class="gantt-track">
                                 <div
                                     class="gantt-bar {{ $statusClass }}"
-                                    style="left: {{ $left }}%; width: {{ $width }}%;">
+                                    style="left: {{ $left }}%; width: {{ $width }}%;"
+                                >
                                     <span>{{ $task->progress }}%</span>
                                 </div>
                             </div>
@@ -164,7 +198,9 @@
                     @endforeach
                 </div>
             </div>
+
         @else
+
             <div class="gantt-empty-state">
                 <div class="gantt-empty-icon">
                     📅
@@ -177,40 +213,79 @@
                     </p>
                 </div>
             </div>
-        @endif
-    </div>
-    <div class="rbs-scroll-wrap">
-        <div class="rbs-board export-report-area" id="export-report-area">
-            <div class="diagram-header">
-                <div class="project-diagram-head">
-                    <div class="project-node-wrap">
-                        <div class="project-node-label">PROJECT</div>
-                        <div class="project-node">
-                            {{ $project->nama_project }}
-                        </div>
-                    </div>
 
-                    <a class="btn app-btn root-category-btn"
-                       href="{{ route('projects.categories.create', $project->id) }}"
-                       data-export-ignore>
-                        + Category
-                    </a>
-                </div>
+        @endif
+
+    </div>
+
+    {{-- ===== RBS DIAGRAM SECTION ===== --}}
+    <div class="project-detail-section-card">
+
+        <div class="project-detail-section-header diagram-section-header">
+            <div>
+                <span class="section-kicker">RBS Diagram</span>
+                <h3>Risk Breakdown Structure</h3>
+                <p>Visualisasi hierarki kategori risiko dan risk item pada project.</p>
             </div>
-            <ul class="rbs-tree">
-                @foreach($categories as $category)
-                    @include('projects.partials.category-node', [
-                        'category' => $category,
-                        'project' => $project,
-                        'level' => 0
-                    ])
-                @endforeach
-            </ul>
-            <div class="export-matrix-section">
-                @include('projects.partials.risk-matrix')
+
+            <div class="diagram-toolbar" data-export-ignore>
+                <button type="button" class="btn app-btn" id="export-png-btn">
+                    Export PNG
+                </button>
+
+                <button type="button" class="btn app-btn" id="export-jpg-btn">
+                    Export JPG
+                </button>
+
+                <button type="button" class="btn app-btn" id="export-pdf-btn">
+                    Export PDF
+                </button>
             </div>
         </div>
+
+        {{-- DIAGRAM TIDAK DIUBAH --}}
+        <div class="rbs-scroll-wrap">
+            <div class="rbs-board export-report-area" id="export-report-area">
+
+                <div class="diagram-header">
+                    <div class="project-diagram-head">
+                        <div class="project-node-wrap">
+                            <div class="project-node-label">PROJECT</div>
+
+                            <div class="project-node">
+                                {{ $project->nama_project }}
+                            </div>
+                        </div>
+
+                        <a
+                            class="btn app-btn root-category-btn"
+                            href="{{ route('projects.categories.create', $project->id) }}"
+                            data-export-ignore
+                        >
+                            + Category
+                        </a>
+                    </div>
+                </div>
+
+                <ul class="rbs-tree">
+                    @foreach($categories as $category)
+                        @include('projects.partials.category-node', [
+                            'category' => $category,
+                            'project' => $project,
+                            'level' => 0
+                        ])
+                    @endforeach
+                </ul>
+
+                <div class="export-matrix-section">
+                    @include('projects.partials.risk-matrix')
+                </div>
+
+            </div>
+        </div>
+
     </div>
+
 </div>
 
 @endsection

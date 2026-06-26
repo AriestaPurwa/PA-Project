@@ -187,7 +187,13 @@ class ProjectController extends Controller
             }
         }
 
-        return view('projects.edit', compact('project'));
+            $projectTypes = ProjectType::where('is_active', true)
+                ->get();
+
+            return view('projects.edit', compact(
+                'project',
+                'projectTypes'
+            ));
     }
 
     /**

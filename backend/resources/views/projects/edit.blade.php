@@ -2,30 +2,39 @@
 
 @section('content')
 
-<div class="project-form-page">
+<div class="project-form-page modern-project-form-page">
 
-    <div class="project-form-header">
+    {{-- ===== HEADER ===== --}}
+    <div class="project-form-hero">
         <div>
+            <span class="page-label">Edit Project</span>
             <h2>Edit Project</h2>
-            <p>Perbarui informasi project, status, progress, dan estimasi anggaran.</p>
+            <p>
+                Perbarui informasi project, status, progress, dan estimasi anggaran
+                yang digunakan pada dashboard, detail project, dan report.
+            </p>
         </div>
 
-        <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">
+        <a href="{{ route('projects.show', $project->id) }}" class="project-form-back-btn">
             ← Kembali
         </a>
     </div>
 
-    <div class="project-form-card">
+    {{-- ===== FORM CARD ===== --}}
+    <div class="project-form-card modern-project-form-card">
 
-        <div class="project-form-card-header">
+        <div class="project-form-card-header modern-project-form-card-header">
             <div>
+                <span class="section-kicker">Project Information</span>
                 <h3>Informasi Project</h3>
                 <p>Data ini akan digunakan pada dashboard, report, dan detail project.</p>
             </div>
         </div>
 
         @if ($errors->any())
-            <div class="alert-error">
+            <div class="alert-error modern-alert-error">
+                <strong>Terjadi kesalahan input</strong>
+
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -41,7 +50,16 @@
             @csrf
             @method('PUT')
 
-            <div class="project-form-section">
+            <div class="project-form-section modern-project-form-section">
+
+                {{-- ===== BASIC INFORMATION ===== --}}
+                <div class="form-section-title">
+                    <span>01</span>
+                    <div>
+                        <h4>Data Utama</h4>
+                        <p>Perbarui nama project dan tipe project.</p>
+                    </div>
+                </div>
 
                 <div class="form-row two-columns">
 
@@ -95,7 +113,16 @@
 
                 </div>
 
-                <div class="form-row three-columns">
+                {{-- ===== TRACKING INFORMATION ===== --}}
+                <div class="form-section-title">
+                    <span>02</span>
+                    <div>
+                        <h4>Tracking Project</h4>
+                        <p>Perbarui status dan estimasi anggaran project.</p>
+                    </div>
+                </div>
+
+                <div class="form-row two-columns">
 
                     <div class="form-group">
                         <label class="form-label" for="status">
@@ -124,7 +151,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="form-label" for="progress">
                             Progress Project (%)
                         </label>
@@ -136,9 +163,13 @@
                             min="0"
                             max="100"
                             class="form-input"
-                            value="{{ old('progress', $project->progress ?? 0) }}"
+                            value="{{-- old('progress', $project->progress ?? 0) --}}"
                         >
-                    </div>
+
+                        <small class="form-help">
+                            Nilai 0 sampai 100.
+                        </small>
+                    </div> -->
 
                     <div class="form-group">
                         <label class="form-label" for="estimated_budget">
@@ -157,6 +188,15 @@
 
                 </div>
 
+                {{-- ===== DESCRIPTION ===== --}}
+                <div class="form-section-title">
+                    <span>03</span>
+                    <div>
+                        <h4>Deskripsi Project</h4>
+                        <p>Perbarui deskripsi singkat project.</p>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label" for="deskripsi">
                         Deskripsi
@@ -173,12 +213,12 @@
 
             </div>
 
-            <div class="project-form-actions">
-                <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">
+            <div class="project-form-actions modern-project-form-actions">
+                <a href="{{ route('projects.show', $project->id) }}" class="project-form-cancel-btn">
                     Batal
                 </a>
 
-                <button type="submit" class="btn app-btn">
+                <button type="submit" class="project-form-submit-btn">
                     Update Project
                 </button>
             </div>

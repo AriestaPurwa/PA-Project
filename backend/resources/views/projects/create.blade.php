@@ -2,37 +2,51 @@
 
 @section('content')
 
-<div class="project-form-page">
+<div class="project-form-page modern-project-form-page">
 
-    <div class="project-form-header">
+    {{-- ===== HEADER ===== --}}
+    <div class="project-form-hero">
         <div>
+            <span class="page-label">Create Project</span>
             <h2>Tambah Project</h2>
-            <p>Buat project baru untuk mulai menyusun Risk Breakdown Structure.</p>
+            <p>
+                Buat project baru untuk mulai menyusun Risk Breakdown Structure,
+                kategori risiko, risk matrix, dan rekomendasi mitigasi.
+            </p>
         </div>
 
-        <a href="{{ route('projects.index') }}" class="btn-secondary">
+        <a href="{{ route('projects.index') }}" class="project-form-back-btn">
             ← Kembali
         </a>
     </div>
 
+    {{-- ===== GUEST NOTICE ===== --}}
     @if(request('guest'))
-        <div class="project-form-alert warning">
-            <strong>⚠️ Guest Mode Active</strong>
-            <p>Project ini bersifat sementara dan tidak tersimpan secara permanen.</p>
+        <div class="project-form-alert warning modern-form-alert">
+            <div class="form-alert-icon">⚠</div>
+
+            <div>
+                <strong>Guest Mode Active</strong>
+                <p>Project ini bersifat sementara dan tidak tersimpan secara permanen.</p>
+            </div>
         </div>
     @endif
 
-    <div class="project-form-card">
+    {{-- ===== FORM CARD ===== --}}
+    <div class="project-form-card modern-project-form-card">
 
-        <div class="project-form-card-header">
+        <div class="project-form-card-header modern-project-form-card-header">
             <div>
+                <span class="section-kicker">Project Information</span>
                 <h3>Informasi Project</h3>
                 <p>Lengkapi data dasar project sebelum menyusun kategori risiko.</p>
             </div>
         </div>
 
         @if ($errors->any())
-            <div class="alert-error">
+            <div class="alert-error modern-alert-error">
+                <strong>Terjadi kesalahan input</strong>
+
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -48,7 +62,16 @@
                 <input type="hidden" name="guest_mode" value="1">
             @endif
 
-            <div class="project-form-section">
+            <div class="project-form-section modern-project-form-section">
+
+                {{-- ===== BASIC INFORMATION ===== --}}
+                <div class="form-section-title">
+                    <span>01</span>
+                    <div>
+                        <h4>Data Utama</h4>
+                        <p>Nama project dan tipe project sebagai dasar struktur RBS.</p>
+                    </div>
+                </div>
 
                 <div class="form-row two-columns">
 
@@ -103,7 +126,16 @@
 
                 </div>
 
-                <div class="form-row three-columns">
+                {{-- ===== TRACKING INFORMATION ===== --}}
+                <div class="form-section-title">
+                    <span>02</span>
+                    <div>
+                        <h4>Tracking Project</h4>
+                        <p>Status dan estimasi anggaran untuk ringkasan project.</p>
+                    </div>
+                </div>
+
+                <div class="form-row two-columns">
 
                     <div class="form-group">
                         <label class="form-label" for="status">
@@ -129,7 +161,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="form-label" for="progress">
                             Progress Project (%)
                         </label>
@@ -143,7 +175,11 @@
                             class="form-input"
                             value="{{ old('progress', 0) }}"
                         >
-                    </div>
+
+                        <small class="form-help">
+                            Nilai 0 sampai 100.
+                        </small>
+                    </div> -->
 
                     <div class="form-group">
                         <label class="form-label" for="estimated_budget">
@@ -163,6 +199,15 @@
 
                 </div>
 
+                {{-- ===== DESCRIPTION ===== --}}
+                <div class="form-section-title">
+                    <span>03</span>
+                    <div>
+                        <h4>Deskripsi Project</h4>
+                        <p>Tambahkan penjelasan singkat agar project lebih mudah dipahami.</p>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label" for="deskripsi">
                         Deskripsi
@@ -179,12 +224,12 @@
 
             </div>
 
-            <div class="project-form-actions">
-                <a href="{{ route('projects.index') }}" class="btn-secondary">
+            <div class="project-form-actions modern-project-form-actions">
+                <a href="{{ route('projects.index') }}" class="project-form-cancel-btn">
                     Batal
                 </a>
 
-                <button type="submit" class="btn app-btn">
+                <button type="submit" class="project-form-submit-btn">
                     Simpan Project
                 </button>
             </div>
