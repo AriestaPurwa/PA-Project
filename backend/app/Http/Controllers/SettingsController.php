@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Risk;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -39,5 +41,35 @@ class SettingsController extends Controller
             'mediumRisks',
             'lowRisks'
         ));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        $user->name = $validated['name'];
+
+        if ($request->hasFile('profile_photo')) {
+
+            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+
+            $path = $request->file('profile_photo')
+                ->store('profile-photos', 'public');
+
+            $user->profile_photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()
+            ->route('settings')
+            ->with('success', 'Profile berhasil diperbarui.');
     }
 }

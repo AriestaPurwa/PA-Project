@@ -213,9 +213,9 @@ Route::view('/user-guide', 'pages.user-guide')
     ->name('user-guide');
 
 
-Route::get('/settings', [SettingsController::class, 'index'])
+Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])
     ->middleware('auth')
-    ->name('settings');
+    ->name('settings.profile.update');
 
 
 Route::view('/about-system', 'pages.about-system')
