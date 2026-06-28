@@ -25,6 +25,10 @@ class ProjectTimelineController extends Controller
             ->orderByDesc('risk_score')
             ->get();
 
+        $totalTaskCost = $tasks->sum('task_cost');
+
+        $remainingCost = ($project->estimated_budget ?? 0) - $totalTaskCost;
+
         $totalTasks = $tasks->count();
 
         $totalSubtasks = $tasks->sum(function ($task) {
@@ -46,7 +50,9 @@ class ProjectTimelineController extends Controller
             'totalTasks',
             'totalSubtasks',
             'doneSubtasks',
-            'assignedRisks'
+            'assignedRisks',
+            'totalTaskCost',
+            'remainingCost'
         ));
     }
 
@@ -57,31 +63,60 @@ class ProjectTimelineController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
-            'duration_days' => ['required', 'integer', 'min:1', 'max:365'],
+            'duration_days' => ['required', 'integer', 'min:1'],
+            'task_cost' => ['required', 'numeric', 'min:0'],
         ]);
 
-        $startDate = Carbon::parse($validated['start_date']);
-        $endDate = $startDate->copy()->addDays($validated['duration_days'] - 1);
+        $taskStartDate = \Carbon\Carbon::parse($validated['start_date']);
+        $taskEndDate = $taskStartDate->copy()->addDays($validated['duration_days'] - 1);
 
-        $task = $project->projectTasks()->create([
+        $projectStartDate = \Carbon\Carbon::parse($project->start_date);
+        $projectEndDate = \Carbon\Carbon::parse($project->end_date);
+
+        if ($taskStartDate->lt($projectStartDate)) {
+            return back()
+                ->withErrors(['start_date' => 'Tanggal mulai task tidak boleh sebelum tanggal mulai project.'])
+                ->withInput();
+        }
+
+        if ($taskEndDate->gt($projectEndDate)) {
+            return back()
+                ->withErrors(['duration_days' => 'Tanggal selesai task tidak boleh melebihi tanggal selesai project.'])
+                ->withInput();
+        }
+
+        $usedCost = $project->projectTasks()->sum('task_cost');
+        $projectBudget = $project->estimated_budget ?? 0;
+
+        if (($usedCost + $validated['task_cost']) > $projectBudget) {
+            return back()
+                ->withErrors(['task_cost' => 'Total cost task tidak boleh melebihi project cost.'])
+                ->withInput();
+        }
+
+        $task = ProjectTask::create([
+            'project_id' => $project->id,
             'name' => $validated['name'],
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'start_date' => $taskStartDate,
+            'end_date' => $taskEndDate,
             'duration_days' => $validated['duration_days'],
+            'task_cost' => $validated['task_cost'],
             'status' => 'To Do',
             'progress' => 0,
         ]);
 
-        $this->refreshProjectProgress($project);
-
         $this->logActivity(
             $project,
-            'create_task',
+            'create',
             'project_task',
-            'Created project task: ' . $task->name
+            'Created new task: ' . $task->name
         );
 
-        return back()->with('success', 'Task berhasil ditambahkan.');
+        $this->refreshProjectProgress($project);
+
+        return redirect()
+            ->route('projects.timeline.index', $project->id)
+            ->with('success', 'Task berhasil ditambahkan.');
     }
 
     public function destroyTask(Project $project, ProjectTask $task)
@@ -189,7 +224,7 @@ class ProjectTimelineController extends Controller
 
         $validated = $request->validate([
             'risk_id' => ['required', 'exists:risks,id'],
-            'monitoring_status' => ['required', 'in:Open,In Progress,Handled'],
+            'monitoring_status' => ['required', 'in:Potential,Unhandled,Handled'],
         ]);
 
         $risk = Risk::findOrFail($validated['risk_id']);
@@ -211,7 +246,7 @@ class ProjectTimelineController extends Controller
             'Assigned risk "' . $risk->nama_risiko . '" to task "' . $task->name . '".'
         );
 
-        return back()->with('success', 'Risk berhasil ditambahkan ke task.');
+        return back()->with('success', 'Potential risk berhasil ditambahkan ke task.');
     }
 
     public function updateRiskStatus(Request $request, Project $project, ProjectTask $task, Risk $risk)
@@ -224,7 +259,7 @@ class ProjectTimelineController extends Controller
         }
 
         $validated = $request->validate([
-            'monitoring_status' => ['required', 'in:Open,In Progress,Handled'],
+            'monitoring_status' => ['required', 'in:Potential,Unhandled,Handled'],
         ]);
 
         $task->risks()->updateExistingPivot($risk->id, [
@@ -233,12 +268,12 @@ class ProjectTimelineController extends Controller
 
         $this->logActivity(
             $project,
-            'update_task_risk',
-            'task_risk',
-            'Updated risk "' . $risk->nama_risiko . '" monitoring status in task "' . $task->name . '".'
+            'update_potential_risk',
+            'potential_risk',
+            'Updated potential risk "' . $risk->nama_risiko . '" status in task "' . $task->name . '".'
         );
 
-        return back()->with('success', 'Status risk berhasil diperbarui.');
+        return back()->with('success', 'Status potential risk berhasil diperbarui.');
     }
 
     public function detachRisk(Project $project, ProjectTask $task, Risk $risk)

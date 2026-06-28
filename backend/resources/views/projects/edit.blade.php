@@ -117,72 +117,56 @@
                 <div class="form-section-title">
                     <span>02</span>
                     <div>
-                        <h4>Tracking Project</h4>
-                        <p>Perbarui status dan estimasi anggaran project.</p>
+                        <h4>Schedule & Cost</h4>
+                        <p>Tentukan periode pengerjaan project dan total estimasi biaya.</p>
                     </div>
                 </div>
 
-                <div class="form-row two-columns">
+                <div class="form-row three-columns">
 
                     <div class="form-group">
-                        <label class="form-label" for="status">
-                            Status Project
+                        <label class="form-label" for="start_date">
+                            Start Date
                         </label>
 
-                        <select
-                            name="status"
-                            id="status"
-                            class="form-select"
+                        <input
+                            id="start_date"
+                            type="date"
+                            name="start_date"
+                            class="form-input"
+                            value="{{ old('start_date', isset($project) && $project->start_date ? $project->start_date->format('Y-m-d') : '') }}"
+                            required
                         >
-                            <option value="Planning"
-                                {{ old('status', $project->status) == 'Planning' ? 'selected' : '' }}>
-                                Planning
-                            </option>
-
-                            <option value="Ongoing"
-                                {{ old('status', $project->status) == 'Ongoing' ? 'selected' : '' }}>
-                                Ongoing
-                            </option>
-
-                            <option value="Completed"
-                                {{ old('status', $project->status) == 'Completed' ? 'selected' : '' }}>
-                                Completed
-                            </option>
-                        </select>
                     </div>
 
-                    <!-- <div class="form-group">
-                        <label class="form-label" for="progress">
-                            Progress Project (%)
+                    <div class="form-group">
+                        <label class="form-label" for="end_date">
+                            End Date
                         </label>
 
                         <input
-                            id="progress"
-                            type="number"
-                            name="progress"
-                            min="0"
-                            max="100"
+                            id="end_date"
+                            type="date"
+                            name="end_date"
                             class="form-input"
-                            value="{{-- old('progress', $project->progress ?? 0) --}}"
+                            value="{{ old('end_date', isset($project) && $project->end_date ? $project->end_date->format('Y-m-d') : '') }}"
+                            required
                         >
-
-                        <small class="form-help">
-                            Nilai 0 sampai 100.
-                        </small>
-                    </div> -->
+                    </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="estimated_budget">
-                            Estimasi Anggaran (Rp)
+                        <label class="form-label" for="budget_estimate">
+                            Project Cost / Budget (Rp)
                         </label>
 
                         <input
-                            id="estimated_budget"
+                            id="budget_estimate"
                             type="number"
-                            name="estimated_budget"
+                            name="budget_estimate"
                             min="0"
                             class="form-input"
-                            value="{{ old('estimated_budget', $project->estimated_budget ?? $project->budget_estimate ?? 0) }}"
+                            value="{{ old('budget_estimate', $project->budget_estimate ?? 0) }}"
+                            required
                         >
                     </div>
 

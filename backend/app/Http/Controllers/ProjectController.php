@@ -59,22 +59,31 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-
-         // Must login
         if (!auth()->check()) {
-
             return redirect('/login')
-                ->with('success',
-                'Login required to save project permanently.');
+                ->with('success', 'Login required to save project permanently.');
         }
 
-        // Normal save
-        $project =Project::create([
-            'user_id'         => auth()->id(),
-            'is_guest'        => false,
-            'project_type_id' => $request->project_type_id,
-            'nama_project'    => $request->nama_project,
-            'deskripsi'       => $request->deskripsi,
+        $validated = $request->validate([
+            'nama_project'      => 'required|max:255',
+            'project_type_id'   => 'required|exists:project_types,id',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after_or_equal:start_date',
+            'estimated_budget'  => 'required|numeric|min:0',
+            'deskripsi'         => 'nullable',
+        ]);
+
+        $project = Project::create([
+            'user_id'           => auth()->id(),
+            'is_guest'          => false,
+            'project_type_id'   => $validated['project_type_id'],
+            'nama_project'      => $validated['nama_project'],
+            'deskripsi'         => $validated['deskripsi'] ?? null,
+            'start_date'        => $validated['start_date'],
+            'end_date'          => $validated['end_date'],
+            'estimated_budget'  => $validated['estimated_budget'],
+            'status'            => 'Planning',
+            'progress'          => 0,
         ]);
 
         $templateCategories = ProjectTypeCategory::where(
@@ -201,37 +210,28 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        // ownership check
         if (!$project->is_guest) {
-
-            if (!auth()->check() ||
-                $project->user_id !== auth()->id()) {
-
+            if (!auth()->check() || $project->user_id !== auth()->id()) {
                 abort(403);
             }
         }
 
-        $progress = $request->progress;
-
-        if ($request->status === 'Completed') {
-            $progress = 100;
-        }
-
-        $request->validate([
-            'nama_project' => 'required|max:255',
-            'status' => 'required|in:Planning,Ongoing,Completed',
-            'progress' => 'required|integer|min:0|max:100',
-            'estimated_budget' => 'nullable|numeric|min:0',
-            'deskripsi' => 'nullable',
+        $validated = $request->validate([
+            'nama_project'      => 'required|max:255',
+            'project_type_id'   => 'required|exists:project_types,id',
+            'start_date'        => 'required|date',
+            'end_date'          => 'required|date|after_or_equal:start_date',
+            'estimated_budget'  => 'required|numeric|min:0',
+            'deskripsi'         => 'nullable',
         ]);
 
         $project->update([
-            'nama_project'      => $request->nama_project,
-            'deskripsi'         => $request->deskripsi,
-            'project_type_id'   => $request->project_type_id,
-            'status'            => $request->status,
-            'progress'          => $request->progress,
-            'estimated_budget'  => $request->estimated_budget,
+            'nama_project'      => $validated['nama_project'],
+            'deskripsi'         => $validated['deskripsi'] ?? null,
+            'project_type_id'   => $validated['project_type_id'],
+            'start_date'        => $validated['start_date'],
+            'end_date'          => $validated['end_date'],
+            'estimated_budget'  => $validated['estimated_budget'],
         ]);
 
         ActivityLogService::log(

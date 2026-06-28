@@ -12,6 +12,7 @@ class ProjectTask extends Model
         'start_date',
         'end_date',
         'duration_days',
+        'task_cost',
         'status',
         'progress',
     ];

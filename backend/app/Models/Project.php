@@ -9,13 +9,15 @@ class Project extends Model
 {
     protected $fillable = [
         'user_id',
+        'project_type_id',
         'nama_project',
         'deskripsi',
-        'project_type_id',
-        // baru
+        'start_date',
+        'end_date',
         'status',
         'progress',
         'estimated_budget',
+        'is_guest',
     ];
     public function categories()
     {

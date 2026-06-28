@@ -80,76 +80,104 @@
 
     <div class="timeline-setup-card">
 
-        <div class="timeline-setup-header">
+    <div class="timeline-setup-header">
+        <div>
             <h3>Tambah Task</h3>
-            <p>Tambahkan task utama project beserta tanggal mulai dan durasi pengerjaan.</p>
+            <p>
+                Tambahkan task sesuai periode dan batas cost project.
+            </p>
+        </div>
+    </div>
+
+    <div class="timeline-project-limit-box">
+        <div>
+            <span>Project Period</span>
+            <strong>
+                {{ $project->start_date ? $project->start_date->format('d M Y') : '-' }}
+                -
+                {{ $project->end_date ? $project->end_date->format('d M Y') : '-' }}
+            </strong>
         </div>
 
-        <form
-            action="{{ route('projects.timeline.tasks.store', $project->id) }}"
-            method="POST"
-        >
-            @csrf
+        <div>
+            <span>Project Cost</span>
+            <strong>Rp {{ number_format($project->estimated_budget ?? 0, 0, ',', '.') }}</strong>
+        </div>
 
-            <div class="timeline-setup-grid">
+        <div>
+            <span>Used Cost</span>
+            <strong>Rp {{ number_format($totalTaskCost ?? 0, 0, ',', '.') }}</strong>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="name">
-                        Nama Task
-                    </label>
-
-                    <input
-                        id="name"
-                        type="text"
-                        name="name"
-                        class="form-input"
-                        placeholder="Contoh: Analisis Kebutuhan"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="start_date">
-                        Tanggal Mulai
-                    </label>
-
-                    <input
-                        id="start_date"
-                        type="date"
-                        name="start_date"
-                        class="form-input"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="duration_days">
-                        Durasi Hari
-                    </label>
-
-                    <input
-                        id="duration_days"
-                        type="number"
-                        name="duration_days"
-                        class="form-input"
-                        min="1"
-                        max="365"
-                        value="7"
-                        required
-                    >
-                </div>
-
-            </div>
-
-            <div class="timeline-setup-actions">
-                <button type="submit" class="btn app-btn">
-                    + Tambah Task
-                </button>
-            </div>
-
-        </form>
-
+        <div>
+            <span>Remaining Cost</span>
+            <strong>Rp {{ number_format($remainingCost ?? 0, 0, ',', '.') }}</strong>
+        </div>
     </div>
+
+    <form
+        action="{{ route('projects.timeline.tasks.store', $project->id) }}"
+        method="POST"
+        class="timeline-task-form"
+    >
+        @csrf
+
+        <div class="form-group">
+            <label>Task Name</label>
+            <input
+                type="text"
+                name="name"
+                class="form-input"
+                value="{{ old('name') }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Start Date</label>
+            <input
+                type="date"
+                name="start_date"
+                class="form-input"
+                value="{{ old('start_date') }}"
+                min="{{ $project->start_date ? $project->start_date->format('Y-m-d') : '' }}"
+                max="{{ $project->end_date ? $project->end_date->format('Y-m-d') : '' }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Duration Days</label>
+            <input
+                type="number"
+                name="duration_days"
+                class="form-input"
+                min="1"
+                value="{{ old('duration_days', 1) }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Task Cost</label>
+            <input
+                type="number"
+                name="task_cost"
+                class="form-input"
+                min="0"
+                max="{{ $remainingCost ?? 0 }}"
+                value="{{ old('task_cost', 0) }}"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn app-btn">
+            Add Task
+        </button>
+
+    </form>
+
+</div>
 
     @if($tasks->count() > 0)
 
@@ -176,11 +204,12 @@
 
                             <h3>{{ $task->name }}</h3>
 
-                            <p>
+                           <p>
                                 {{ $task->start_date->format('d M Y') }}
                                 -
                                 {{ $task->end_date->format('d M Y') }}
                                 · {{ $task->duration_days }} hari
+                                · Rp {{ number_format($task->task_cost ?? 0, 0, ',', '.') }}
                             </p>
                         </div>
 
@@ -224,11 +253,7 @@
                                                     @csrf
                                                     @method('PUT')
 
-                                                    <select
-                                                        name="status"
-                                                        class="timeline-small-select"
-                                                        onchange="this.form.submit()"
-                                                    >
+                                                    <select name="status" class="timeline-small-select" onchange="this.form.submit()">
                                                         <option value="To Do" {{ $subtask->status == 'To Do' ? 'selected' : '' }}>
                                                             To Do
                                                         </option>
@@ -298,87 +323,86 @@
                         <div class="timeline-column">
 
                             <div class="timeline-column-header">
-                                <h4>Risk Monitoring</h4>
+                                <h4>Potential Risk</h4>
                             </div>
 
-                            @if($task->risks->count() > 0)
+                            <div class="timeline-risk-list">
 
-                                <div class="timeline-risk-list">
+                                @forelse($task->risks as $risk)
 
-                                    @foreach($task->risks as $risk)
+                                    <div class="timeline-risk-item">
 
-                                        <div class="timeline-risk-item">
+                                        <div>
+                                            <strong>{{ $risk->nama_risiko }}</strong>
 
-                                            <div>
-                                                <strong>{{ $risk->nama_risiko }}</strong>
+                                            <div class="timeline-risk-meta">
+                                                <span class="risk-badge {{ strtolower($risk->risk_level ?? 'none') }}">
+                                                    {{ $risk->risk_level ?? '-' }}
+                                                </span>
 
-                                                <div class="timeline-risk-meta">
-                                                    <span class="risk-badge {{ strtolower($risk->risk_level ?? 'none') }}">
-                                                        {{ $risk->risk_level ?? '-' }}
-                                                    </span>
-
-                                                    <span>
-                                                        Score: {{ $risk->risk_score }}
-                                                    </span>
-                                                </div>
+                                                <span>
+                                                    Score: {{ $risk->risk_score }}
+                                                </span>
                                             </div>
+                                        </div>
 
-                                            <div class="timeline-task-actions">
+                                        <div class="timeline-task-actions">
 
-                                                <form
-                                                    action="{{ route('projects.timeline.risks.update', [$project->id, $task->id, $risk->id]) }}"
-                                                    method="POST"
+                                            <form
+                                                action="{{ route('projects.timeline.risks.update', [$project->id, $task->id, $risk->id]) }}"
+                                                method="POST"
+                                            >
+                                                @csrf
+                                                @method('PUT')
+
+                                                <select
+                                                    name="monitoring_status"
+                                                    class="timeline-small-select"
+                                                    onchange="this.form.submit()"
                                                 >
-                                                    @csrf
-                                                    @method('PUT')
+                                                    <option value="Potential"
+                                                        {{ $risk->pivot->monitoring_status == 'Potential' ? 'selected' : '' }}>
+                                                        Potential
+                                                    </option>
 
-                                                    <select
-                                                        name="monitoring_status"
-                                                        class="timeline-small-select"
-                                                        onchange="this.form.submit()"
-                                                    >
-                                                        <option value="Open" {{ $risk->pivot->monitoring_status == 'Open' ? 'selected' : '' }}>
-                                                            Open
-                                                        </option>
+                                                    <option value="Unhandled"
+                                                        {{ $risk->pivot->monitoring_status == 'Unhandled' ? 'selected' : '' }}>
+                                                        Unhandled
+                                                    </option>
 
-                                                        <option value="In Progress" {{ $risk->pivot->monitoring_status == 'In Progress' ? 'selected' : '' }}>
-                                                            In Progress
-                                                        </option>
+                                                    <option value="Handled"
+                                                        {{ $risk->pivot->monitoring_status == 'Handled' ? 'selected' : '' }}>
+                                                        Handled
+                                                    </option>
+                                                </select>
+                                            </form>
 
-                                                        <option value="Handled" {{ $risk->pivot->monitoring_status == 'Handled' ? 'selected' : '' }}>
-                                                            Handled
-                                                        </option>
-                                                    </select>
-                                                </form>
+                                            <form
+                                                action="{{ route('projects.timeline.risks.detach', [$project->id, $task->id, $risk->id]) }}"
+                                                method="POST"
+                                                onsubmit="return confirm('Hapus potential risk dari task ini?')"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
 
-                                                <form
-                                                    action="{{ route('projects.timeline.risks.detach', [$project->id, $task->id, $risk->id]) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Hapus risk dari task ini?')"
-                                                >
-                                                    @csrf
-                                                    @method('DELETE')
-
-                                                    <button type="submit" class="timeline-delete-btn">
-                                                        Hapus
-                                                    </button>
-                                                </form>
-
-                                            </div>
+                                                <button type="submit" class="timeline-delete-btn">
+                                                    Hapus
+                                                </button>
+                                            </form>
 
                                         </div>
 
-                                    @endforeach
+                                    </div>
 
-                                </div>
+                                @empty
 
-                            @else
+                                    <div class="timeline-empty-box">
+                                        Belum ada potential risk pada task ini.
+                                    </div>
 
-                                <div class="timeline-empty-box">
-                                    Belum ada risk yang dimonitor pada task ini.
-                                </div>
+                                @endforelse
 
-                            @endif
+                            </div>
 
                             <form
                                 action="{{ route('projects.timeline.risks.attach', [$project->id, $task->id]) }}"
@@ -388,26 +412,26 @@
                                 @csrf
 
                                 <select name="risk_id" class="form-select" required>
-                                    <option value="">— Pilih Risk —</option>
+                                    <option value="">— Pilih Potential Risk —</option>
 
-                                    @foreach($risks as $risk)
-                                        <option value="{{ $risk->id }}">
-                                            {{ $risk->nama_risiko }}
+                                    @foreach($risks as $availableRisk)
+                                        <option value="{{ $availableRisk->id }}">
+                                            {{ $availableRisk->nama_risiko }}
                                             -
-                                            {{ $risk->risk_level }}
-                                            ({{ $risk->risk_score }})
+                                            {{ $availableRisk->risk_level }}
+                                            ({{ $availableRisk->risk_score }})
                                         </option>
                                     @endforeach
                                 </select>
 
-                                <select name="monitoring_status" class="form-select">
-                                    <option value="Open">Open</option>
-                                    <option value="In Progress">In Progress</option>
+                                <select name="monitoring_status" class="form-select" required>
+                                    <option value="Potential">Potential</option>
+                                    <option value="Unhandled">Unhandled</option>
                                     <option value="Handled">Handled</option>
                                 </select>
 
                                 <button type="submit" class="btn app-btn">
-                                    + Risk
+                                    + Potential Risk
                                 </button>
 
                             </form>
