@@ -37,37 +37,66 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Guest Routes
+| Guest Mode Routes
 |--------------------------------------------------------------------------
 */
 
-// Route::get('/guest-mode', function () {
-//     return redirect('/projects/create?guest=1');
-// });
+Route::get('/guest-mode', [GuestController::class, 'create'])
+    ->name('guest.create');
 
-Route::get('/guest-mode',
-    [GuestController::class, 'create']);
+Route::post('/guest-mode', [GuestController::class, 'store'])
+    ->name('guest.store');
 
-Route::post('/guest-mode',
-    [GuestController::class, 'store']);
+Route::get('/guest/editor', [GuestController::class, 'editor'])
+    ->name('guest.editor');
 
-Route::post('/guest/category/store',
-    [GuestController::class, 'storeCategory']);
 
-Route::get('/guest/editor',
-    [GuestController::class, 'editor']);
+// ===== Guest Project =====
 
-Route::get('/guest/category/create/{parentId?}',
-    [GuestController::class, 'createCategory']);
+Route::get('/guest/project/edit', [GuestController::class, 'editProject'])
+    ->name('guest.project.edit');
 
-Route::post('/guest/category/store',
-    [GuestController::class, 'storeCategory']);
+Route::put('/guest/project/update', [GuestController::class, 'updateProject'])
+    ->name('guest.project.update');
 
-Route::get('/guest/risk/create/{categoryId}',
-    [GuestController::class, 'createRisk']);
 
-Route::post('/guest/risk/store',
-    [GuestController::class, 'storeRisk']);
+// ===== Guest Category =====
+
+Route::get('/guest/category/create/{parentId?}', [GuestController::class, 'createCategory'])
+    ->name('guest.category.create');
+
+Route::post('/guest/category/store', [GuestController::class, 'storeCategory'])
+    ->name('guest.category.store');
+
+Route::get('/guest/category/{id}/edit', [GuestController::class, 'editCategory'])
+    ->name('guest.category.edit');
+
+Route::put('/guest/category/{id}/update', [GuestController::class, 'updateCategory'])
+    ->name('guest.category.update');
+
+Route::delete('/guest/category/{id}/delete', [GuestController::class, 'deleteCategory'])
+    ->name('guest.category.delete');
+
+
+// ===== Guest Risk =====
+
+Route::get('/guest/risk/create/{categoryId}', [GuestController::class, 'createRisk'])
+    ->name('guest.risk.create');
+
+Route::post('/guest/risk/store', [GuestController::class, 'storeRisk'])
+    ->name('guest.risk.store');
+
+Route::get('/guest/risk/{id}', [GuestController::class, 'showRisk'])
+    ->name('guest.risk.show');
+
+Route::get('/guest/risk/{id}/edit', [GuestController::class, 'editRisk'])
+    ->name('guest.risk.edit');
+
+Route::put('/guest/risk/{id}/update', [GuestController::class, 'updateRisk'])
+    ->name('guest.risk.update');
+
+Route::delete('/guest/risk/{id}/delete', [GuestController::class, 'deleteRisk'])
+    ->name('guest.risk.delete');
 
 //testing only
 Route::get('/try-test', function () {
@@ -257,3 +286,15 @@ Route::middleware('auth')->group(function () {
         ->name('projects.timeline.risks.detach');
 
 });
+
+Route::put('/projects/{project}/timeline/tasks/{task}/subtasks/{subtask}', [ProjectTimelineController::class, 'updateSubtask'])
+    ->name('projects.timeline.subtasks.update');
+
+Route::get('/projects/{project}/timeline/tasks/{task}/edit', [ProjectTimelineController::class, 'editTask'])
+    ->name('projects.timeline.tasks.edit');
+
+Route::put('/projects/{project}/timeline/tasks/{task}', [ProjectTimelineController::class, 'updateTask'])
+    ->name('projects.timeline.tasks.update');
+
+Route::get('/projects/{project}/timeline/tasks/{task}/subtasks/{subtask}/edit', [ProjectTimelineController::class, 'editSubtask'])
+    ->name('projects.timeline.subtasks.edit');

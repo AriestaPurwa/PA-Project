@@ -2,77 +2,118 @@
 
 @section('content')
 
-<div class="diagram-page">
-    @if(session('guest_project'))
+<div class="diagram-page guest-editor-page">
 
-        <div class="card app-card" style="margin-bottom:20px;">
+    {{-- ===== GUEST HERO ===== --}}
+    <div class="guest-editor-hero">
 
-            <strong>Guest Mode Active</strong><br>
+        <div>
+            <span class="page-label">Guest RBS Editor</span>
+            <h2>{{ $project['nama_project'] }}</h2>
+            <p>
+                Buat dan susun diagram Risk Breakdown Structure sementara. Project guest dapat diekspor,
+                tetapi tidak tersimpan permanen sebelum login.
+            </p>
+        </div>
 
-            This project is temporary and may be deleted automatically later.
+        <div class="guest-editor-hero-actions">
+            <a href="{{ route('guest.project.edit') }}" class="btn app-btn">
+                Edit Project
+            </a>
 
-            <div style="margin-top:10px;">
+            <a href="/login" class="btn app-btn">
+                Login to Save
+            </a>
+
+        </div>
+
+
+
+    </div>
+
+    {{-- ===== GUEST NOTICE ===== --}}
+    <!-- @if(session('guest_project'))
+        <div class="project-detail-alert guest">
+            <div class="project-detail-alert-icon">⚠</div>
+
+            <div>
+                <strong>Guest Mode Active</strong>
+                <p>This project is temporary and may be deleted automatically later.</p>
+
                 <a href="/login" class="btn app-btn">
                     Login to Save Permanently
                 </a>
             </div>
+        </div>
+    @endif -->
 
+    {{-- ===== RBS DIAGRAM SECTION ===== --}}
+    <div class="project-detail-section-card guest-diagram-card">
+
+        <div class="project-detail-section-header diagram-section-header">
+            <div>
+                <span class="section-kicker">RBS Diagram</span>
+                <h3>Risk Breakdown Structure</h3>
+                <p>Visualisasi hierarki kategori risiko dan risk item pada project guest.</p>
+            </div>
+
+            <div class="diagram-toolbar" data-export-ignore>
+                <button type="button" class="btn app-btn" id="export-png-btn">
+                    Export PNG
+                </button>
+
+                <button type="button" class="btn app-btn" id="export-jpg-btn">
+                    Export JPG
+                </button>
+
+                <button type="button" class="btn app-btn" id="export-pdf-btn">
+                    Export PDF
+                </button>
+            </div>
         </div>
 
-    @endif
+        <div class="rbs-scroll-wrap">
+            <div class="rbs-board export-report-area" id="export-report-area">
 
-    <div class="diagram-toolbar" data-export-ignore>
-        <button type="button" class="btn app-btn" id="export-png-btn">
-            Export PNG
-        </button>
+                <div class="diagram-header">
+                    <div class="project-diagram-head">
+                        <div class="project-node-wrap">
+                            <div class="project-node-label">PROJECT</div>
 
-        <button type="button" class="btn app-btn" id="export-jpg-btn">
-            Export JPG
-        </button>
-
-        <button type="button" class="btn app-btn" id="export-pdf-btn">
-            Export PDF
-        </button>
-    </div>
-
-    <div class="rbs-scroll-wrap">
-        <div class="rbs-board export-report-area" id="export-report-area">
-
-            <div class="diagram-header">
-                <div class="project-diagram-head">
-                    <div class="project-node-wrap">
-                        <div class="project-node-label">PROJECT</div>
-
-                        <div class="project-node">
-                            {{ $project['nama_project'] }}
+                            <div class="project-node">
+                                {{ $project['nama_project'] }}
+                            </div>
                         </div>
-                    </div>
 
-                    <a class="btn app-btn root-category-btn"
-                       href="/guest/category/create"
-                       data-export-ignore>
-                        + Category
-                    </a>
+                        <a
+                            class="btn app-btn root-category-btn"
+                            href="/guest/category/create"
+                            data-export-ignore
+                        >
+                            + Category
+                        </a>
+                    </div>
+                </div>
+
+                <ul class="rbs-tree">
+                    @foreach($categories as $category)
+                        @include('guest.partials.category-node', [
+                            'category' => $category,
+                            'project' => $project,
+                            'level' => 0
+                        ])
+                    @endforeach
+                </ul>
+
+                <div class="export-matrix-section">
+                    @include('guest.partials.risk-matrix', [
+                        'matrix' => $matrix
+                    ])
                 </div>
 
             </div>
-
-            <ul class="rbs-tree">
-                @foreach($categories as $category)
-                    @include('guest.partials.category-node', [
-                        'category' => $category,
-                        'project' => $project,
-                        'level' => 0
-                    ])
-                @endforeach
-            </ul>
-
-            <div class="export-matrix-section">
-               @include('guest.partials.risk-matrix', [
-                    'matrix' => $matrix
-                ])
-            </div>
         </div>
+
     </div>
 
 </div>

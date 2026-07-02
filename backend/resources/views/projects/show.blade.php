@@ -120,7 +120,7 @@
                 </span>
             </div>
 
-            <div class="project-info-item detail-info-item">
+            <!-- <div class="project-info-item detail-info-item">
                 <span class="info-label">Progress Mitigasi</span>
 
                 <div class="detail-progress-box">
@@ -133,7 +133,7 @@
 
                     <strong>{{ $mitigationProgress }}%</strong>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -169,10 +169,16 @@
                             $left = $ganttTotalDays > 0 ? ($offset / $ganttTotalDays) * 100 : 0;
                             $width = $ganttTotalDays > 0 ? ($duration / $ganttTotalDays) * 100 : 100;
 
-                            $statusClass = match($task->status) {
-                                'In Progress' => 'ongoing',
-                                'Done' => 'completed',
-                                default => 'planned',
+                            // $statusClass = match($task->status) {
+                            //     'In Progress' => 'ongoing',
+                            //     'Done' => 'completed',
+                            //     default => 'planned',
+                            // };
+
+                            $statusClass = match (true) {
+                                $task->progress >= 100 => 'completed',
+                                $task->progress > 0 => 'ongoing',
+                                default => 'not-started',
                             };
                         @endphp
 

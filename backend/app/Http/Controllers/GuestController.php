@@ -242,6 +242,171 @@ class GuestController extends Controller
         //
     }
 
+    public function editProject()
+    {
+        $project = session('guest_project');
+
+        if (!$project) {
+            return redirect('/guest-mode')
+                ->with('error', 'Guest project tidak ditemukan.');
+        }
+
+        return view('guest.project-edit', compact('project'));
+    }
+
+    public function updateProject(Request $request)
+    {
+        $project = session('guest_project');
+
+        if (!$project) {
+            return redirect('/guest-mode')
+                ->with('error', 'Guest project tidak ditemukan.');
+        }
+
+        $validated = $request->validate([
+            'nama_project' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $project['nama_project'] = $validated['nama_project'];
+        $project['deskripsi'] = $validated['deskripsi'] ?? null;
+
+        session(['guest_project' => $project]);
+
+        return redirect()
+            ->route('guest.editor')
+            ->with('success', 'Guest project berhasil diperbarui.');
+    }
+
+    public function deleteCategory($id)
+    {
+        $id = (int) $id;
+
+        $project = session('guest_project');
+
+        if (!$project) {
+            return redirect('/guest-mode')
+                ->with('error', 'Guest project tidak ditemukan.');
+        }
+
+        $categories = $project['categories'] ?? [];
+        $risks = $project['risks'] ?? [];
+
+        $categoryIdsToDelete = $this->collectGuestCategoryChildren($categories, $id);
+        $categoryIdsToDelete[] = $id;
+
+        $categories = array_values(array_filter($categories, function ($category) use ($categoryIdsToDelete) {
+            return !in_array((int) $category['id'], $categoryIdsToDelete);
+        }));
+
+        $risks = array_values(array_filter($risks, function ($risk) use ($categoryIdsToDelete) {
+            return !in_array((int) $risk['category_id'], $categoryIdsToDelete);
+        }));
+
+        $project['categories'] = $categories;
+        $project['risks'] = $risks;
+
+        session(['guest_project' => $project]);
+
+        return redirect()
+            ->route('guest.editor')
+            ->with('success', 'Category berhasil dihapus.');
+    }
+
+    public function deleteRisk($id)
+    {
+        $project = session('guest_project');
+
+        if (!$project) {
+            return redirect()
+                ->route('guest.create')
+                ->with('error', 'Guest project tidak ditemukan.');
+        }
+
+        $risks = $project['risks'] ?? [];
+
+        $risks = array_values(array_filter($risks, function ($risk) use ($id) {
+            return (int) $risk['id'] !== (int) $id;
+        }));
+
+        $project['risks'] = $risks;
+
+        session(['guest_project' => $project]);
+
+        return redirect()
+            ->route('guest.editor')
+            ->with('success', 'Risk berhasil dihapus.');
+    }
+
+    public function editCategory($id)
+    {
+        $id = (int) $id;
+
+        $project = session('guest_project');
+
+        if (!$project) {
+            return redirect()
+                ->route('guest.create')
+                ->with('error', 'Guest project tidak ditemukan.');
+        }
+
+        $category = $this->findGuestCategoryRecursive(
+            $project['categories'] ?? [],
+            $id
+        );
+
+        if (!$category) {
+            return redirect()
+                ->route('guest.editor')
+                ->with('error', 'Category tidak ditemukan.');
+        }
+
+        return view('guest.category-edit', compact(
+            'project',
+            'category'
+        ));
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $id = (int) $id;
+
+        $project = session('guest_project');
+
+        if (!$project) {
+            return redirect()
+                ->route('guest.create')
+                ->with('error', 'Guest project tidak ditemukan.');
+        }
+
+        $validated = $request->validate([
+            'nama_kategori' => 'required|string|max:255',
+        ]);
+
+        $category = $this->findGuestCategoryRecursive(
+            $project['categories'] ?? [],
+            $id
+        );
+
+        if (!$category) {
+            return redirect()
+                ->route('guest.editor')
+                ->with('error', 'Category tidak ditemukan.');
+        }
+
+        $project['categories'] = $this->updateGuestCategoryRecursive(
+            $project['categories'] ?? [],
+            $id,
+            $validated['nama_kategori']
+        );
+
+        session(['guest_project' => $project]);
+
+        return redirect()
+            ->route('guest.editor')
+            ->with('success', 'Category berhasil diperbarui.');
+    }
+
     private function insertSubcategory(
         $categories,
         $parentId,
@@ -329,5 +494,65 @@ class GuestController extends Controller
         $collectRisks($categories);
 
         return $matrix;
+    }
+
+    private function collectGuestCategoryChildren(array $categories, int $parentId): array
+    {
+        $children = [];
+
+        foreach ($categories as $category) {
+            if ((int) ($category['parent_id'] ?? 0) === $parentId) {
+                $childId = (int) $category['id'];
+
+                $children[] = $childId;
+
+                $children = array_merge(
+                    $children,
+                    $this->collectGuestCategoryChildren($categories, $childId)
+                );
+            }
+        }
+
+        return $children;
+    }
+
+    private function findGuestCategoryRecursive(array $categories, int $id): ?array
+    {
+        foreach ($categories as $category) {
+            if ((int) $category['id'] === $id) {
+                return $category;
+            }
+
+            if (!empty($category['children'])) {
+                $found = $this->findGuestCategoryRecursive($category['children'], $id);
+
+                if ($found) {
+                    return $found;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function updateGuestCategoryRecursive(array $categories, int $id, string $namaKategori): array
+    {
+        foreach ($categories as &$category) {
+            if ((int) $category['id'] === $id) {
+                $category['nama_kategori'] = $namaKategori;
+            }
+
+            if (!empty($category['children'])) {
+                $category['children'] = $this->updateGuestCategoryRecursive(
+                    $category['children'],
+                    $id,
+                    $namaKategori
+                );
+            }
+        }
+
+        unset($category);
+
+        return $categories;
     }
 }

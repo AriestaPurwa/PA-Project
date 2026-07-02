@@ -22,30 +22,31 @@
 
         <div class="manage-dropdown" data-export-ignore>
 
-            <button type="button" class="icon-btn manage-toggle">
-                ⋮
+            <button type="button" class="icon-btn manage-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
 
             <div class="manage-menu">
 
-                <a href="/guest/category/edit/{{ $category['id'] }}"
-                   class="manage-item">
+                <a href="{{ route('guest.category.edit', $category['id']) }}"
+                class="manage-item">
                     Edit
                 </a>
 
-                <form action="/guest/category/delete/{{ $category['id'] }}"
-                      method="POST"
-                      class="inline-form"
-                      onsubmit="return confirm(
-                          'Deleting this category will also delete all subcategories and risks inside it. Continue?'
-                      )">
-
+                <form
+                    action="{{ route('guest.category.delete', $category['id']) }}"
+                    method="POST"
+                    onsubmit="return confirm('Hapus category ini? Subcategory dan risk di dalamnya juga akan terhapus.')"
+                    style="display:inline;"
+                >
                     @csrf
+                    @method('DELETE')
 
-                    <button type="submit" class="manage-item delete-btn">
-                        Delete
+                    <button type="submit" class="danger">
+                        Hapus
                     </button>
-
                 </form>
 
             </div>
@@ -86,37 +87,38 @@
 
                             <li class="risk-item">
 
-                                <a href="/guest/risk/show/{{ $risk['id'] }}"
-                                   class="risk {{ strtolower($risk['risk_level'] ?? 'low') }}">
+                                <a href="{{ route('guest.risk.show', $risk['id']) }}"
+                                class="risk {{ strtolower($risk['risk_level'] ?? 'low') }}">
                                     {{ $risk['nama_risiko'] }}
                                 </a>
 
                                 <div class="manage-dropdown" data-export-ignore>
 
-                                    <button type="button" class="icon-btn manage-toggle">
-                                        ⋮
+                                    <button type="button" class="icon-btn manage-toggle" aria-label="Menu">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
                                     </button>
 
                                     <div class="manage-menu">
 
-                                        <a href="/guest/risk/edit/{{ $risk['id'] }}"
-                                           class="manage-item">
+                                       <a href="{{ route('guest.risk.edit', $risk['id']) }}"
+                                        class="manage-item">
                                             Edit
                                         </a>
 
-                                        <form action="/guest/risk/delete/{{ $risk['id'] }}"
-                                              method="POST"
-                                              class="inline-form"
-                                              onsubmit="return confirm(
-                                                  'Deleting this risk cannot be undone. Continue?'
-                                              )">
-
+                                       <form
+                                            action="{{ route('guest.risk.delete', $risk['id']) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Hapus risk ini?')"
+                                            style="display:inline;"
+                                        >
                                             @csrf
+                                            @method('DELETE')
 
-                                            <button type="submit" class="manage-item delete-btn">
-                                                Delete
+                                            <button type="submit" class="danger">
+                                                Hapus
                                             </button>
-
                                         </form>
 
                                     </div>

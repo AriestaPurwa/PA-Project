@@ -63,12 +63,12 @@ class ProjectTimelineController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
-            'duration_days' => ['required', 'integer', 'min:1'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'task_cost' => ['required', 'numeric', 'min:0'],
         ]);
 
         $taskStartDate = \Carbon\Carbon::parse($validated['start_date']);
-        $taskEndDate = $taskStartDate->copy()->addDays($validated['duration_days'] - 1);
+        $taskEndDate = \Carbon\Carbon::parse($validated['end_date']);
 
         $projectStartDate = \Carbon\Carbon::parse($project->start_date);
         $projectEndDate = \Carbon\Carbon::parse($project->end_date);
@@ -81,7 +81,7 @@ class ProjectTimelineController extends Controller
 
         if ($taskEndDate->gt($projectEndDate)) {
             return back()
-                ->withErrors(['duration_days' => 'Tanggal selesai task tidak boleh melebihi tanggal selesai project.'])
+                ->withErrors(['end_date' => 'Tanggal selesai task tidak boleh melebihi tanggal selesai project.'])
                 ->withInput();
         }
 
@@ -94,12 +94,14 @@ class ProjectTimelineController extends Controller
                 ->withInput();
         }
 
+        $durationDays = $taskStartDate->diffInDays($taskEndDate) + 1;
+
         $task = ProjectTask::create([
             'project_id' => $project->id,
             'name' => $validated['name'],
             'start_date' => $taskStartDate,
             'end_date' => $taskEndDate,
-            'duration_days' => $validated['duration_days'],
+            'duration_days' => $durationDays,
             'task_cost' => $validated['task_cost'],
             'status' => 'To Do',
             'progress' => 0,
@@ -174,10 +176,12 @@ class ProjectTimelineController extends Controller
         $this->ensureSubtaskBelongsToTask($task, $subtask);
 
         $validated = $request->validate([
+            'name' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:To Do,In Progress,Done'],
         ]);
 
         $subtask->update([
+            'name' => $validated['name'] ?? $subtask->name,
             'status' => $validated['status'],
         ]);
 
@@ -186,12 +190,14 @@ class ProjectTimelineController extends Controller
 
         $this->logActivity(
             $project,
-            'update_subtask_status',
+            'update',
             'project_subtask',
-            'Updated subtask "' . $subtask->name . '" status to ' . $validated['status'] . '.'
+            'Updated subtask: ' . $subtask->name
         );
 
-        return back()->with('success', 'Status subtask berhasil diperbarui.');
+        return redirect()
+            ->route('projects.timeline.index', $project->id)
+            ->with('success', 'Subtask berhasil diperbarui.');
     }
 
     public function destroySubtask(Project $project, ProjectTask $task, ProjectSubtask $subtask)
@@ -297,6 +303,88 @@ class ProjectTimelineController extends Controller
         return back()->with('success', 'Risk berhasil dihapus dari task.');
     }
 
+    public function editTask(Project $project, ProjectTask $task)
+    {
+        $this->authorizeProject($project);
+        $this->ensureTaskBelongsToProject($project, $task);
+
+        $usedCostExceptCurrentTask = $project->projectTasks()
+            ->where('id', '!=', $task->id)
+            ->sum('task_cost');
+
+        $remainingCost = ($project->estimated_budget ?? 0) - $usedCostExceptCurrentTask;
+
+        return view('project_timelines.edit-task', compact(
+            'project',
+            'task',
+            'remainingCost'
+        ));
+    }
+
+    public function updateTask(Request $request, Project $project, ProjectTask $task)
+    {
+        $this->authorizeProject($project);
+        $this->ensureTaskBelongsToProject($project, $task);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+            'task_cost' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $taskStartDate = \Carbon\Carbon::parse($validated['start_date']);
+        $taskEndDate = \Carbon\Carbon::parse($validated['end_date']);
+
+        $projectStartDate = \Carbon\Carbon::parse($project->start_date);
+        $projectEndDate = \Carbon\Carbon::parse($project->end_date);
+
+        if ($taskStartDate->lt($projectStartDate)) {
+            return back()
+                ->withErrors(['start_date' => 'Tanggal mulai task tidak boleh sebelum tanggal mulai project.'])
+                ->withInput();
+        }
+
+        if ($taskEndDate->gt($projectEndDate)) {
+            return back()
+                ->withErrors(['end_date' => 'Tanggal selesai task tidak boleh melebihi tanggal selesai project.'])
+                ->withInput();
+        }
+
+        $usedCostExceptCurrentTask = $project->projectTasks()
+            ->where('id', '!=', $task->id)
+            ->sum('task_cost');
+
+        $projectBudget = $project->estimated_budget ?? 0;
+
+        if (($usedCostExceptCurrentTask + $validated['task_cost']) > $projectBudget) {
+            return back()
+                ->withErrors(['task_cost' => 'Total cost task tidak boleh melebihi project cost.'])
+                ->withInput();
+        }
+
+        $durationDays = $taskStartDate->diffInDays($taskEndDate) + 1;
+
+        $task->update([
+            'name' => $validated['name'],
+            'start_date' => $taskStartDate,
+            'end_date' => $taskEndDate,
+            'duration_days' => $durationDays,
+            'task_cost' => $validated['task_cost'],
+        ]);
+
+        $this->logActivity(
+            $project,
+            'update',
+            'project_task',
+            'Updated task: ' . $task->name
+        );
+
+        return redirect()
+            ->route('projects.timeline.index', $project->id)
+            ->with('success', 'Task berhasil diperbarui.');
+    }
+
     private function refreshTaskProgress(ProjectTask $task): void
     {
         $task->load('subtasks');
@@ -361,6 +449,19 @@ class ProjectTimelineController extends Controller
             'progress' => $progress,
             'status' => $status,
         ]);
+    }
+
+    public function editSubtask(Project $project, ProjectTask $task, ProjectSubtask $subtask)
+    {
+        $this->authorizeProject($project);
+        $this->ensureTaskBelongsToProject($project, $task);
+        $this->ensureSubtaskBelongsToTask($task, $subtask);
+
+        return view('project_timelines.edit-subtask', compact(
+            'project',
+            'task',
+            'subtask'
+        ));
     }
 
     private function authorizeProject(Project $project): void

@@ -10,7 +10,7 @@
             <p>Kelola task, subtask, dan risk monitoring untuk project ini.</p>
         </div>
 
-        <a href="{{ route('projects.show', $project->id) }}" class="btn-secondary">
+        <a href="{{ route('projects.show', $project->id) }}" class="btn logout-btn">
             ← Kembali ke Project
         </a>
     </div>
@@ -134,28 +134,35 @@
         </div>
 
         <div class="form-group">
-            <label>Start Date</label>
-            <input
-                type="date"
-                name="start_date"
-                class="form-input"
-                value="{{ old('start_date') }}"
-                min="{{ $project->start_date ? $project->start_date->format('Y-m-d') : '' }}"
-                max="{{ $project->end_date ? $project->end_date->format('Y-m-d') : '' }}"
-                required
-            >
-        </div>
+            <label>Task Date Range</label>
 
-        <div class="form-group">
-            <label>Duration Days</label>
+            <!-- <small class="form-help">
+                Tanggal task harus berada dalam periode project.
+            </small> -->
+
             <input
-                type="number"
-                name="duration_days"
+                type="text"
+                id="task_date_range"
                 class="form-input"
-                min="1"
-                value="{{ old('duration_days', 1) }}"
+                placeholder="Pilih start date dan end date"
+                readonly
                 required
             >
+
+            <input
+                type="hidden"
+                name="start_date"
+                id="task_start_date"
+                value="{{ old('start_date') }}"
+            >
+
+            <input
+                type="hidden"
+                name="end_date"
+                id="task_end_date"
+                value="{{ old('end_date') }}"
+            >
+
         </div>
 
         <div class="form-group">
@@ -174,7 +181,6 @@
         <button type="submit" class="btn app-btn">
             Add Task
         </button>
-
     </form>
 
 </div>
@@ -246,6 +252,13 @@
 
                                             <div class="timeline-task-actions">
 
+                                                <a
+                                                    href="{{ route('projects.timeline.subtasks.edit', [$project->id, $task->id, $subtask->id]) }}"
+                                                    class="timeline-edit-btn"
+                                                >
+                                                    Edit
+                                                </a>
+
                                                 <form
                                                     action="{{ route('projects.timeline.subtasks.update', [$project->id, $task->id, $subtask->id]) }}"
                                                     method="POST"
@@ -253,7 +266,13 @@
                                                     @csrf
                                                     @method('PUT')
 
-                                                    <select name="status" class="timeline-small-select" onchange="this.form.submit()">
+                                                    <input type="hidden" name="name" value="{{ $subtask->name }}">
+
+                                                    <select
+                                                        name="status"
+                                                        class="timeline-small-select"
+                                                        onchange="this.form.submit()"
+                                                    >
                                                         <option value="To Do" {{ $subtask->status == 'To Do' ? 'selected' : '' }}>
                                                             To Do
                                                         </option>
@@ -441,10 +460,18 @@
                     </div>
 
                     <div class="timeline-task-footer">
+
+                        <a
+                            href="{{ route('projects.timeline.tasks.edit', [$project->id, $task->id]) }}"
+                            class="timeline-edit-task-btn"
+                        >
+                            Edit Task
+                        </a>
+
                         <form
                             action="{{ route('projects.timeline.tasks.destroy', [$project->id, $task->id]) }}"
                             method="POST"
-                            onsubmit="return confirm('Hapus task ini beserta subtask dan risk monitoring?')"
+                            onsubmit="return confirm('Hapus task ini? Semua subtask dan potential risk pada task ini juga akan terhapus.')"
                         >
                             @csrf
                             @method('DELETE')
@@ -453,6 +480,7 @@
                                 Hapus Task
                             </button>
                         </form>
+
                     </div>
 
                 </div>
@@ -470,5 +498,44 @@
     @endif
 
 </div>
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateRangeInput = document.getElementById('task_date_range');
+        const startDateInput = document.getElementById('task_start_date');
+        const endDateInput = document.getElementById('task_end_date');
+
+        if (!dateRangeInput || !startDateInput || !endDateInput) {
+            return;
+        }
+
+        flatpickr(dateRangeInput, {
+            mode: 'range',
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'd M Y',
+            showMonths: 2,
+            minDate: "{{ $project->start_date ? $project->start_date->format('Y-m-d') : '' }}",
+            maxDate: "{{ $project->end_date ? $project->end_date->format('Y-m-d') : '' }}",
+            defaultDate: [
+                "{{ old('start_date') }}",
+                "{{ old('end_date') }}"
+            ],
+            onChange: function (selectedDates, dateStr, instance) {
+                if (selectedDates.length === 2) {
+                    startDateInput.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+                    endDateInput.value = instance.formatDate(selectedDates[1], 'Y-m-d');
+                }
+            }
+        });
+    });
+</script>
 
 @endsection

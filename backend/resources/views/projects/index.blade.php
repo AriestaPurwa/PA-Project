@@ -114,9 +114,10 @@
 
                             <div class="project-stat-item">
                                 <span class="project-stat-label">Budget</span>
+
                                 <strong>
-                                    @if($budget)
-                                        Rp {{ number_format($budget, 0, ',', '.') }}
+                                    @if($project->estimated_budget)
+                                        Rp {{ number_format($project->estimated_budget, 0, ',', '.') }}
                                     @else
                                         -
                                     @endif
@@ -130,11 +131,11 @@
                                     <div class="project-progress-track">
                                         <div
                                             class="project-progress-fill"
-                                            style="width: {{ $progress }}%;"
+                                            style="width: {{ $project->progress ?? 0 }}%;"
                                         ></div>
                                     </div>
 
-                                    <strong>{{ $progress }}%</strong>
+                                    <strong>{{ $project->progress ?? 0 }}%</strong>
                                 </div>
                             </div>
 

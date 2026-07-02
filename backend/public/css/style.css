@@ -5896,6 +5896,254 @@ body {
     color: #b91c1c;
 }
 
+/* Guest node action menu fix */
+.guest-node-actions,
+.node-actions,
+.node-menu-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.guest-action-menu,
+.node-action-menu,
+.dropdown-menu-node {
+    position: absolute;
+    top: 34px;
+    right: 0;
+    z-index: 999;
+    min-width: 150px;
+    padding: 8px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+}
+
+.guest-action-menu a,
+.node-action-menu a,
+.dropdown-menu-node a,
+.guest-action-menu button,
+.node-action-menu button,
+.dropdown-menu-node button {
+    width: 100%;
+    display: block;
+    padding: 9px 10px;
+    border: none;
+    background: transparent;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.guest-action-menu a:hover,
+.node-action-menu a:hover,
+.dropdown-menu-node a:hover,
+.guest-action-menu button:hover,
+.node-action-menu button:hover,
+.dropdown-menu-node button:hover {
+    background: #f1f5f9;
+}
+
+.guest-action-menu button.danger,
+.node-action-menu button.danger,
+.dropdown-menu-node button.danger {
+    color: #dc2626;
+}
+
+.guest-editor-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* =====================================================
+   GUEST TREE MANAGE DROPDOWN FIX
+   ===================================================== */
+
+.category-header {
+    position: relative;
+    overflow: visible;
+}
+
+.risk-item {
+    position: relative;
+    overflow: visible;
+}
+
+.manage-dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.icon-btn.manage-toggle {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #64748b;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.icon-btn.manage-toggle:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.manage-menu {
+    display: none;
+    position: absolute;
+    top: 36px;
+    right: 0;
+    z-index: 9999;
+    min-width: 150px;
+    padding: 8px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+
+.manage-dropdown:hover .manage-menu,
+.manage-dropdown:focus-within .manage-menu {
+    display: block;
+}
+
+.manage-item,
+.manage-menu button {
+    width: 100%;
+    display: block;
+    padding: 9px 10px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.manage-item:hover,
+.manage-menu button:hover {
+    background: #f1f5f9;
+}
+
+.manage-menu button.danger,
+.manage-menu .node-action.danger {
+    color: #dc2626;
+}
+
+.manage-menu form {
+    margin: 0;
+}
+
+/* =====================================================
+   FIX GUEST MANAGE DROPDOWN STACKING
+   ===================================================== */
+
+.category-item,
+.category-header,
+.risk-item {
+    position: relative;
+    overflow: visible;
+}
+
+.manage-dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.manage-dropdown:hover,
+.manage-dropdown:focus-within {
+    z-index: 99999;
+}
+
+.icon-btn.manage-toggle {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.icon-btn.manage-toggle:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.manage-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    z-index: 100000;
+    min-width: 160px;
+    padding: 10px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+}
+
+.manage-dropdown:hover .manage-menu,
+.manage-dropdown:focus-within .manage-menu {
+    display: block;
+}
+
+.manage-menu .manage-item,
+.manage-menu button {
+    width: 100%;
+    display: block;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.manage-menu .manage-item:hover,
+.manage-menu button:hover {
+    background: #f1f5f9;
+}
+
+.manage-menu button.danger,
+.manage-menu .danger {
+    color: #dc2626;
+}
+
+.manage-menu form {
+    display: block !important;
+    margin: 0;
+}
+
 /* =====================================================
    PROFILE SETTINGS
    ===================================================== */
@@ -5995,6 +6243,100 @@ body {
     border-color: #3b82f6;
     outline: none;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+/* =====================================================
+   FIX GUEST THREE DOT MENU BUTTON
+   ===================================================== */
+
+.icon-btn.manage-toggle {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #334155;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.icon-btn.manage-toggle span {
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: #334155;
+    display: block;
+}
+
+.icon-btn.manage-toggle:hover {
+    background: #e2e8f0;
+}
+
+.icon-btn.manage-toggle:hover span {
+    background: #0f172a;
+}
+
+/* =====================================================
+   FIX GUEST TREE ACTION POSITION
+   ===================================================== */
+
+.guest-content .category-header {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    width: max-content !important;
+    max-width: none !important;
+    position: relative;
+    overflow: visible;
+}
+
+.guest-content .category-header-left {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: auto !important;
+    flex: 0 0 auto !important;
+}
+
+.guest-content .category-header-left .rbs-node {
+    flex: 0 0 auto !important;
+}
+
+.guest-content .subcategory-inline-btn {
+    flex: 0 0 auto !important;
+    margin-left: 0 !important;
+}
+
+.guest-content .category-header > .manage-dropdown {
+    flex: 0 0 auto !important;
+    margin-left: 0 !important;
+    position: relative;
+}
+
+.guest-content .risk-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    width: max-content !important;
+    max-width: none !important;
+    position: relative;
+    overflow: visible;
+}
+
+.guest-content .risk-item .risk {
+    flex: 0 0 auto !important;
+}
+
+.guest-content .risk-item > .manage-dropdown {
+    flex: 0 0 auto !important;
+    margin-left: 0 !important;
 }
 
 /* =====================================================
@@ -6326,6 +6668,84 @@ body {
     border-color: #1d4ed8;
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(37, 99, 235, 0.30);
+}
+
+/* =====================================================
+   FINAL FIX - GUEST CATEGORY ACTION ALIGNMENT
+   ===================================================== */
+
+/* Category row jangan melebar penuh */
+.guest-modern-content .rbs-tree .category-header,
+.guest-editor-page .rbs-tree .category-header,
+.rbs-board .rbs-tree .category-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
+    min-width: 0 !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* Ini penyebab utama: sebelumnya flex:1 membuat titik tiga terdorong jauh */
+.guest-modern-content .rbs-tree .category-header-left,
+.guest-editor-page .rbs-tree .category-header-left,
+.rbs-board .rbs-tree .category-header-left {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+/* Node kategori jangan memaksa baris action melebar */
+.guest-modern-content .rbs-tree .category-header-left .rbs-node,
+.guest-editor-page .rbs-tree .category-header-left .rbs-node,
+.rbs-board .rbs-tree .category-header-left .rbs-node {
+    flex: 0 0 auto !important;
+}
+
+/* Tombol + Sub tetap menempel setelah node */
+.guest-modern-content .rbs-tree .subcategory-inline-btn,
+.guest-editor-page .rbs-tree .subcategory-inline-btn,
+.rbs-board .rbs-tree .subcategory-inline-btn {
+    flex: 0 0 auto !important;
+    margin-left: 0 !important;
+}
+
+/* Titik tiga menempel setelah tombol + Sub */
+.guest-modern-content .rbs-tree .category-header > .manage-dropdown,
+.guest-editor-page .rbs-tree .category-header > .manage-dropdown,
+.rbs-board .rbs-tree .category-header > .manage-dropdown {
+    flex: 0 0 auto !important;
+    margin-left: 0 !important;
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+/* Tombol titik tiga */
+.guest-modern-content .rbs-tree .category-header .manage-toggle,
+.guest-editor-page .rbs-tree .category-header .manage-toggle,
+.rbs-board .rbs-tree .category-header .manage-toggle {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    margin: 0 !important;
+}
+
+/* Dropdown tetap muncul dari tombol titik tiga */
+.guest-modern-content .rbs-tree .category-header .manage-menu,
+.guest-editor-page .rbs-tree .category-header .manage-menu,
+.rbs-board .rbs-tree .category-header .manage-menu {
+    right: 0 !important;
+    top: 42px !important;
 }
 
 
@@ -7022,15 +7442,682 @@ body {
     align-items: end;
 }
 
-@media (max-width: 1100px) {
-    .timeline-project-limit-box {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* =====================================================
+   SIMPLE ACTIVITY LOG PAGE
+   ===================================================== */
 
-    .timeline-task-form {
-        grid-template-columns: 1fr 1fr;
-    }
+.simple-activity-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
 }
+
+/* ===== Hero ===== */
+
+.activity-simple-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 24px;
+    margin-bottom: 22px;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.10), transparent 34%),
+        linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.activity-simple-hero h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+}
+
+.activity-simple-hero p {
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* ===== Summary ===== */
+
+.activity-simple-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.activity-simple-card {
+    padding: 20px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.activity-simple-card span {
+    display: block;
+    margin-bottom: 8px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.activity-simple-card strong {
+    display: block;
+    color: #0f172a;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+/* ===== Panel ===== */
+
+.activity-simple-panel {
+    padding: 24px;
+    border-radius: 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.activity-simple-panel-header {
+    margin-bottom: 18px;
+}
+
+.activity-simple-panel-header h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.activity-simple-panel-header p {
+    margin: 6px 0 0;
+    color: #94a3b8;
+    font-size: 13.5px;
+}
+
+/* ===== List ===== */
+
+.activity-simple-list {
+    display: grid;
+    gap: 12px;
+}
+
+.activity-simple-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.activity-simple-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+.activity-simple-icon.project {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.activity-simple-icon.category {
+    background: #f5f3ff;
+    border-color: #ddd6fe;
+}
+
+.activity-simple-icon.risk {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.activity-simple-icon.general {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+}
+
+.activity-simple-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.activity-simple-main {
+    min-width: 0;
+}
+
+.activity-simple-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 7px;
+}
+
+.activity-simple-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 9px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.activity-simple-time {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.activity-simple-main p {
+    margin: 0 0 8px;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.activity-simple-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    color: #64748b;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.activity-simple-link {
+    min-height: 34px;
+    padding: 0 13px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.activity-simple-link:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+/* ===== Pagination ===== */
+
+.activity-simple-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+}
+
+.activity-page-btn {
+    min-height: 36px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.activity-page-btn:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.activity-page-btn.disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.activity-page-info {
+    min-height: 36px;
+    padding: 0 13px;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Fix tambahan kalau masih ada pagination bawaan Laravel */
+.pagination-wrapper svg,
+.activity-log-page svg {
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+}
+
+/* =====================================================
+   GUEST MODERN LAYOUT
+   ===================================================== */
+
+.guest-modern-shell {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 34%),
+        #f4f7fb;
+}
+
+.guest-modern-topbar {
+    min-height: 82px;
+    padding: 18px 32px;
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.guest-modern-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.guest-modern-brand-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', 'Plus Jakarta Sans', sans-serif;
+    font-weight: 900;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.24);
+}
+
+.guest-modern-brand h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+}
+
+.guest-modern-brand span {
+    display: block;
+    margin-top: 2px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.guest-modern-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.guest-modern-badge {
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.guest-login-btn {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: #ffffff;
+    border: 1px solid #2563eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+.guest-login-btn:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.guest-modern-content {
+    width: 100%;
+    padding: 30px 32px 40px;
+}
+
+/* ===== Flash ===== */
+
+.guest-flash {
+    max-width: 1540px;
+    margin: 0 auto 18px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.guest-flash.success {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.guest-flash.error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+/* ===== Guest Editor Page ===== */
+
+.guest-editor-page {
+    max-width: 1540px;
+}
+
+.guest-editor-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 28px;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 34%),
+        linear-gradient(135deg, #ffffff, #f8fafc);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.guest-editor-hero h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -0.8px;
+}
+
+.guest-editor-hero p {
+    margin: 8px 0 0;
+    max-width: 760px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.guest-diagram-card {
+    margin-top: 0;
+}
+
+/* Guest mode tidak perlu max-width kecil */
+.guest-modern-content .diagram-page {
+    width: 100%;
+}
+
+/* Matikan style guest lama kalau masih ada */
+.guest-navbar,
+.guest-container,
+.guest-content {
+    all: unset;
+}
+
+/* Jangan rusak ketika class lama masih terpakai di tempat lain */
+.guest-content {
+    display: block;
+}
+
+.timeline-task-form {
+    display: grid;
+    grid-template-columns: 1.4fr 1.4fr 1fr auto;
+    gap: 14px;
+    align-items: end;
+}
+
+.timeline-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 12px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.timeline-edit-btn:hover {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.timeline-task-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.timeline-edit-task-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 9px 16px;
+    border-radius: 12px;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.timeline-edit-task-btn:hover {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+/* =====================================================
+   PROGRESS BAR COMPACT REFINEMENT
+   ===================================================== */
+
+/* Progress di detail project */
+.detail-progress-box {
+    max-width: 180px;
+}
+
+.detail-progress-box .project-progress-track,
+.detail-progress-box .progress-bar-track {
+    height: 6px !important;
+    max-width: 120px;
+}
+
+/* Progress di card project index */
+.project-progress-mini {
+    max-width: 190px;
+}
+
+.project-progress-mini .project-progress-track {
+    height: 6px !important;
+    max-width: 120px;
+}
+
+/* Progress di timeline header */
+.timeline-progress-box {
+    min-width: 150px;
+}
+
+.timeline-progress-track {
+    width: 150px !important;
+    height: 6px !important;
+}
+
+/* Progress angka tetap terbaca */
+.timeline-progress-box strong {
+    font-size: 28px;
+}
+
+/* =====================================================
+   GANTT BAR PROGRESS COLOR
+   ===================================================== */
+
+/* 0% progress */
+.gantt-bar.not-started {
+    background: #ef4444 !important;
+}
+
+/* 1% - 99% progress */
+.gantt-bar.ongoing {
+    background: #3b82f6 !important;
+}
+
+/* 100% progress */
+.gantt-bar.completed {
+    background: #22c55e !important;
+}
+
+/* =====================================================
+   PROJECT INDEX STATS FINAL POSITION
+   ===================================================== */
+
+.project-card-stats {
+    grid-template-columns: 120px 100px 180px 210px !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 18px !important;
+}
+
+.project-progress-mini {
+    width: 180px !important;
+    max-width: 180px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-progress-mini .project-progress-track {
+    width: 110px !important;
+    max-width: 110px !important;
+    flex: 0 0 110px !important;
+    height: 6px !important;
+}
+
+.project-progress-mini strong {
+    min-width: 38px;
+    text-align: left;
+    font-size: 13px;
+    color: #1e293b;
+}
+
+.project-stat-item strong {
+    white-space: nowrap;
+}
+
+/* =====================================================
+   PROJECT INDEX PROGRESS SHIFT RIGHT
+   ===================================================== */
+
+.project-card-stats {
+    grid-template-columns: 120px 100px 190px 210px !important;
+    column-gap: 34px !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+}
+
+/* Geser khusus kolom progress ke kanan */
+.project-card-stats .project-stat-item:nth-child(4) {
+    margin-left: 340px !important;
+}
+
+/* Bar progress tetap pendek */
+.project-progress-mini {
+    width: 180px !important;
+    max-width: 180px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-progress-mini .project-progress-track {
+    width: 110px !important;
+    max-width: 110px !important;
+    flex: 0 0 110px !important;
+    height: 6px !important;
+}
+
+.project-progress-mini strong {
+    min-width: 38px;
+    text-align: left;
+    font-size: 13px;
+    color: #1e293b;
+}
+
+/* ===== RESPONSIVE sementara ===== */
 
 @media (max-width: 640px) {
     .timeline-project-limit-box,
@@ -7302,6 +8389,22 @@ body {
     .project-card-actions-modern .btn-danger {
         width: 100%;
     }
+        .activity-simple-hero,
+    .activity-simple-panel {
+        padding: 20px;
+    }
+
+    .activity-simple-item {
+        flex-direction: column;
+    }
+
+    .activity-simple-link {
+        width: 100%;
+    }
+
+    .activity-simple-hero h2 {
+        font-size: 24px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -7549,6 +8652,40 @@ body {
     .modern-risk-score-preview strong {
         font-size: 46px;
     }
+    .guest-modern-topbar {
+        position: static;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .guest-modern-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .guest-login-btn,
+    .guest-modern-badge {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .guest-modern-content {
+        padding: 20px 16px 28px;
+    }
+
+    .guest-editor-hero {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .guest-editor-hero .project-form-back-btn {
+        width: 100%;
+    }
+
+    .guest-editor-hero h2 {
+        font-size: 24px;
+    }
 }
 
 /* CHANGED: Responsive summary bar — 2 kolom di layar kecil */
@@ -7750,6 +8887,25 @@ body {
     .modern-risk-score-preview {
         min-height: auto;
     }
+        .activity-simple-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-simple-hero {
+        flex-direction: column;
+    }
+
+    .activity-simple-hero .project-form-back-btn {
+        width: 100%;
+    }
+
+    .activity-simple-content {
+        flex-direction: column;
+    }
+
+    .activity-simple-link {
+        width: fit-content;
+    }
 }
 
 @media (max-width: 1000px) {
@@ -7819,5 +8975,12 @@ body {
 
     .project-detail-actions {
         width: 100%;
+    }
+        .timeline-project-limit-box {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timeline-task-form {
+        grid-template-columns: 1fr 1fr;
     }
 }

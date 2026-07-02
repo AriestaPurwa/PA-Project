@@ -3,50 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Guest RBS Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 
-    <div class="navbar guest-navbar">
+<div class="guest-modern-shell">
 
-        <h3>
-            RBS Guest Mode
-        </h3>
+    <header class="guest-modern-topbar">
 
-        <span>
-            Temporary project
-        </span>
+        <div class="guest-modern-brand">
+            <div class="guest-modern-brand-icon">
+                R
+            </div>
 
-        <a href="/login" class="btn-secondary">
-            Login to Save
-        </a>
+            <div>
+                <h3>RBS Guest Mode</h3>
+                <span>Temporary Risk Breakdown Structure Editor</span>
+            </div>
+        </div>
 
-    </div>
+        <div class="guest-modern-actions">
+            <span class="guest-modern-badge">
+                Guest Access
+            </span>
 
-    <div class="guest-container">
+            <a href="/login" class="guest-login-btn">
+                Login to Save
+            </a>
+        </div>
 
-        <main class="guest-content">
+    </header>
 
-            @if(session('success'))
-                <div class="app-card guest-alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+    <main class="guest-modern-content">
 
-            @if(session('error'))
-                <div class="app-card guest-alert-error">
-                    {{ session('error') }}
-                </div>
-            @endif
+        @if(session('success'))
+            <div class="guest-flash success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-            @yield('content')
+        @if(session('error'))
+            <div class="guest-flash error">
+                {{ session('error') }}
+            </div>
+        @endif
 
-        </main>
+        @yield('content')
 
-    </div>
+    </main>
 
-    @stack('scripts')
+</div>
+
+@stack('scripts')
 
 </body>
 </html>

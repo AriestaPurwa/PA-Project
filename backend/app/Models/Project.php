@@ -19,6 +19,12 @@ class Project extends Model
         'estimated_budget',
         'is_guest',
     ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+    
     public function categories()
     {
         return $this->hasMany(RiskCategory::class);
