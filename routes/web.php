@@ -14,12 +14,12 @@ use App\Http\Controllers\ProjectTimelineController;
 
 
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
 
-    Route::get('/projects', [ProjectController::class, 'index'])
-        ->name('projects.index');
+//     Route::get('/projects', [ProjectController::class, 'index'])
+//         ->name('projects.index');
 
-});
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -146,10 +146,10 @@ Route::resource(
 |--------------------------------------------------------------------------
 */
 
-Route::resource(
-    'projects.risks',
-    RiskController::class
-);
+// Route::resource(
+//     'projects.risks',
+//     RiskController::class
+// );
 
 /*
 |--------------------------------------------------------------------------
@@ -192,22 +192,22 @@ Route::get('/try', function () {
 |--------------------------------------------------------------------------
 */
 //edit project
-Route::get('/projects/{project}/edit',
-    [ProjectController::class, 'edit'])
-    ->name('projects.edit');
+// Route::get('/projects/{project}/edit',
+//     [ProjectController::class, 'edit'])
+//     ->name('projects.edit');
 
-Route::put('/projects/{project}',
-    [ProjectController::class, 'update'])
-    ->name('projects.update');
+// Route::put('/projects/{project}',
+//     [ProjectController::class, 'update'])
+//     ->name('projects.update');
 
  //edit risk
-Route::get('/projects/{project}/risks/{risk}/edit',
-    [RiskController::class, 'edit'])
-    ->name('projects.risks.edit');
+// Route::get('/projects/{project}/risks/{risk}/edit',
+//     [RiskController::class, 'edit'])
+//     ->name('projects.risks.edit');
 
-Route::put('/projects/{project}/risks/{risk}',
-    [RiskController::class, 'update'])
-    ->name('projects.risks.update');
+// Route::put('/projects/{project}/risks/{risk}',
+//     [RiskController::class, 'update'])
+//     ->name('projects.risks.update');
 
 // Route::get(
 //     '/projects/{project}/categories/{category}/risks/create',
@@ -287,8 +287,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::put('/projects/{project}/timeline/tasks/{task}/subtasks/{subtask}', [ProjectTimelineController::class, 'updateSubtask'])
-    ->name('projects.timeline.subtasks.update');
+// Route::put('/projects/{project}/timeline/tasks/{task}/subtasks/{subtask}', [ProjectTimelineController::class, 'updateSubtask'])
+//     ->name('projects.timeline.subtasks.update');
 
 Route::get('/projects/{project}/timeline/tasks/{task}/edit', [ProjectTimelineController::class, 'editTask'])
     ->name('projects.timeline.tasks.edit');
