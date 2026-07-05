@@ -27,7 +27,7 @@
             </div>
         @endif
 
-        <form action="/register" method="POST">
+        <form action="{{ route('register.post') }}" method="POST">
 
             @csrf
 

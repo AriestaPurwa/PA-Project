@@ -141,7 +141,7 @@
                         </div>
                     </div>
 
-                    <form action="/logout" method="POST" class="inline-form">
+                    <form action="{{ route('logout') }}" method="POST" class="inline-form">
                         @csrf
 
                         <button type="submit" class="btn logout-btn">

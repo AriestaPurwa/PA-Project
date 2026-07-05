@@ -168,14 +168,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="budget_estimate">
+                        <label class="form-label" for="estimated_budget">
                             Project Cost / Budget (Rp)
                         </label>
 
                         <input
-                            id="budget_estimate"
+                            id="estimated_budget"
                             type="number"
-                            name="budget_estimate"
+                            name="estimated_budget"
                             min="0"
                             class="form-input"
                             value="{{ old('budget_estimate', $project->budget_estimate ?? 0) }}"

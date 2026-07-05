@@ -8117,6 +8117,119 @@ body {
     color: #1e293b;
 }
 
+/* =====================================================
+   PROJECT INDEX RESPONSIVE PROGRESS FIX
+   ===================================================== */
+
+/* Desktop: progress tetap di kanan, dekat tombol aksi */
+.project-card-stats {
+    grid-template-columns: 120px 100px 190px minmax(180px, 1fr) !important;
+    gap: 18px !important;
+    align-items: center !important;
+}
+
+/* Hapus efek geser manual yang membuat progress bug saat layar kecil */
+.project-card-stats .project-stat-item:nth-child(4) {
+    margin-left: 0 !important;
+    justify-self: end !important;
+}
+
+/* Progress bar tetap pendek */
+.project-progress-mini {
+    width: 400px !important;
+    max-width: 400px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.project-progress-mini .project-progress-track {
+    width: 360px !important;
+    max-width: 360px !important;
+    flex: 0 0 360px !important;
+    height: 10px !important;
+}
+
+.project-progress-mini strong {
+    min-width: 38px !important;
+    text-align: left !important;
+    font-size: 13px !important;
+    color: #1e293b !important;
+}
+
+/* Saat lebar mulai sempit, isi card dan tombol tetap rapi */
+@media (max-width: 1200px) {
+    .project-card-modern {
+        align-items: stretch !important;
+    }
+
+    .project-card-stats {
+        grid-template-columns: 110px 90px 170px 180px !important;
+        gap: 14px !important;
+    }
+
+    .project-card-stats .project-stat-item:nth-child(4) {
+        justify-self: start !important;
+    }
+}
+
+/* Tablet: stats turun menjadi 2 kolom agar tidak tabrakan dengan tombol */
+@media (max-width: 992px) {
+    .project-card-modern {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .project-card-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 16px !important;
+    }
+
+    .project-card-stats .project-stat-item:nth-child(4) {
+        justify-self: start !important;
+    }
+
+    .project-card-actions-modern {
+        border-left: none !important;
+        border-top: 1px solid #f1f5f9 !important;
+        padding-left: 0 !important;
+        padding-top: 16px !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        flex-wrap: wrap !important;
+    }
+
+    .project-card-actions-modern .btn-primary,
+    .project-card-actions-modern .btn-edit,
+    .project-card-actions-modern .btn-danger {
+        width: auto !important;
+        min-width: 96px !important;
+    }
+}
+
+/* Mobile: semua stats 1 kolom */
+@media (max-width: 640px) {
+    .project-card-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .project-progress-mini {
+        width: 100% !important;
+        max-width: 220px !important;
+    }
+
+    .project-card-actions-modern {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .project-card-actions-modern .btn-primary,
+    .project-card-actions-modern .btn-edit,
+    .project-card-actions-modern .btn-danger {
+        width: 100% !important;
+    }
+}
+
 /* ===== RESPONSIVE sementara ===== */
 
 @media (max-width: 640px) {
@@ -8182,7 +8295,7 @@ body {
     }
 
     .project-progress-track {
-        min-width: 80px;
+        max-width: 80px;
     }
     .activity-summary-grid {
     grid-template-columns: 1fr;
